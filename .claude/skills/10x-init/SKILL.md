@@ -91,5 +91,5 @@ Zatrzymaj się. Nie łącz się z `/10x-new` ani żadną inną umiejętnością;
 - **Idempotentne.** Ponowne uruchomienie `/10x-init` w projekcie, w którym wszystkie sześć artefaktów już istnieje, jest operacją bez efektu (z wydrukiem statusu). Nigdy nie może nadpisywać istniejącej zawartości.
 - **Brak wymuszonego porządku.** Wszystkie sześć artefaktów jest niezależnych. Jeśli istnieją tylko niektóre, utwórz brakujące i pozostaw istniejące bez zmian.
 - **Katalogi nadrzędne są tworzone w razie potrzeby.** `context/` może nie istnieć w nowym projekcie — utwórz go niejawnie za pomocą semantyki `mkdir -p` dla każdego katalogu podrzędnego.
-- **Nie jest warunkiem wstępnym.** Inne umiejętności samodzielnie uruchamiają swoje pliki. `/10x-init` jest dla użytkowników, którzy lubią konfigurować szkielet `/context` z wyprzedzeniem.
-- **`lessons.md` i `contract-surfaces.md` nie są tutaj szkieletowane.** Te pliki są w całości własnością `/10x-lesson`, `/10x-contract` i gałęzi triage `/10x-impl-review`, które samodzielnie uruchamiają je z ich kanonicznymi nagłówkami przy pierwszym użyciu.
+- **Nie jest warunkiem wstępnym.** Inne umiejętności samodzielnie uruchamiają swoje pliki. `/10x-init` jest dla użytkowników, którzy lubią konfigurować szkielet `/context` z góry.
+- **`lessons.md` i `contract-surfaces.md` nie są tutaj szkieletowane.** Te pliki są w całości własnością `/10x-lesson`, `/10x-contract` i gałęzi triage `/10x-impl-review`, które samodzielnie je uruchamiają z ich kanonicznymi nagłówkami przy pierwszym użyciu.
