@@ -44,6 +44,8 @@ Feature-based structure. Every file belongs to exactly one of:
 - `src/modules/<feature>/` — code used only within that feature
 - `src/shared/` — code used across multiple features; sub-directories mirror the types below
 
+Each module must have a `__tests__` folder for tests. Export all components and utils from a single `index.tsx` or index file.
+
 Co-locate all artifacts for that component inside it:
 
 | Artifact   | Pattern                 | Example              |
@@ -53,5 +55,6 @@ Co-locate all artifacts for that component inside it:
 | Stylesheet | `PascalCase.module.css` | `Counter.module.css` |
 | Hook       | `camelCase.ts`          | `useCounter.ts`      |
 | Util       | `PascalCase.util.ts`    | `Counter.util.ts`    |
+| Types      | `PascalCase.types.ts`   | `Counter.types.ts`   |
 
 Module-level hooks and utils shared across components within the same feature sit one level above the component directories.
