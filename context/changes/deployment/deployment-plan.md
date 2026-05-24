@@ -182,7 +182,7 @@ Cloudflare Dashboard before re-deploying.
 
 ---
 
-## Step 7 — Connect GitHub for auto-deploy (manual gate — Cloudflare Dashboard)
+## ✅ Step 7 — Connect GitHub for auto-deploy (manual gate — Cloudflare Dashboard)
 
 Cloudflare Workers Builds handles CI natively; no GitHub Actions required.
 
@@ -202,7 +202,7 @@ Preview builds are created per branch/PR automatically.
 
 ---
 
-## Step 8 — Verify auto-deploy
+## ✅ Step 8 — Verify auto-deploy
 
 Merge a trivial change to `master`. Confirm the Cloudflare Workers Builds run
 completes and the production URL reflects the change.
