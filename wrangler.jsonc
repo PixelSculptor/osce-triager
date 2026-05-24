@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "osce-triager",
+  "compatibility_date": "2026-05-24",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      // Self-reference service binding, the service name must match the worker name
+      // see https://opennext.js.org/cloudflare/caching
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "osce-triager"
+    }
+  ],
+  "images": {
+    // Enable image optimization
+    // see https://opennext.js.org/cloudflare/howtos/image
+    "binding": "IMAGES"
+  },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://yehnxcansdzrfukqjpor.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllaG54Y2Fuc2R6cmZ1a3FqcG9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDM1NzQsImV4cCI6MjA5NTIxOTU3NH0.ZR8dC1GtYuxYro2rerTcDxX_lHeTK5y2yRw_lgmAy7A",
+    "AUTH_URL": "https://osce-triager.kapix007.workers.dev",
+    "AUTH_TRUST_HOST": "true"
+  }
+}
