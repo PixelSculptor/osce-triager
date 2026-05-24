@@ -14,23 +14,23 @@ Source of truth: `context/foundation/infrastructure.md` + `context/foundation/te
 
 ### A — Cloudflare CLI (Wrangler)
 
-1. **Create a Cloudflare account** at cloudflare.com (free plan is sufficient to start).
+1. ✅ **Create a Cloudflare account** at cloudflare.com (free plan is sufficient to start).
 
-2. **Install Wrangler globally** (optional — the plan uses `npx wrangler` throughout, so a
+2. ✅ **Install Wrangler globally** (optional — the plan uses `npx wrangler` throughout, so a
    local dev-dependency install in Step 1 is enough; global install is convenient for
    interactive commands):
    ```bash
    npm install -g wrangler
    ```
 
-3. **Log in**:
+3. ✅ **Log in**:
    ```bash
    npx wrangler login
    ```
    Opens a browser OAuth flow. On success, credentials are stored in
    `~/.config/.wrangler/config/default.toml` — no token to copy manually.
 
-4. **Verify**:
+4. ✅ **Verify**:
    ```bash
    npx wrangler whoami
    ```
@@ -46,9 +46,9 @@ Source of truth: `context/foundation/infrastructure.md` + `context/foundation/te
 
 ### B — Supabase project
 
-1. **Create a Supabase account** at supabase.com (free plan covers MVP scale).
+1. ✅ **Create a Supabase account** at supabase.com (free plan covers MVP scale).
 
-2. **Create a new project**:
+2. ✅ **Create a new project**:
    - Dashboard → New project
    - Name: `osce-triager`
    - Region: **West EU (Frankfurt)** — closest to Polish users, minimises Cloudflare → Supabase
@@ -83,7 +83,7 @@ Source of truth: `context/foundation/infrastructure.md` + `context/foundation/te
   ```
   Store the output — it goes into Cloudflare as a runtime secret in Step 5.
 
-- Confirm the repo has a `master` branch and the remote is pushed:
+- ✅ Confirm the repo has a `master` branch and the remote is pushed:
   ```bash
   git checkout -b master   # if not already on master
   git push -u origin master
