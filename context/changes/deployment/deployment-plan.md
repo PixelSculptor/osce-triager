@@ -63,10 +63,13 @@ Source of truth: `context/foundation/infrastructure.md` + `context/foundation/te
    | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Settings → API → Project API keys → `anon public` |
    | `DATABASE_URL` | Settings → Database → Connection string → **URI** (use the pooler URI on port 6543 for serverless/edge) |
 
+   Local dev values are in `.env.local` and `.dev.vars` (both gitignored).
+   Cloud values must be set in Cloudflare Dashboard for production builds (Step 7).
+
 4. **Enable Row Level Security** on every table before going live. Supabase creates tables
    with RLS disabled by default — leaving it off exposes all rows to the anon key.
 
-5. **Supabase CLI** (needed for local development and migrations — install once):
+5. ✅ **Supabase CLI** (needed for local development and migrations — install once):
    ```bash
    npm install -g supabase
    supabase login          # browser OAuth, same flow as wrangler login
@@ -77,11 +80,12 @@ Source of truth: `context/foundation/infrastructure.md` + `context/foundation/te
 
 ### C — Other one-time steps
 
-- Generate `AUTH_SECRET`:
+- ✅ Generate `AUTH_SECRET`:
   ```bash
   openssl rand -hex 32
   ```
-  Store the output — it goes into Cloudflare as a runtime secret in Step 5.
+  Generated and stored in `.env.local` and `.dev.vars`. Goes into Cloudflare as a
+  runtime secret in Step 5 (`npx wrangler secret put AUTH_SECRET`).
 
 - ✅ Confirm the repo has a `master` branch and the remote is pushed:
   ```bash
@@ -91,53 +95,56 @@ Source of truth: `context/foundation/infrastructure.md` + `context/foundation/te
 
 ---
 
-## Step 1 — Install OpenNext adapter and Wrangler
+## ✅ Step 1 — Install OpenNext adapter and Wrangler
 
 ```bash
 npm install --save-dev @opennextjs/cloudflare wrangler
 ```
 
-Replaces the deprecated `@cloudflare/next-on-pages` that was listed in an earlier
-tech-stack draft.
+`wrangler` was already present; `@opennextjs/cloudflare@1.19.11` added.
 
 ---
 
-## Step 2 — Initialise OpenNext config
+## ✅ Step 2 — Initialise OpenNext config
 
 ```bash
-npx opennextjs-cloudflare
+npx opennextjs-cloudflare migrate
 ```
 
-Writes `wrangler.toml` and `open-next.config.ts`. Then patch `wrangler.toml`:
+> Note: the adapter now uses `migrate` (not bare `opennextjs-cloudflare`) for existing
+> Next.js projects, and writes `wrangler.jsonc` instead of `wrangler.toml`.
 
-```toml
-name = "osce-triager"
-compatibility_date = "2026-05-21"
-compatibility_flags = ["nodejs_compat"]
+Generated files: `wrangler.jsonc`, `open-next.config.ts`, `.dev.vars`, `public/_headers`.
+Patched `wrangler.jsonc`:
 
-[vars]
-NEXT_PUBLIC_SUPABASE_URL = "https://<project>.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY = "<anon-key>"
-AUTH_URL = "https://osce-triager.workers.dev"
-AUTH_TRUST_HOST = "true"
+```jsonc
+"name": "osce-triager",
+"vars": {
+  "NEXT_PUBLIC_SUPABASE_URL": "https://<project>.supabase.co",
+  "NEXT_PUBLIC_SUPABASE_ANON_KEY": "<anon-key>",
+  "AUTH_URL": "https://osce-triager.workers.dev",
+  "AUTH_TRUST_HOST": "true"
+}
 ```
 
-> Fill real Supabase values before committing.
+> Fill real Supabase values before committing (replace `<project>` and `<anon-key>`).
 > `AUTH_URL` and `AUTH_TRUST_HOST` are required — Workers runtime does not expose the
 > request URL automatically the way Node.js does.
 
 ---
 
-## Step 3 — Update package.json scripts
+## ✅ Step 3 — Update package.json scripts
+
+Scripts added by `migrate` + `build:worker` added manually:
 
 ```json
 "build:worker": "opennextjs-cloudflare build",
-"deploy": "opennextjs-cloudflare build && wrangler deploy"
+"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
 ```
 
 ---
 
-## Step 4 — Create Cloudflare project and log in (manual gate)
+## ✅ Step 4 — Create Cloudflare project and log in (manual gate)
 
 ```bash
 npx wrangler login
@@ -146,7 +153,7 @@ npx wrangler pages project create osce-triager
 
 ---
 
-## Step 5 — Set runtime secrets
+## ✅ Step 5 — Set runtime secrets
 
 ```bash
 npx wrangler secret put AUTH_SECRET
@@ -158,7 +165,7 @@ Secrets are runtime-only and never stored in source control.
 
 ---
 
-## Step 6 — First manual deploy and smoke test
+## ✅ Step 6 — First manual deploy and smoke test
 
 ```bash
 npm run deploy
