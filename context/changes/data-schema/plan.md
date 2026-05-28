@@ -287,13 +287,13 @@ Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w 
 
 #### Automatyczne
 
-- [x] 2.1 `npm run typecheck` przechodzi
-- [x] 2.2 `npm run seed` kończy z `Seed complete: 2 scenarios, 18 tests, 36 classifications` i exit 0
-- [x] 2.3 Ponowne `npm run seed` nie rzuca błędu ani nie duplikuje
+- [x] 2.1 `npm run typecheck` przechodzi — 6fa8431
+- [x] 2.2 `npm run seed` kończy z `Seed complete: 2 scenarios, 18 tests, 36 classifications` i exit 0 — 6fa8431
+- [x] 2.3 Ponowne `npm run seed` nie rzuca błędu ani nie duplikuje — 6fa8431
 
 #### Ręczne
 
-- [x] 2.4 Supabase Studio: tabela `scenario` ma 2 wiersze
-- [x] 2.5 Supabase Studio: tabela `diagnostic_test` ma 18 wierszy, `test_classification` 36 wierszy
-- [x] 2.6 Zapytanie SQL: critical tests dla S1 zwraca EKG i Troponiny
+- [x] 2.4 Supabase Studio: tabela `scenario` ma 2 wiersze — 6fa8431
+- [x] 2.5 Supabase Studio: tabela `diagnostic_test` ma 18 wierszy, `test_classification` 36 wierszy — 6fa8431
+- [x] 2.6 Zapytanie SQL: critical tests dla S1 zwraca EKG i Troponiny — 6fa8431
 - [ ] 2.7 Migracja produkcyjna: `drizzle-kit migrate` + `npm run seed` uruchomione z produkcyjnym `DATABASE_URL` po merge do main
