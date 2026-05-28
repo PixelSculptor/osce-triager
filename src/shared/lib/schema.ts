@@ -1,4 +1,5 @@
 import {
+  boolean,
   integer,
   pgTable,
   primaryKey,
@@ -59,3 +60,74 @@ export const verificationTokens = pgTable(
   },
   (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })]
 )
+
+// --- Domain tables ---
+
+export const scenarios = pgTable("scenario", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  timeLimitSeconds: integer("time_limit_seconds").notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+})
+
+export const diagnosticTests = pgTable("diagnostic_test", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull().unique(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+})
+
+export const testClassifications = pgTable(
+  "test_classification",
+  {
+    scenarioId: text("scenario_id")
+      .notNull()
+      .references(() => scenarios.id, { onDelete: "cascade" }),
+    testId: text("test_id")
+      .notNull()
+      .references(() => diagnosticTests.id, { onDelete: "cascade" }),
+    classification: text("classification")
+      .$type<"critical" | "optimal" | "acceptable" | "unnecessary">()
+      .notNull(),
+  },
+  (tc) => [primaryKey({ columns: [tc.scenarioId, tc.testId] })]
+)
+
+export const sessionResults = pgTable("session_result", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  scenarioId: text("scenario_id")
+    .notNull()
+    .references(() => scenarios.id, { onDelete: "restrict" }),
+  outcome: text("outcome")
+    .$type<"in_progress" | "positive" | "negative">()
+    .notNull()
+    .default("in_progress"),
+  isFailed: boolean("is_failed").notNull().default(false),
+  startedAt: timestamp("started_at", { mode: "date" }).notNull().defaultNow(),
+  completedAt: timestamp("completed_at", { mode: "date" }),
+})
+
+export const sessionEvents = pgTable("session_event", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  sessionId: text("session_id")
+    .notNull()
+    .references(() => sessionResults.id, { onDelete: "cascade" }),
+  testId: text("test_id")
+    .notNull()
+    .references(() => diagnosticTests.id, { onDelete: "restrict" }),
+  validatorResult: text("validator_result")
+    .$type<"correct" | "suboptimal" | "critical_miss">()
+    .notNull(),
+  selectedAt: timestamp("selected_at", { mode: "date" }).notNull().defaultNow(),
+})

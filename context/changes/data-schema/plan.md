@@ -274,14 +274,14 @@ Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w 
 
 #### Automatyczne
 
-- [ ] 1.1 `npm run typecheck` przechodzi po edycji schema.ts
-- [ ] 1.2 `npm run lint` przechodzi
-- [ ] 1.3 `npx drizzle-kit generate` tworzy `drizzle/migrations/0001_*.sql`
-- [ ] 1.4 `npx drizzle-kit migrate` kończy się bez błędu
+- [x] 1.1 `npm run typecheck` przechodzi po edycji schema.ts
+- [x] 1.2 `npm run lint` przechodzi
+- [x] 1.3 `npx drizzle-kit generate` tworzy `drizzle/migrations/0001_*.sql`
+- [x] 1.4 `npx drizzle-kit migrate` kończy się bez błędu
 
 #### Ręczne
 
-- [ ] 1.5 5 nowych tabel widocznych w Supabase Studio lub psql `\dt`
+- [x] 1.5 5 nowych tabel widocznych w Supabase Studio lub psql `\dt`
 
 ### Faza 2: Seed script
 
