@@ -191,13 +191,13 @@ Konfiguracja sekretów i zmiennych w GitHub Repository Settings, następnie wypc
 
 #### Automatyczne
 
-- [x] 1.1 Plik `.github/workflows/deploy.yml` istnieje
-- [x] 1.2 `npm run lint` przechodzi lokalnie
-- [x] 1.3 `npx tsc --noEmit` przechodzi lokalnie
+- [x] 1.1 Plik `.github/workflows/deploy.yml` istnieje — 05eb45b
+- [x] 1.2 `npm run lint` przechodzi lokalnie — 05eb45b
+- [x] 1.3 `npx tsc --noEmit` przechodzi lokalnie — 05eb45b
 
 #### Ręczne
 
-- [x] 1.4 Zawartość YAML jest poprawna (brak błędów składni)
+- [x] 1.4 Zawartość YAML jest poprawna (brak błędów składni) — 05eb45b
 
 ### Faza 2: Konfiguracja GitHub + weryfikacja pierwszego deployu
 
