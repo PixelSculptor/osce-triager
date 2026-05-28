@@ -274,27 +274,27 @@ Brak frameworka testowego w projekcie na tym etapie — weryfikacja przez `npm r
 
 #### Automatyczne
 
-- [x] 2.1 `npm run typecheck` przechodzi
-- [x] 2.2 `npm run lint` przechodzi
-- [x] 2.3 `npm run build` przechodzi bez błędów
+- [x] 2.1 `npm run typecheck` przechodzi — c58155a
+- [x] 2.2 `npm run lint` przechodzi — c58155a
+- [x] 2.3 `npm run build` przechodzi bez błędów — c58155a
 
 #### Ręczne
 
-- [x] 2.4 `POST /api/auth/register` zwraca 201 z danymi użytkownika
-- [x] 2.5 Duplikat e-maila zwraca 409
-- [x] 2.6 Logowanie przez Auth.js credentials ustawia cookie sesji JWT
-- [x] 2.7 `GET /api/auth/session` zwraca dane sesji po zalogowaniu
+- [x] 2.4 `POST /api/auth/register` zwraca 201 z danymi użytkownika — c58155a
+- [x] 2.5 Duplikat e-maila zwraca 409 — c58155a
+- [x] 2.6 Logowanie przez Auth.js credentials ustawia cookie sesji JWT — c58155a
+- [x] 2.7 `GET /api/auth/session` zwraca dane sesji po zalogowaniu — c58155a
 
 ### Faza 3: Strona weryfikacyjna i test end-to-end
 
 #### Automatyczne
 
-- [ ] 3.1 `npm run typecheck` przechodzi
-- [ ] 3.2 `npm run build` przechodzi
+- [x] 3.1 `npm run typecheck` przechodzi
+- [x] 3.2 `npm run build` przechodzi
 
 #### Ręczne
 
-- [ ] 3.3 `/dashboard` bez sesji → redirect na `/`
-- [ ] 3.4 Po zalogowaniu `/dashboard` wyświetla e-mail użytkownika
-- [ ] 3.5 Wylogowanie → dashboard ponownie niedostępny
-- [ ] 3.6 Identyczny flow działa na `npm run preview` (Workers runtime, localhost:8787)
+- [x] 3.3 `/dashboard` bez sesji → redirect na `/`
+- [x] 3.4 Po zalogowaniu `/dashboard` wyświetla e-mail użytkownika
+- [x] 3.5 Wylogowanie → dashboard ponownie niedostępny
+- [x] 3.6 Identyczny flow działa na `npm run preview` (Workers runtime, localhost:8787)
