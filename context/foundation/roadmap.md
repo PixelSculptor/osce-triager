@@ -3,7 +3,7 @@ project: "OSCE Triager"
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-05-25
+updated: 2026-05-28
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -27,10 +27,10 @@ Student VI roku medycyny przygotowujący się do egzaminów OSCE nie ma możliwo
 
 | ID    | ID zmiany               | Wynik (użytkownik może …)                                                                     | Wymagania wstępne | Odniesienia do PRD                              | Status   |
 |-------|-------------------------|-----------------------------------------------------------------------------------------------|-------------------|-------------------------------------------------|----------|
-| F-01  | auth-scaffold           | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                 | —                 | FR-001, FR-002                                  | ready    |
+| F-01  | auth-scaffold           | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                 | —                 | FR-001, FR-002                                  | done     |
 | F-03  | ci-cd-pipeline          | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                       | —                 | NFR: Chrome/Firefox/Safari                      | ready    |
-| F-02  | data-schema             | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań | F-01              | FR-003, FR-004, FR-008                          | proposed |
-| S-01  | auth-flow               | zalogować się i wylogować z kontem e-mail+hasło                                               | F-01              | FR-001, FR-002                                  | proposed |
+| F-02  | data-schema             | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań | F-01              | FR-003, FR-004, FR-008                          | ready    |
+| S-01  | auth-flow               | zalogować się i wylogować z kontem e-mail+hasło                                               | F-01              | FR-001, FR-002                                  | ready    |
 | S-02  | first-playable-session  | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                 | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01   | proposed |
 | S-03  | session-history-save    | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                               | S-02              | FR-008, US-01                                   | proposed |
 
@@ -68,7 +68,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Blokady:** —
 - **Niewiadome:** `AUTH_URL` i `AUTH_TRUST_HOST` muszą być jawnie ustawione w Cloudflare Workers runtime — nieoczywisty gotcha udokumentowany szczegółowo w `infrastructure.md`; do zweryfikowania przed pierwszym deployem. Blokada: nie.
 - **Ryzyko:** Pominięcie konfiguracji `AUTH_URL` blokuje logowanie na produkcji — `infrastructure.md` opisuje tę pułapkę i sposób jej obejścia; sprawdzić przed deployem S-01.
-- **Status:** ready
+- **Status:** done — zaimplementowane 2026-05-28 (branch `first-plan-and-implement`, commity `7e7e9df`–`baa18d6`; GitHub issue #7 zamknięte)
 
 ---
 
@@ -98,7 +98,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Blokady:** —
 - **Niewiadome:** „Które hardcoded scenariusze kliniczne wejdą do MVP i ile ich będzie?" — Właściciel: autor (wiedza medyczna VI roku OSCE). Blokada: nie — autor może określić treść scenariuszy przed implementacją; rekomendacja: ≤ 3 scenariusze przy celu speed.
 - **Ryzyko:** Więcej niż 3 hardcoded scenariusze = więcej czasu na treść medyczną i seed; przy celu speed trzymać zakres minimalny. Schemat musi egzekwować izolację danych przez `user_id` w każdym wierszu `session_results`.
-- **Status:** proposed
+- **Status:** ready
 
 ---
 
@@ -114,7 +114,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Blokady:** —
 - **Niewiadome:** —
 - **Ryzyko:** Strony auth to jedyne widoki dostępne bez logowania — niewystarczające middleware przekierowania powoduje wyciek scenariuszy do niezalogowanych użytkowników (naruszenie zasady bezpieczeństwa z PRD: izolacja dostępu).
-- **Status:** proposed
+- **Status:** ready
 
 ---
 
@@ -151,10 +151,10 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 
 | ID mapy drogowej | ID zmiany               | Sugerowany tytuł problemu                                        | Gotowe do `/10x-plan` | Uwagi                                                                         |
 |------------------|-------------------------|------------------------------------------------------------------|-----------------------|-------------------------------------------------------------------------------|
-| F-01             | auth-scaffold           | [F-01] Szkielet Auth.js + e-mail+hasło na Cloudflare Workers    | yes                   | Uruchom `/10x-plan auth-scaffold`                                             |
-| F-03             | ci-cd-pipeline          | [F-03] GitHub Actions CI/CD → Cloudflare Pages                  | yes                   | Uruchom `/10x-plan ci-cd-pipeline`; można równolegle z F-01                  |
-| F-02             | data-schema             | [F-02] Drizzle + Supabase: schemat dziedzinowy + seed scenariuszy | no                   | Czeka na F-01; rozwiąż Open Question #2 (scenariusze) przed startem          |
-| S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | no                    | Czeka na F-01; może startować równolegle z F-02                               |
+| F-01             | auth-scaffold           | [F-01] Szkielet Auth.js + e-mail+hasło na Cloudflare Workers    | done                  | Zaimplementowane 2026-05-28; GitHub issue #7 zamknięte                        |
+| F-03             | ci-cd-pipeline          | [F-03] GitHub Actions CI/CD → Cloudflare Pages                  | yes                   | Uruchom `/10x-plan ci-cd-pipeline`; można równolegle z F-02/S-01             |
+| F-02             | data-schema             | [F-02] Drizzle + Supabase: schemat dziedzinowy + seed scenariuszy | yes                  | F-01 gotowe; rozwiąż Open Question #2 (scenariusze) przed startem            |
+| S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | yes                   | F-01 gotowe; może startować równolegle z F-02                                 |
 | S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | no                    | Czeka na S-01 + F-02; gwiazda przewodnia                                      |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | no                    | Czeka na S-02                                                                 |
 
@@ -178,4 +178,6 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 
 ## Zrobione
 
-(Puste przy pierwszym generowaniu. `/10x-archive` dodaje tutaj wpis — i zmienia `Status` tego elementu na `done` — gdy zmiana odpowiadająca elementowi zostanie zarchiwizowana.)
+| ID   | ID zmiany     | Wynik                                                                  | Data       | Commity              |
+|------|---------------|------------------------------------------------------------------------|------------|----------------------|
+| F-01 | auth-scaffold | Auth.js v5 + Drizzle + JWT sessions + Credentials + ochrona tras      | 2026-05-28 | `7e7e9df`–`baa18d6` |
