@@ -203,10 +203,10 @@ Konfiguracja sekretów i zmiennych w GitHub Repository Settings, następnie wypc
 
 #### Automatyczne
 
-- [ ] 2.1 Workflow uruchomiony i zakończony statusem ✅ w GitHub Actions
+- [x] 2.1 Workflow uruchomiony i zakończony statusem ✅ w GitHub Actions
 
 #### Ręczne
 
-- [ ] 2.2 Każdy krok (lint, typecheck, deploy) widoczny jako ✅ w logu
-- [ ] 2.3 `https://osce-triager.kapix007.workers.dev` odpowiada po deploy
+- [x] 2.2 Każdy krok (lint, typecheck, deploy) widoczny jako ✅ w logu
+- [x] 2.3 `https://osce-triager.kapix007.workers.dev` odpowiada po deploy
 - [ ] 2.4 `wrangler tail osce-triager` pokazuje request po odwiedzeniu URL
