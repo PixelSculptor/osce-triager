@@ -126,8 +126,9 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Wymagania wstępne:** S-01, F-02
 - **Równolegle z:** —
 - **Blokady:** —
+- **Opcjonalne przed startem S-02:** Dodanie kroku `drizzle-kit migrate` do `.github/workflows/deploy.yml` — bez tego każda zmiana schematu wymaga ręcznej migracji produkcyjnej przed deployem. Nie blokuje implementacji S-02, ale upraszcza operacje. Zakres: 2-3 linie w `deploy.yml` + sekret `DATABASE_URL` w GitHub Secrets.
 - **Niewiadome:**
-  - „Jaka jest klasyfikacja każdego badania diagnostycznego dla każdego hardcoded scenariusza (krytyczne/optymalne/akceptowalne/zbędne)?" — Właściciel: autor (wiedza medyczna VI roku). Blokada: nie — do określenia przed implementacją F-02 seed.
+  - „Jaka jest klasyfikacja każdego badania diagnostycznego dla każdego hardcoded scenariusza (krytyczne/optymalne/akceptowalne/zbędne)?" — rozwiązane w F-02 (2026-05-28): 18 badań, 2 scenariusze, dane w `src/shared/lib/seed.ts`.
 - **Ryzyko:** NFR: walidator musi odpowiadać w <1 s — logika klasyfikacji musi być deterministyczna i wykonywana po stronie serwera; walidacja client-side narusza zasadę determinizmu z PRD.
 - **Status:** proposed
 
@@ -155,7 +156,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | F-03             | ci-cd-pipeline          | [F-03] GitHub Actions CI/CD → Cloudflare Pages                  | yes                   | Uruchom `/10x-plan ci-cd-pipeline`; można równolegle z F-02/S-01             |
 | F-02             | data-schema             | [F-02] Drizzle + Supabase: schemat dziedzinowy + seed scenariuszy | yes                  | F-01 gotowe; rozwiąż Open Question #2 (scenariusze) przed startem            |
 | S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | yes                   | F-01 gotowe; może startować równolegle z F-02                                 |
-| S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | no                    | Czeka na S-01 + F-02; gwiazda przewodnia                                      |
+| S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | no                    | Czeka na S-01 + F-02; gwiazda przewodnia. Opcjonalnie przed startem: dodać `drizzle-kit migrate` do `deploy.yml` (2-3 linie + sekret DATABASE_URL w GitHub) |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | no                    | Czeka na S-02                                                                 |
 
 ## Otwarte pytania dotyczące mapy drogowej

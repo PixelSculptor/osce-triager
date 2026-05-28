@@ -239,18 +239,24 @@ seed().catch((err) => { console.error(err); process.exit(1) })
 5. SQL Editor: zapytanie weryfikacyjne klasyfikacji critical dla S1 i S2
 6. `npm run build` przechodzi (integracja schema ze zbudowaną aplikacją)
 
-## Uwagi dotyczące migracji na produkcji
+## Migracja i seed na produkcji (krok ręczny po merge)
 
-Po lokalnej weryfikacji, przed merge do main:
+CI/CD deployuje kod automatycznie po merge do `main`, ale **nie uruchamia migracji** (decyzja z planowania — automigrate zostanie dodane przed S-02). Po każdym merge zawierającym zmiany schematu lub seed wykonaj ręcznie:
 
 ```bash
-# Ustaw produkcyjny DATABASE_URL (Supabase cloud — pooler, port 6543)
-export DATABASE_URL="postgresql://postgres.xxx:[hasło]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
+# 1. Ustaw produkcyjny DATABASE_URL (Supabase cloud — transaction pooler, port 6543)
+export DATABASE_URL="postgresql://postgres.[ref]:[hasło]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
+
+# 2. Aplikuj migrację schematu
 npx drizzle-kit migrate
+
+# 3. Zasilij danymi (idempotentne — bezpieczne do wielokrotnego uruchomienia)
 npm run seed
 ```
 
-Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w odwrotnej kolejności FK.
+> **Kolejność:** najpierw `drizzle-kit migrate`, potem `npm run seed` — seed insertuje do tabel, które muszą już istnieć.
+
+Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w odwrotnej kolejności FK (session_event → session_result → test_classification → diagnostic_test → scenario).
 
 ## Referencje
 
@@ -290,3 +296,4 @@ Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w 
 - [ ] 2.4 Supabase Studio: tabela `scenario` ma 2 wiersze
 - [ ] 2.5 Supabase Studio: tabela `diagnostic_test` ma 18 wierszy, `test_classification` 36 wierszy
 - [ ] 2.6 Zapytanie SQL: critical tests dla S1 zwraca EKG i Troponiny
+- [ ] 2.7 Migracja produkcyjna: `drizzle-kit migrate` + `npm run seed` uruchomione z produkcyjnym `DATABASE_URL` po merge do main
