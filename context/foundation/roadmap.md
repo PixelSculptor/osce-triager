@@ -28,7 +28,7 @@ Student VI roku medycyny przygotowujący się do egzaminów OSCE nie ma możliwo
 | ID    | ID zmiany               | Wynik (użytkownik może …)                                                                     | Wymagania wstępne | Odniesienia do PRD                              | Status   |
 |-------|-------------------------|-----------------------------------------------------------------------------------------------|-------------------|-------------------------------------------------|----------|
 | F-01  | auth-scaffold           | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                 | —                 | FR-001, FR-002                                  | done     |
-| F-03  | ci-cd-pipeline          | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                       | —                 | NFR: Chrome/Firefox/Safari                      | ready    |
+| F-03  | ci-cd-pipeline          | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                       | —                 | NFR: Chrome/Firefox/Safari                      | done     |
 | F-02  | data-schema             | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań | F-01              | FR-003, FR-004, FR-008                          | ready    |
 | S-01  | auth-flow               | zalogować się i wylogować z kontem e-mail+hasło                                               | F-01              | FR-001, FR-002                                  | ready    |
 | S-02  | first-playable-session  | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                 | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01   | proposed |
@@ -83,7 +83,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Blokady:** —
 - **Niewiadome:** —
 - **Ryzyko:** Bez CI/CD każdy deploy jest ręczny — akceptowalne przy celu speed na krótki sprint; brak CI/CD to dług techniczny do spłacenia najpóźniej przed S-02 (walidator wymaga weryfikacji na produkcji).
-- **Status:** ready
+- **Status:** done — zaimplementowane 2026-05-28 (branch `first-plan-and-implement`, commity `444bef7`–`6ac608d`; GitHub issue #8 zamknięte). Kluczowe odkrycia: Next.js 16 `proxy.ts` to Node.js-only — middleware ochrony tras przeniesione do `middleware.ts` (Edge runtime); `auth.config.ts` wydzielone dla Edge-compatible middleware; Node.js bumped do 22 (wrangler wymaga >=22).
 
 ---
 
@@ -126,8 +126,9 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Wymagania wstępne:** S-01, F-02
 - **Równolegle z:** —
 - **Blokady:** —
+- **Opcjonalne przed startem S-02:** Dodanie kroku `drizzle-kit migrate` do `.github/workflows/deploy.yml` — bez tego każda zmiana schematu wymaga ręcznej migracji produkcyjnej przed deployem. Nie blokuje implementacji S-02, ale upraszcza operacje. Zakres: 2-3 linie w `deploy.yml` + sekret `DATABASE_URL` w GitHub Secrets.
 - **Niewiadome:**
-  - „Jaka jest klasyfikacja każdego badania diagnostycznego dla każdego hardcoded scenariusza (krytyczne/optymalne/akceptowalne/zbędne)?" — Właściciel: autor (wiedza medyczna VI roku). Blokada: nie — do określenia przed implementacją F-02 seed.
+  - „Jaka jest klasyfikacja każdego badania diagnostycznego dla każdego hardcoded scenariusza (krytyczne/optymalne/akceptowalne/zbędne)?" — rozwiązane w F-02 (2026-05-28): 18 badań, 2 scenariusze, dane w `src/shared/lib/seed.ts`.
 - **Ryzyko:** NFR: walidator musi odpowiadać w <1 s — logika klasyfikacji musi być deterministyczna i wykonywana po stronie serwera; walidacja client-side narusza zasadę determinizmu z PRD.
 - **Status:** proposed
 
@@ -155,7 +156,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | F-03             | ci-cd-pipeline          | [F-03] GitHub Actions CI/CD → Cloudflare Pages                  | yes                   | Uruchom `/10x-plan ci-cd-pipeline`; można równolegle z F-02/S-01             |
 | F-02             | data-schema             | [F-02] Drizzle + Supabase: schemat dziedzinowy + seed scenariuszy | yes                  | F-01 gotowe; rozwiąż Open Question #2 (scenariusze) przed startem            |
 | S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | yes                   | F-01 gotowe; może startować równolegle z F-02                                 |
-| S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | no                    | Czeka na S-01 + F-02; gwiazda przewodnia                                      |
+| S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | no                    | Czeka na S-01 + F-02; gwiazda przewodnia. Opcjonalnie przed startem: dodać `drizzle-kit migrate` do `deploy.yml` (2-3 linie + sekret DATABASE_URL w GitHub) |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | no                    | Czeka na S-02                                                                 |
 
 ## Otwarte pytania dotyczące mapy drogowej
@@ -181,3 +182,4 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | ID   | ID zmiany     | Wynik                                                                  | Data       | Commity              |
 |------|---------------|------------------------------------------------------------------------|------------|----------------------|
 | F-01 | auth-scaffold | Auth.js v5 + Drizzle + JWT sessions + Credentials + ochrona tras      | 2026-05-28 | `7e7e9df`–`baa18d6` |
+| F-03 | ci-cd-pipeline | GitHub Actions → Cloudflare Workers deploy przy push do main; Edge middleware fix | 2026-05-28 | `444bef7`–`6ac608d` |
