@@ -296,4 +296,4 @@ Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w 
 - [x] 2.4 Supabase Studio: tabela `scenario` ma 2 wiersze — 6fa8431
 - [x] 2.5 Supabase Studio: tabela `diagnostic_test` ma 18 wierszy, `test_classification` 36 wierszy — 6fa8431
 - [x] 2.6 Zapytanie SQL: critical tests dla S1 zwraca EKG i Troponiny — 6fa8431
-- [ ] 2.7 Migracja produkcyjna: `drizzle-kit migrate` + `npm run seed` uruchomione z produkcyjnym `DATABASE_URL` po merge do main
+- [x] 2.7 Migracja produkcyjna: `drizzle-kit migrate` + `npm run seed` uruchomione z produkcyjnym `DATABASE_URL` po merge do main
