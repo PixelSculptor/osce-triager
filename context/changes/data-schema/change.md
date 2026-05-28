@@ -1,7 +1,7 @@
 ---
 change_id: data-schema
 title: Drizzle + Supabase — schemat dziedzinowy i seed scenariuszy (F-02)
-status: implementing
+status: implemented
 created: 2026-05-28
 updated: 2026-05-28
 archived_at: null

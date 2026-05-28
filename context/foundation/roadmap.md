@@ -29,7 +29,7 @@ Student VI roku medycyny przygotowujący się do egzaminów OSCE nie ma możliwo
 |-------|-------------------------|-----------------------------------------------------------------------------------------------|-------------------|-------------------------------------------------|----------|
 | F-01  | auth-scaffold           | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                 | —                 | FR-001, FR-002                                  | done     |
 | F-03  | ci-cd-pipeline          | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                       | —                 | NFR: Chrome/Firefox/Safari                      | done     |
-| F-02  | data-schema             | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań | F-01              | FR-003, FR-004, FR-008                          | ready    |
+| F-02  | data-schema             | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań | F-01              | FR-003, FR-004, FR-008                          | done     |
 | S-01  | auth-flow               | zalogować się i wylogować z kontem e-mail+hasło                                               | F-01              | FR-001, FR-002                                  | ready    |
 | S-02  | first-playable-session  | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                 | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01   | proposed |
 | S-03  | session-history-save    | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                               | S-02              | FR-008, US-01                                   | proposed |
@@ -96,9 +96,9 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Wymagania wstępne:** F-01 (tabela `users` tworzona przez adapter Auth.js — FK w `session_results`)
 - **Równolegle z:** S-01
 - **Blokady:** —
-- **Niewiadome:** „Które hardcoded scenariusze kliniczne wejdą do MVP i ile ich będzie?" — Właściciel: autor (wiedza medyczna VI roku OSCE). Blokada: nie — autor może określić treść scenariuszy przed implementacją; rekomendacja: ≤ 3 scenariusze przy celu speed.
-- **Ryzyko:** Więcej niż 3 hardcoded scenariusze = więcej czasu na treść medyczną i seed; przy celu speed trzymać zakres minimalny. Schemat musi egzekwować izolację danych przez `user_id` w każdym wierszu `session_results`.
-- **Status:** ready
+- **Niewiadome:** rozwiązane — 2 scenariusze kliniczne (ból klatki piersiowej + zaburzenia świadomości/hipoglikemia), 18 badań diagnostycznych z klasyfikacjami w `src/shared/lib/seed.ts`.
+- **Ryzyko:** Schemat musi egzekwować izolację danych przez `user_id` w każdym wierszu `session_results`.
+- **Status:** done — zaimplementowane 2026-05-28 (branch `first-plan-and-implement`, commity `63de06f`–`fdf0530`; GitHub issue #9 zamknięte). Kluczowe odkrycia: dotenvx v17 ignoruje `override:false` — seed.ts wymaga `DATABASE_URL` w środowisku; Transaction Pooler URL (port 6543) wymagany dla połączeń zewnętrznych.
 
 ---
 
@@ -183,3 +183,4 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 |------|---------------|------------------------------------------------------------------------|------------|----------------------|
 | F-01 | auth-scaffold | Auth.js v5 + Drizzle + JWT sessions + Credentials + ochrona tras      | 2026-05-28 | `7e7e9df`–`baa18d6` |
 | F-03 | ci-cd-pipeline | GitHub Actions → Cloudflare Workers deploy przy push do main; Edge middleware fix | 2026-05-28 | `444bef7`–`6ac608d` |
+| F-02 | data-schema | 5 tabel domenowych + migracja + seed (2 scenariusze, 18 badań, 36 klasyfikacji) | 2026-05-28 | `63de06f`–`fdf0530` |
