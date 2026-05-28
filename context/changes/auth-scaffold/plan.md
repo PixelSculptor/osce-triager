@@ -262,28 +262,28 @@ Brak frameworka testowego w projekcie na tym etapie — weryfikacja przez `npm r
 
 #### Automatyczne
 
-- [x] 1.1 `npm run typecheck` przechodzi bez błędów po instalacji pakietów i stworzeniu schema.ts + db.ts
-- [x] 1.2 `npx drizzle-kit generate` generuje plik SQL w `drizzle/migrations/`
-- [x] 1.3 `npx drizzle-kit migrate` kończy się bez błędu
+- [x] 1.1 `npm run typecheck` przechodzi bez błędów po instalacji pakietów i stworzeniu schema.ts + db.ts — 7e7e9df
+- [x] 1.2 `npx drizzle-kit generate` generuje plik SQL w `drizzle/migrations/` — 7e7e9df
+- [x] 1.3 `npx drizzle-kit migrate` kończy się bez błędu — 7e7e9df
 
 #### Ręczne
 
-- [x] 1.4 Tabele `user`, `account`, `session`, `verificationToken` widoczne w lokalnym Supabase
+- [x] 1.4 Tabele `user`, `account`, `session`, `verificationToken` widoczne w lokalnym Supabase — 7e7e9df
 
 ### Faza 2: Konfiguracja Auth.js i ochrona tras
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run typecheck` przechodzi
-- [ ] 2.2 `npm run lint` przechodzi
-- [ ] 2.3 `npm run build` przechodzi bez błędów
+- [x] 2.1 `npm run typecheck` przechodzi
+- [x] 2.2 `npm run lint` przechodzi
+- [x] 2.3 `npm run build` przechodzi bez błędów
 
 #### Ręczne
 
-- [ ] 2.4 `POST /api/auth/register` zwraca 201 z danymi użytkownika
-- [ ] 2.5 Duplikat e-maila zwraca 409
-- [ ] 2.6 Logowanie przez Auth.js credentials ustawia cookie sesji JWT
-- [ ] 2.7 `GET /api/auth/session` zwraca dane sesji po zalogowaniu
+- [x] 2.4 `POST /api/auth/register` zwraca 201 z danymi użytkownika
+- [x] 2.5 Duplikat e-maila zwraca 409
+- [x] 2.6 Logowanie przez Auth.js credentials ustawia cookie sesji JWT
+- [x] 2.7 `GET /api/auth/session` zwraca dane sesji po zalogowaniu
 
 ### Faza 3: Strona weryfikacyjna i test end-to-end
 
