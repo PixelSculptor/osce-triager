@@ -262,13 +262,13 @@ Brak frameworka testowego w projekcie na tym etapie — weryfikacja przez `npm r
 
 #### Automatyczne
 
-- [ ] 1.1 `npm run typecheck` przechodzi bez błędów po instalacji pakietów i stworzeniu schema.ts + db.ts
-- [ ] 1.2 `npx drizzle-kit generate` generuje plik SQL w `drizzle/migrations/`
-- [ ] 1.3 `npx drizzle-kit migrate` kończy się bez błędu
+- [x] 1.1 `npm run typecheck` przechodzi bez błędów po instalacji pakietów i stworzeniu schema.ts + db.ts
+- [x] 1.2 `npx drizzle-kit generate` generuje plik SQL w `drizzle/migrations/`
+- [x] 1.3 `npx drizzle-kit migrate` kończy się bez błędu
 
 #### Ręczne
 
-- [ ] 1.4 Tabele `user`, `account`, `session`, `verificationToken` widoczne w lokalnym Supabase
+- [x] 1.4 Tabele `user`, `account`, `session`, `verificationToken` widoczne w lokalnym Supabase
 
 ### Faza 2: Konfiguracja Auth.js i ochrona tras
 
