@@ -274,26 +274,26 @@ Rollback: brak automatycznego — napisać i uruchomić ręcznie `DROP TABLE` w 
 
 #### Automatyczne
 
-- [x] 1.1 `npm run typecheck` przechodzi po edycji schema.ts
-- [x] 1.2 `npm run lint` przechodzi
-- [x] 1.3 `npx drizzle-kit generate` tworzy `drizzle/migrations/0001_*.sql`
-- [x] 1.4 `npx drizzle-kit migrate` kończy się bez błędu
+- [x] 1.1 `npm run typecheck` przechodzi po edycji schema.ts — 63de06f
+- [x] 1.2 `npm run lint` przechodzi — 63de06f
+- [x] 1.3 `npx drizzle-kit generate` tworzy `drizzle/migrations/0001_*.sql` — 63de06f
+- [x] 1.4 `npx drizzle-kit migrate` kończy się bez błędu — 63de06f
 
 #### Ręczne
 
-- [x] 1.5 5 nowych tabel widocznych w Supabase Studio lub psql `\dt`
+- [x] 1.5 5 nowych tabel widocznych w Supabase Studio lub psql `\dt` — 63de06f
 
 ### Faza 2: Seed script
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run typecheck` przechodzi
-- [ ] 2.2 `npm run seed` kończy z `Seed complete: 2 scenarios, 18 tests, 36 classifications` i exit 0
-- [ ] 2.3 Ponowne `npm run seed` nie rzuca błędu ani nie duplikuje
+- [x] 2.1 `npm run typecheck` przechodzi
+- [x] 2.2 `npm run seed` kończy z `Seed complete: 2 scenarios, 18 tests, 36 classifications` i exit 0
+- [x] 2.3 Ponowne `npm run seed` nie rzuca błędu ani nie duplikuje
 
 #### Ręczne
 
-- [ ] 2.4 Supabase Studio: tabela `scenario` ma 2 wiersze
-- [ ] 2.5 Supabase Studio: tabela `diagnostic_test` ma 18 wierszy, `test_classification` 36 wierszy
-- [ ] 2.6 Zapytanie SQL: critical tests dla S1 zwraca EKG i Troponiny
+- [x] 2.4 Supabase Studio: tabela `scenario` ma 2 wiersze
+- [x] 2.5 Supabase Studio: tabela `diagnostic_test` ma 18 wierszy, `test_classification` 36 wierszy
+- [x] 2.6 Zapytanie SQL: critical tests dla S1 zwraca EKG i Troponiny
 - [ ] 2.7 Migracja produkcyjna: `drizzle-kit migrate` + `npm run seed` uruchomione z produkcyjnym `DATABASE_URL` po merge do main
