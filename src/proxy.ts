@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server"
-import { auth } from "@/modules/auth/auth"
+import NextAuth from "next-auth"
+import { authConfig } from "@/modules/auth/auth.config"
+
+const { auth } = NextAuth(authConfig)
 
 const PUBLIC_PATHS = ["/", "/api/auth"]
 
