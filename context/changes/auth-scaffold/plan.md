@@ -289,12 +289,12 @@ Brak frameworka testowego w projekcie na tym etapie — weryfikacja przez `npm r
 
 #### Automatyczne
 
-- [x] 3.1 `npm run typecheck` przechodzi
-- [x] 3.2 `npm run build` przechodzi
+- [x] 3.1 `npm run typecheck` przechodzi — b2aaf58
+- [x] 3.2 `npm run build` przechodzi — b2aaf58
 
 #### Ręczne
 
-- [x] 3.3 `/dashboard` bez sesji → redirect na `/`
-- [x] 3.4 Po zalogowaniu `/dashboard` wyświetla e-mail użytkownika
-- [x] 3.5 Wylogowanie → dashboard ponownie niedostępny
-- [x] 3.6 Identyczny flow działa na `npm run preview` (Workers runtime, localhost:8787)
+- [x] 3.3 `/dashboard` bez sesji → redirect na `/` — b2aaf58
+- [x] 3.4 Po zalogowaniu `/dashboard` wyświetla e-mail użytkownika — b2aaf58
+- [x] 3.5 Wylogowanie → dashboard ponownie niedostępny — b2aaf58
+- [x] 3.6 Identyczny flow działa na `npm run preview` (Workers runtime, localhost:8787) — b2aaf58
