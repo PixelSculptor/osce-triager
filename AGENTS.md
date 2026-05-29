@@ -54,7 +54,8 @@ Co-locate all artifacts for that component inside it:
 | Constants  | `PascalCase.const.ts`   | `Counter.const.ts`   |
 | Stylesheet | `PascalCase.module.css` | `Counter.module.css` |
 | Hook       | `camelCase.ts`          | `useCounter.ts`      |
-| Util       | `PascalCase.util.ts`    | `Counter.util.ts`    |
+| Util (component-specific) | `PascalCase.util.ts` | `Counter.util.ts` — helper tightly coupled to a component (e.g. display formatting) |
+| Util (domain/service)     | `camelCase.util.ts`  | `user.util.ts` — domain logic not tied to any single component (e.g. `registerUser`) |
 | Types      | `PascalCase.types.ts`   | `Counter.types.ts`   |
 
 Module-level hooks and utils shared across components within the same feature sit one level above the component directories.
