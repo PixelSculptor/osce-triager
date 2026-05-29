@@ -333,19 +333,19 @@ Brak zmian schematu DB — F-01 i F-02 stworzyły wszystkie potrzebne tabele. Fa
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run typecheck` przechodzi
-- [ ] 2.2 `npm run lint` przechodzi
-- [ ] 2.3 `npm run build` przechodzi
+- [x] 2.1 `npm run typecheck` przechodzi
+- [x] 2.2 `npm run lint` przechodzi
+- [x] 2.3 `npm run build` przechodzi
 
 #### Ręczne
 
-- [ ] 2.4 `/login` renderuje formularz bez sesji
-- [ ] 2.5 Logowanie z poprawnymi danymi → `/dashboard`
-- [ ] 2.6 Logowanie z błędnym hasłem → błąd _form
-- [ ] 2.7 `/register` renderuje formularz bez sesji
-- [ ] 2.8 Rejestracja z nowym emailem → konto + auto-login + `/dashboard`
-- [ ] 2.9 Rejestracja z istniejącym emailem → błąd przy polu email
-- [ ] 2.10 Hasło ≠ potwierdzenie → błąd przy polu confirmPassword
+- [x] 2.4 `/login` renderuje formularz bez sesji
+- [x] 2.5 Logowanie z poprawnymi danymi → `/dashboard`
+- [x] 2.6 Logowanie z błędnym hasłem → błąd _form
+- [x] 2.7 `/register` renderuje formularz bez sesji
+- [x] 2.8 Rejestracja z nowym emailem → konto + auto-login + `/dashboard`
+- [x] 2.9 Rejestracja z istniejącym emailem → błąd przy polu email
+- [x] 2.10 Hasło ≠ potwierdzenie → błąd przy polu confirmPassword
 
 ### Faza 3: Landing page + Nav
 
