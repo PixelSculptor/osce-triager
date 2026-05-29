@@ -2,6 +2,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import bcrypt from "bcryptjs"
 import { eq } from "drizzle-orm"
 import NextAuth from "next-auth"
+import { normalizeEmail } from "@/modules/auth/user.util"
 import Credentials from "next-auth/providers/credentials"
 import { db } from "@/shared/lib/db"
 import {
@@ -29,7 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null
 
         const user = await db.query.users.findFirst({
-          where: eq(users.email, credentials.email as string),
+          where: eq(users.email, normalizeEmail(credentials.email as string)),
         })
 
         if (!user?.hashedPassword) return null

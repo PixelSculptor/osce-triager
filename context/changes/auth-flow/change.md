@@ -1,7 +1,7 @@
 ---
 change_id: auth-flow
 title: S-01 registration and login UI with email+password
-status: implemented
+status: impl_reviewed
 created: 2026-05-29
 updated: 2026-05-29
 archived_at: null

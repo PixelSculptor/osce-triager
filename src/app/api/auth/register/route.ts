@@ -25,6 +25,18 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         )
       }
+      if (e.message === "INVALID_EMAIL") {
+        return NextResponse.json(
+          { error: "Invalid email format" },
+          { status: 400 }
+        )
+      }
+      if (e.message === "WEAK_PASSWORD") {
+        return NextResponse.json(
+          { error: "Password must be at least 8 characters" },
+          { status: 400 }
+        )
+      }
     }
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }

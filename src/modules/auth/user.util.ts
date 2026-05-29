@@ -3,6 +3,10 @@ import { eq } from "drizzle-orm"
 import { db } from "@/shared/lib/db"
 import { users } from "@/shared/lib/schema"
 
+export function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase()
+}
+
 export async function registerUser(
   email: string,
   password: string
@@ -11,8 +15,18 @@ export async function registerUser(
     throw new Error("INVALID_INPUT")
   }
 
+  if (!email.includes("@")) {
+    throw new Error("INVALID_EMAIL")
+  }
+
+  if (password.length < 8) {
+    throw new Error("WEAK_PASSWORD")
+  }
+
+  const normalizedEmail = normalizeEmail(email)
+
   const existing = await db.query.users.findFirst({
-    where: eq(users.email, email),
+    where: eq(users.email, normalizedEmail),
   })
 
   if (existing) {
@@ -23,8 +37,8 @@ export async function registerUser(
 
   const [user] = await db
     .insert(users)
-    .values({ email, hashedPassword })
+    .values({ email: normalizedEmail, hashedPassword })
     .returning({ id: users.id, email: users.email })
 
-  return { id: user.id, email: user.email ?? email }
+  return { id: user.id, email: user.email ?? normalizedEmail }
 }
