@@ -351,15 +351,15 @@ Brak zmian schematu DB — F-01 i F-02 stworzyły wszystkie potrzebne tabele. Fa
 
 #### Automatyczne
 
-- [x] 3.1 `npm run typecheck` przechodzi
-- [x] 3.2 `npm run lint` przechodzi
-- [x] 3.3 `npm run build` przechodzi
+- [x] 3.1 `npm run typecheck` przechodzi — 4533eda
+- [x] 3.2 `npm run lint` przechodzi — 4533eda
+- [x] 3.3 `npm run build` przechodzi — 4533eda
 
 #### Ręczne
 
-- [x] 3.4 `/` bez sesji → landing page z CTA Login/Register
-- [x] 3.5 Nav bez sesji → linki Login/Register
-- [x] 3.6 Nav z sesją → email + przycisk Wyloguj
-- [x] 3.7 Przycisk Wyloguj w Nav działa, redirect na `/`
-- [x] 3.8 Full flow (rejestracja → login → dashboard → logout) na localhost:3000
-- [x] 3.9 Identyczny full flow na localhost:8787 (Workers runtime)
+- [x] 3.4 `/` bez sesji → landing page z CTA Login/Register — 4533eda
+- [x] 3.5 Nav bez sesji → linki Login/Register — 4533eda
+- [x] 3.6 Nav z sesją → email + przycisk Wyloguj — 4533eda
+- [x] 3.7 Przycisk Wyloguj w Nav działa, redirect na `/` — 4533eda
+- [x] 3.8 Full flow (rejestracja → login → dashboard → logout) na localhost:3000 — 4533eda
+- [x] 3.9 Identyczny full flow na localhost:8787 (Workers runtime) — 4533eda
