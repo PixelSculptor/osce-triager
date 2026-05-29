@@ -319,15 +319,15 @@ Brak zmian schematu DB — F-01 i F-02 stworzyły wszystkie potrzebne tabele. Fa
 
 #### Automatyczne
 
-- [ ] 1.1 `npm run typecheck` przechodzi
-- [ ] 1.2 `npm run lint` przechodzi
-- [ ] 1.3 `npm run build` przechodzi
+- [x] 1.1 `npm run typecheck` przechodzi
+- [x] 1.2 `npm run lint` przechodzi
+- [x] 1.3 `npm run build` przechodzi
 
 #### Ręczne
 
-- [ ] 1.4 `POST /api/auth/register` zwraca 201 (zachowanie bez zmian)
-- [ ] 1.5 `/login` dostępne bez sesji (brak redirect)
-- [ ] 1.6 `/register` dostępne bez sesji (brak redirect)
+- [x] 1.4 `POST /api/auth/register` zwraca 201 (zachowanie bez zmian)
+- [x] 1.5 `/login` dostępne bez sesji (brak redirect)
+- [x] 1.6 `/register` dostępne bez sesji (brak redirect)
 
 ### Faza 2: Strony auth
 
