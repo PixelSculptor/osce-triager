@@ -333,33 +333,33 @@ Brak zmian schematu DB — F-01 i F-02 stworzyły wszystkie potrzebne tabele. Fa
 
 #### Automatyczne
 
-- [x] 2.1 `npm run typecheck` przechodzi
-- [x] 2.2 `npm run lint` przechodzi
-- [x] 2.3 `npm run build` przechodzi
+- [x] 2.1 `npm run typecheck` przechodzi — 5d4e4f8
+- [x] 2.2 `npm run lint` przechodzi — 5d4e4f8
+- [x] 2.3 `npm run build` przechodzi — 5d4e4f8
 
 #### Ręczne
 
-- [x] 2.4 `/login` renderuje formularz bez sesji
-- [x] 2.5 Logowanie z poprawnymi danymi → `/dashboard`
-- [x] 2.6 Logowanie z błędnym hasłem → błąd _form
-- [x] 2.7 `/register` renderuje formularz bez sesji
-- [x] 2.8 Rejestracja z nowym emailem → konto + auto-login + `/dashboard`
-- [x] 2.9 Rejestracja z istniejącym emailem → błąd przy polu email
-- [x] 2.10 Hasło ≠ potwierdzenie → błąd przy polu confirmPassword
+- [x] 2.4 `/login` renderuje formularz bez sesji — 5d4e4f8
+- [x] 2.5 Logowanie z poprawnymi danymi → `/dashboard` — 5d4e4f8
+- [x] 2.6 Logowanie z błędnym hasłem → błąd _form — 5d4e4f8
+- [x] 2.7 `/register` renderuje formularz bez sesji — 5d4e4f8
+- [x] 2.8 Rejestracja z nowym emailem → konto + auto-login + `/dashboard` — 5d4e4f8
+- [x] 2.9 Rejestracja z istniejącym emailem → błąd przy polu email — 5d4e4f8
+- [x] 2.10 Hasło ≠ potwierdzenie → błąd przy polu confirmPassword — 5d4e4f8
 
 ### Faza 3: Landing page + Nav
 
 #### Automatyczne
 
-- [ ] 3.1 `npm run typecheck` przechodzi
-- [ ] 3.2 `npm run lint` przechodzi
-- [ ] 3.3 `npm run build` przechodzi
+- [x] 3.1 `npm run typecheck` przechodzi
+- [x] 3.2 `npm run lint` przechodzi
+- [x] 3.3 `npm run build` przechodzi
 
 #### Ręczne
 
-- [ ] 3.4 `/` bez sesji → landing page z CTA Login/Register
-- [ ] 3.5 Nav bez sesji → linki Login/Register
-- [ ] 3.6 Nav z sesją → email + przycisk Wyloguj
-- [ ] 3.7 Przycisk Wyloguj w Nav działa, redirect na `/`
-- [ ] 3.8 Full flow (rejestracja → login → dashboard → logout) na localhost:3000
-- [ ] 3.9 Identyczny full flow na localhost:8787 (Workers runtime)
+- [x] 3.4 `/` bez sesji → landing page z CTA Login/Register
+- [x] 3.5 Nav bez sesji → linki Login/Register
+- [x] 3.6 Nav z sesją → email + przycisk Wyloguj
+- [x] 3.7 Przycisk Wyloguj w Nav działa, redirect na `/`
+- [x] 3.8 Full flow (rejestracja → login → dashboard → logout) na localhost:3000
+- [x] 3.9 Identyczny full flow na localhost:8787 (Workers runtime)

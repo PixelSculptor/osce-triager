@@ -4,9 +4,9 @@ export default async function DashboardPage() {
   const session = await auth()
 
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <p>Logged in as: {session?.user?.email}</p>
+    <main style={{ padding: "2rem" }}>
+      <h1>Panel studenta</h1>
+      <p>{session?.user?.email}</p>
     </main>
   )
 }

@@ -1,0 +1,47 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  gap: 1rem;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.links a {
+  font-size: 0.875rem;
+}
+
+.links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.email {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.logoutButton {
+  font-size: 0.875rem;
+  background: none;
+  border: 1px solid rgba(128, 128, 128, 0.4);
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
