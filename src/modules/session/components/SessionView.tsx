@@ -83,25 +83,36 @@ export function SessionView({
     if (endingRef.current) return
     endingRef.current = true
     setIsEnding(true)
-    const result = await endSessionAction(sessionId)
-    if (result.outcome) {
-      setSessionState(result.outcome)
-      setSkippedCritical(result.skippedCritical ?? [])
+    try {
+      const result = await endSessionAction(sessionId)
+      if (result.outcome) {
+        setSessionState(result.outcome)
+        setSkippedCritical(result.skippedCritical ?? [])
+      } else {
+        endingRef.current = false
+        setIsEnding(false)
+      }
+    } catch {
+      endingRef.current = false
+      setIsEnding(false)
     }
   }
 
   async function handleSelectTest(testId: string, testName: string) {
     if (loadingTestId || sessionState !== "in_progress") return
     setLoadingTestId(testId)
-    const result = await selectTestAction(sessionId, testId)
-    const { validatorResult, category } = result
-    if (validatorResult && category) {
-      setOrderedTests((prev) => [
-        ...prev,
-        { testId, name: testName, validatorResult, category },
-      ])
+    try {
+      const result = await selectTestAction(sessionId, testId)
+      const { validatorResult, category } = result
+      if (validatorResult && category) {
+        setOrderedTests((prev) => [
+          ...prev,
+          { testId, name: testName, validatorResult, category },
+        ])
+      }
+    } finally {
+      setLoadingTestId(null)
     }
-    setLoadingTestId(null)
   }
 
   const orderedTestIds = new Set(orderedTests.map((t) => t.testId))
