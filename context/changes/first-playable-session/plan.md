@@ -545,7 +545,7 @@ Badge colour mapping:
 
 #### Automatic
 
-- [ ] 0.1 `npm run lint` passes on updated deploy.yml
+- [x] 0.1 `npm run lint` passes on updated deploy.yml
 
 #### Manual
 
