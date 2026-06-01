@@ -545,7 +545,7 @@ Badge colour mapping:
 
 #### Automatic
 
-- [x] 0.1 `npm run lint` passes on updated deploy.yml
+- [x] 0.1 `npm run lint` passes on updated deploy.yml — fa1c613
 
 #### Manual
 
@@ -555,8 +555,8 @@ Badge colour mapping:
 
 #### Automatic
 
-- [ ] 1.1 `npm run typecheck` passes after type annotation extension
-- [ ] 1.2 `npm run lint` passes
+- [x] 1.1 `npm run typecheck` passes after type annotation extension
+- [x] 1.2 `npm run lint` passes
 
 ### Phase 2: Validator Library
 
