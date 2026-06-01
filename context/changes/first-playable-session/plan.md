@@ -40,6 +40,7 @@ After this plan:
 - No animations, skeleton loaders, or toast notifications — inline badge is the full feedback surface
 - No WCAG-AA compliance pass — basic semantic HTML is sufficient for MVP
 - No unit tests — test runner not configured
+- No protection against test classification inspection via React DevTools — `classifications` prop is visible client-side; acceptable for MVP
 
 ## Implementation Approach
 
@@ -67,7 +68,7 @@ Architecture flow:
 
 - `selectTestAction` must load classifications from the DB itself (do not trust the category passed from the client — validate server-side every time)
 - Timer initial value must be computed as `timeLimitSeconds - floor((now - startedAt) / 1000)` so it is accurate on page refresh
-- `endSessionAction` is idempotent: check `outcome === 'in_progress'` before writing; return the existing outcome if already closed (handles double-fire from timer + manual button race)
+- `endSessionAction` is idempotent via atomic UPDATE WHERE: `UPDATE ... WHERE outcome='in_progress' RETURNING *`. If 0 rows returned, another call already closed the session — return current state without inserting `critical_miss` events. This eliminates the read-then-write race window (handles double-fire from timer + manual button concurrently)
 - Synthetic `critical_miss` events for skipped critical tests are written by `endSessionAction`, not `selectTestAction`
 
 ---
@@ -115,17 +116,19 @@ Without this phase, every schema change (including Phase 1's enum extension) req
 
 ---
 
-## Phase 1: Schema Extension + Migration
+## Phase 1: Schema Type Extension
 
-Extend the `validatorResult` enum in `sessionEvents` to include `"unnecessary"`, preserving `critical_miss` exclusively for synthetic session-end events (critical tests never ordered). Generate + apply the migration.
+Extend the `validatorResult` TypeScript type in `sessionEvents` to include `"unnecessary"`, preserving `critical_miss` exclusively for synthetic session-end events (critical tests never ordered).
+
+**Note**: `validator_result` is a plain `text NOT NULL` column — no DB-level check constraint exists. The `.$type<>()` call is a TypeScript-only annotation; no database migration is needed for this change. The column already accepts any text value.
 
 ### Required Changes
 
-#### 1. Extend validatorResult enum
+#### 1. Extend validatorResult type annotation
 
 **File**: `src/shared/lib/schema.ts`
 
-**Goal**: Add `"unnecessary"` as a fourth valid value for `validatorResult` so the validator can persist all four algorithm outputs without collapsing them.
+**Goal**: Add `"unnecessary"` as a fourth valid value for `validatorResult` so TypeScript correctly types all four algorithm outputs.
 
 **Contract**: Change the `.$type<>()` call on line ~130 from:
 ```typescript
@@ -136,31 +139,12 @@ to:
 .$type<"correct" | "suboptimal" | "unnecessary" | "critical_miss">()
 ```
 
-#### 2. Generate and apply migration
-
-**File**: `drizzle/migrations/` (new auto-generated SQL file)
-
-**Goal**: Produce a migration SQL file that adds `"unnecessary"` to the `validator_result` check constraint and commit it alongside the schema change.
-
-**Contract**: Run locally:
-```bash
-npx drizzle-kit generate   # produces new SQL migration file
-npx drizzle-kit migrate    # applies to dev/prod DB
-```
-Commit both `schema.ts` and the new migration file. Do not edit the generated SQL.
-
 ### Success Criteria
 
 #### Automatic Verification
 
 - `npm run typecheck` passes (TypeScript sees the extended union)
 - `npm run lint` passes
-- `npx drizzle-kit generate` produces a new migration file (no diff if re-run after migration applied)
-
-#### Manual Verification
-
-- `npx drizzle-kit migrate` completes with exit code 0 against the dev/prod DB
-- Running `npx drizzle-kit studio` (or psql) shows `validator_result` column accepting `'unnecessary'`
 
 **Stop here for manual confirmation before proceeding to Phase 2.**
 
@@ -301,13 +285,20 @@ export interface EndSessionResult {
 
 **`endSessionAction(sessionId: string): Promise<EndSessionResult>`**
 - Validates session exists + belongs to current user
-- If `outcome !== "in_progress"`: returns existing `{ outcome, isFailed, skippedCritical: [] }` (idempotent)
 - Loads all `sessionEvents` for this session → builds `orderedTestIds` set
 - Loads `testClassifications` for the scenario
-- Calls `evaluateSessionEnd(orderedTestIds, classifications)`
-- Inserts one `critical_miss` event per `skippedCritical` testId into `sessionEvents`
-- Updates `sessionResults`: `{ outcome: isFailed ? "negative" : "positive", isFailed, completedAt: new Date() }`
-- Returns `{ outcome, isFailed, skippedCritical }`
+- Calls `evaluateSessionEnd(orderedTestIds, classifications)` → `{ irreversibleFail, skippedCritical }`
+- Executes atomic compare-and-swap (idempotency guard):
+  ```typescript
+  const claimed = await db
+    .update(sessionResults)
+    .set({ outcome: irreversibleFail ? "negative" : "positive", isFailed: irreversibleFail, completedAt: new Date() })
+    .where(and(eq(sessionResults.id, sessionId), eq(sessionResults.outcome, "in_progress")))
+    .returning()
+  ```
+  If `claimed.length === 0`: session already closed by a concurrent call — fetch current row and return `{ outcome, isFailed, skippedCritical: [] }` without inserting events.
+- (Only if `claimed.length === 1`) Inserts one `critical_miss` event per `skippedCritical` testId into `sessionEvents`
+- Returns `{ outcome: claimed[0].outcome, isFailed: claimed[0].isFailed, skippedCritical }`
 
 ### Success Criteria
 
@@ -432,7 +423,9 @@ Session end (both paths):
 
 Result display (when `sessionState !== "in_progress"`):
 - Show outcome heading: "Sesja zakończona — wynik: Pozytywny / Negatywny"
-- Show list of skipped critical tests if any
+- Show list of skipped critical tests if any. Source depends on path:
+  - **Normal flow** (session ended in this browser session): use `skippedCritical` from `endSessionAction` response
+  - **Page refresh / direct load of completed session** (`sessionOutcome !== "in_progress"` on mount): derive from `initialEvents.filter(e => e.validatorResult === "critical_miss")`, then map `testId` → `name` via the `tests` prop
 - "Wróć do panelu" link → `/dashboard`
 
 **File**: `src/modules/session/components/SessionView.module.css`
@@ -530,9 +523,9 @@ Badge colour mapping:
 
 ## Migration Notes
 
-- Phase 1 migration must be applied to the production DB **before** the code using the new `"unnecessary"` value is deployed
-- If Phase 0 (CI/CD migrate step) is done first, this is automatic
-- If Phase 0 is skipped: run `npx drizzle-kit migrate` manually against the production DB before merging Phase 1
+- No database migration is required for Phase 1 — `validator_result` is a plain `text` column with no check constraint; the DB already accepts `"unnecessary"`.
+- If Phase 0 (CI/CD migrate step) is done, it applies any pending migrations from other phases automatically.
+- If Phase 0 is skipped: no manual migration step is needed for Phase 1 specifically.
 
 ## References
 
@@ -558,18 +551,12 @@ Badge colour mapping:
 
 - [ ] 0.2 GitHub Actions "Run DB migrations" step completes without error on next push to main
 
-### Phase 1: Schema Extension + Migration
+### Phase 1: Schema Type Extension
 
 #### Automatic
 
-- [ ] 1.1 `npm run typecheck` passes after enum extension
+- [ ] 1.1 `npm run typecheck` passes after type annotation extension
 - [ ] 1.2 `npm run lint` passes
-- [ ] 1.3 `npx drizzle-kit generate` produces new migration file without re-diff
-
-#### Manual
-
-- [ ] 1.4 `npx drizzle-kit migrate` completes with exit 0 against dev/prod DB
-- [ ] 1.5 `validator_result` column accepts `'unnecessary'` in DB
 
 ### Phase 2: Validator Library
 
