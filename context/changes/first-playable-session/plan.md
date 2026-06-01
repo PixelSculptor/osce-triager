@@ -562,25 +562,25 @@ Badge colour mapping:
 
 #### Automatic
 
-- [x] 2.1 `npm run typecheck` passes
-- [x] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run typecheck` passes — cd0136f
+- [x] 2.2 `npm run lint` passes — cd0136f
 
 #### Manual
 
-- [x] 2.3 Importing `validator.ts` in a client component triggers build-time error (server-only enforced)
+- [x] 2.3 Importing `validator.ts` in a client component triggers build-time error (server-only enforced) — cd0136f
 
 ### Phase 3: Session Server Actions + Types
 
 #### Automatic
 
-- [ ] 3.1 `npm run typecheck` passes
-- [ ] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run typecheck` passes
+- [x] 3.2 `npm run lint` passes
 
 #### Manual
 
-- [ ] 3.3 `startSessionAction` creates `session_result` row in DB
-- [ ] 3.4 `selectTestAction` creates `session_event` row in DB
-- [ ] 3.5 `endSessionAction` updates session outcome + sets `completed_at`
+- [x] 3.3 `startSessionAction` creates `session_result` row in DB
+- [x] 3.4 `selectTestAction` creates `session_event` row in DB
+- [x] 3.5 `endSessionAction` updates session outcome + sets `completed_at`
 
 ### Phase 4: Dashboard — Scenario List
 

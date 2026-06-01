@@ -20,6 +20,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     verificationTokensTable: verificationTokens,
   }),
   session: { strategy: "jwt" },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user?.id) token.sub = user.id
+      return token
+    },
+    session({ session, token }) {
+      if (token.sub) session.user.id = token.sub
+      return session
+    },
+  },
   providers: [
     Credentials({
       credentials: {
