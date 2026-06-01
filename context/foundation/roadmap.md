@@ -33,6 +33,7 @@ Student VI roku medycyny przygotowujący się do egzaminów OSCE nie ma możliwo
 | S-01  | auth-flow               | zalogować się i wylogować z kontem e-mail+hasło                                               | F-01              | FR-001, FR-002                                  | done     |
 | S-02  | first-playable-session  | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                 | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01   | done     |
 | S-03  | session-history-save    | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                               | S-02              | FR-008, US-01                                   | ready    |
+| S-04  | ux-improvements         | korzystać z interfejsu z płynnymi animacjami, stanami ładowania i drag-and-drop kolejności badań | F-01, F-02, F-03 | NFR: UI/UX                                      | planned  |
 
 ## Strumienie
 
@@ -148,6 +149,20 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 
 ---
 
+### S-04: Usprawnienia UX
+
+- **Wynik:** Student korzysta z interfejsu z płynnymi animacjami i przejściami, spójnymi stanami ładowania, gradientami i cieniami; może przeciągać badania diagnostyczne (drag-and-drop) by zmienić ich kolejność na liście w trakcie sesji.
+- **ID zmiany:** ux-improvements
+- **Odniesienia do PRD:** NFR: UI/UX (estetyka, użyteczność)
+- **Wymagania wstępne:** F-01, F-02, F-03
+- **Równolegle z:** S-03
+- **Blokady:** —
+- **Niewiadome:** wybór biblioteki drag-and-drop kompatybilnej z Next.js App Router (RSC/Client boundary) — do zbadania w `/10x-research` przed startem planu.
+- **Ryzyko:** Animacje i drag-and-drop mogą wpłynąć na wydajność na słabszych urządzeniach mobilnych — należy profilować i stosować `will-change`/`transform` z umiarem.
+- **Status:** planned
+
+---
+
 ## Przekazanie do backlogu
 
 | ID mapy drogowej | ID zmiany               | Sugerowany tytuł problemu                                        | Gotowe do `/10x-plan` | Uwagi                                                                         |
@@ -158,6 +173,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | done                  | Zaimplementowane 2026-05-29; GitHub issue #10 zamknięte                        |
 | S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | yes                   | S-01 + F-02 gotowe; gwiazda przewodnia. Opcjonalnie przed startem: dodać `drizzle-kit migrate` do `deploy.yml` (2-3 linie + sekret DATABASE_URL w GitHub) |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | no                    | Czeka na S-02                                                                 |
+| S-04             | ux-improvements         | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop | no                   | Czeka na F-01, F-02, F-03; zbadać bibliotekę DnD przed `/10x-plan`           |
 
 ## Otwarte pytania dotyczące mapy drogowej
 
