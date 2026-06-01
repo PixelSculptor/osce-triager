@@ -573,27 +573,27 @@ Badge colour mapping:
 
 #### Automatic
 
-- [x] 3.1 `npm run typecheck` passes
-- [x] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run typecheck` passes — 53a826e
+- [x] 3.2 `npm run lint` passes — 53a826e
 
 #### Manual
 
-- [x] 3.3 `startSessionAction` creates `session_result` row in DB
-- [x] 3.4 `selectTestAction` creates `session_event` row in DB
-- [x] 3.5 `endSessionAction` updates session outcome + sets `completed_at`
+- [x] 3.3 `startSessionAction` creates `session_result` row in DB — 53a826e
+- [x] 3.4 `selectTestAction` creates `session_event` row in DB — 53a826e
+- [x] 3.5 `endSessionAction` updates session outcome + sets `completed_at` — 53a826e
 
 ### Phase 4: Dashboard — Scenario List
 
 #### Automatic
 
-- [ ] 4.1 `npm run typecheck` passes
-- [ ] 4.2 `npm run lint` passes
-- [ ] 4.3 `npm run build` passes
+- [x] 4.1 `npm run typecheck` passes
+- [x] 4.2 `npm run lint` passes
+- [x] 4.3 `npm run build` passes
 
 #### Manual
 
-- [ ] 4.4 `/dashboard` shows two scenario cards
-- [ ] 4.5 "Rozpocznij sesję" creates DB row and redirects to `/dashboard/session/[uuid]`
+- [x] 4.4 `/dashboard` shows two scenario cards
+- [x] 4.5 "Rozpocznij sesję" creates DB row and redirects to `/dashboard/session/[uuid]`
 
 ### Phase 5: Session Page
 
