@@ -46,7 +46,7 @@ export default async function SessionPage({
     <SessionView
       sessionId={sessionId}
       timeLimitSeconds={scenario.timeLimitSeconds}
-      startedAt={sessionResult.startedAt}
+      startedAt={sessionResult.startedAt.toISOString()}
       tests={tests.map((t) => ({ id: t.id, name: t.name }))}
       classifications={classifications}
       initialEvents={initialEvents}

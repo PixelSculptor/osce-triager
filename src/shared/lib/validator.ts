@@ -14,7 +14,7 @@ export interface SessionEndResult {
   skippedCritical: string[]
 }
 
-const CATEGORY_TO_RESULT: Record<TestCategory, ValidatorResult> = {
+export const CATEGORY_TO_RESULT: Record<TestCategory, ValidatorResult> = {
   critical: "correct",
   optimal: "correct",
   acceptable: "suboptimal",

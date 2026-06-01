@@ -17,7 +17,7 @@ interface OrderedTest {
 interface SessionViewProps {
   sessionId: string
   timeLimitSeconds: number
-  startedAt: Date
+  startedAt: string
   tests: Array<{ id: string; name: string }>
   classifications: Record<string, TestCategory>
   initialEvents: Array<{ testId: string; validatorResult: ValidatorResult }>
@@ -190,7 +190,6 @@ export function SessionView({
                 key={test.testId}
                 name={test.name}
                 validatorResult={test.validatorResult}
-                category={test.category}
               />
             ))}
           </div>

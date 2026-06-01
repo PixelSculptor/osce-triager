@@ -1,12 +1,11 @@
 "use client"
 
-import type { TestCategory, ValidatorResult } from "@/shared/lib/validator"
+import type { ValidatorResult } from "@/shared/lib/validator"
 import styles from "./TestCard.module.css"
 
 interface TestCardProps {
   name: string
   validatorResult?: ValidatorResult
-  category?: TestCategory
   onSelect?: () => void
   isLoading?: boolean
 }

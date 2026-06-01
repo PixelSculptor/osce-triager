@@ -116,6 +116,12 @@ export async function endSessionAction(
 
     if (!sessionRow) return { error: "Session not found" }
     if (sessionRow.userId !== session.user.id) return { error: "Forbidden" }
+    if (sessionRow.outcome !== "in_progress")
+      return {
+        outcome: sessionRow.outcome as "positive" | "negative",
+        isFailed: sessionRow.isFailed,
+        skippedCritical: [],
+      }
 
     const events = await db
       .select()

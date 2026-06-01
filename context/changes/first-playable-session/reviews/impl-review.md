@@ -130,7 +130,7 @@
 - **Location**: src/modules/session/actions.ts:100–110
 - **Detail**: When called on a session with `outcome !== "in_progress"`, the action still fetches all events, re-fetches all classifications, and re-runs the evaluator before the no-op UPDATE. `selectTestAction` already guards this at line 65.
 - **Fix**: Add early return after ownership check: `if (sessionRow.outcome !== "in_progress") return { outcome: sessionRow.outcome, isFailed: sessionRow.isFailed, skippedCritical: [] }`
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ---
 
@@ -142,7 +142,7 @@
 - **Location**: src/shared/lib/validator.ts:17
 - **Detail**: Plan Phase 2 contract listed `CATEGORY_TO_RESULT` as an exported const. Implementation declares it without `export`. No consumer imports it today — zero runtime impact.
 - **Fix**: Add `export` keyword to the const declaration.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ---
 
@@ -154,7 +154,7 @@
 - **Location**: src/modules/session/components/TestCard.tsx:9,21
 - **Detail**: `category?: TestCategory` is in the interface and passed by SessionView (SessionView.tsx:181) but never referenced inside the component. Badge styling is driven by `data-result` CSS attribute.
 - **Fix**: Remove `category` from `TestCardProps` and the call site in SessionView, or implement per-category styling if that was the intent.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ---
 
@@ -166,4 +166,4 @@
 - **Location**: src/modules/session/components/SessionView.tsx:20
 - **Detail**: Next.js serializes Date objects to ISO strings across the RSC→client boundary. Prop is typed `Date` but arrives as `string`. No runtime bug (`new Date(startedAt)` at line 50 handles it) but the TypeScript type is misleading.
 - **Fix**: Change prop type to `startedAt: string`.
-- **Decision**: PENDING
+- **Decision**: FIXED
