@@ -586,29 +586,29 @@ Badge colour mapping:
 
 #### Automatic
 
-- [x] 4.1 `npm run typecheck` passes
-- [x] 4.2 `npm run lint` passes
-- [x] 4.3 `npm run build` passes
+- [x] 4.1 `npm run typecheck` passes — 9e9b57d
+- [x] 4.2 `npm run lint` passes — 9e9b57d
+- [x] 4.3 `npm run build` passes — 9e9b57d
 
 #### Manual
 
-- [x] 4.4 `/dashboard` shows two scenario cards
-- [x] 4.5 "Rozpocznij sesję" creates DB row and redirects to `/dashboard/session/[uuid]`
+- [x] 4.4 `/dashboard` shows two scenario cards — 9e9b57d
+- [x] 4.5 "Rozpocznij sesję" creates DB row and redirects to `/dashboard/session/[uuid]` — 9e9b57d
 
 ### Phase 5: Session Page
 
 #### Automatic
 
-- [ ] 5.1 `npm run typecheck` passes
-- [ ] 5.2 `npm run lint` passes
-- [ ] 5.3 `npm run build` passes
+- [x] 5.1 `npm run typecheck` passes
+- [x] 5.2 `npm run lint` passes
+- [x] 5.3 `npm run build` passes
 
 #### Manual
 
-- [ ] 5.4 Session page renders timer + 18 test cards
-- [ ] 5.5 Selecting a test shows inline badge with correct colour
-- [ ] 5.6 Timer expiry auto-submits session
-- [ ] 5.7 Skipping critical test → "Negatywny" outcome
-- [ ] 5.8 Ordering all critical tests → "Pozytywny" outcome
-- [ ] 5.9 Page refresh preserves timer position and ordered tests
-- [ ] 5.10 Different user accessing session URL gets 404
+- [x] 5.4 Session page renders timer + 18 test cards
+- [x] 5.5 Selecting a test shows inline badge with correct colour
+- [x] 5.6 Timer expiry auto-submits session
+- [x] 5.7 Skipping critical test → "Negatywny" outcome
+- [x] 5.8 Ordering all critical tests → "Pozytywny" outcome
+- [x] 5.9 Page refresh preserves timer position and ordered tests
+- [x] 5.10 Different user accessing session URL gets 404

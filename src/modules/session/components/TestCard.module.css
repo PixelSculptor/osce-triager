@@ -1,0 +1,59 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 4px;
+}
+
+.card[data-selected="true"] {
+  border-color: rgba(128, 128, 128, 0.15);
+  background: rgba(128, 128, 128, 0.04);
+}
+
+.name {
+  font-size: 0.9375rem;
+  flex: 1;
+}
+
+.button {
+  flex-shrink: 0;
+  padding: 0.3125rem 0.75rem;
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.badge {
+  flex-shrink: 0;
+  padding: 0.25rem 0.625rem;
+  border-radius: 3px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.badge[data-result="correct"] {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge[data-result="suboptimal"] {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.badge[data-result="unnecessary"] {
+  background: #ffedd5;
+  color: #9a3412;
+}
