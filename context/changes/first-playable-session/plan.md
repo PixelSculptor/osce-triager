@@ -555,19 +555,19 @@ Badge colour mapping:
 
 #### Automatic
 
-- [x] 1.1 `npm run typecheck` passes after type annotation extension
-- [x] 1.2 `npm run lint` passes
+- [x] 1.1 `npm run typecheck` passes after type annotation extension — da69807
+- [x] 1.2 `npm run lint` passes — da69807
 
 ### Phase 2: Validator Library
 
 #### Automatic
 
-- [ ] 2.1 `npm run typecheck` passes
-- [ ] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run typecheck` passes
+- [x] 2.2 `npm run lint` passes
 
 #### Manual
 
-- [ ] 2.3 Importing `validator.ts` in a client component triggers build-time error (server-only enforced)
+- [x] 2.3 Importing `validator.ts` in a client component triggers build-time error (server-only enforced)
 
 ### Phase 3: Session Server Actions + Types
 
