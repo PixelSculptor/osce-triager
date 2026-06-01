@@ -599,16 +599,16 @@ Badge colour mapping:
 
 #### Automatic
 
-- [x] 5.1 `npm run typecheck` passes
-- [x] 5.2 `npm run lint` passes
-- [x] 5.3 `npm run build` passes
+- [x] 5.1 `npm run typecheck` passes — 30675ce
+- [x] 5.2 `npm run lint` passes — 30675ce
+- [x] 5.3 `npm run build` passes — 30675ce
 
 #### Manual
 
-- [x] 5.4 Session page renders timer + 18 test cards
-- [x] 5.5 Selecting a test shows inline badge with correct colour
-- [x] 5.6 Timer expiry auto-submits session
-- [x] 5.7 Skipping critical test → "Negatywny" outcome
-- [x] 5.8 Ordering all critical tests → "Pozytywny" outcome
-- [x] 5.9 Page refresh preserves timer position and ordered tests
-- [x] 5.10 Different user accessing session URL gets 404
+- [x] 5.4 Session page renders timer + 18 test cards — 30675ce
+- [x] 5.5 Selecting a test shows inline badge with correct colour — 30675ce
+- [x] 5.6 Timer expiry auto-submits session — 30675ce
+- [x] 5.7 Skipping critical test → "Negatywny" outcome — 30675ce
+- [x] 5.8 Ordering all critical tests → "Pozytywny" outcome — 30675ce
+- [x] 5.9 Page refresh preserves timer position and ordered tests — 30675ce
+- [x] 5.10 Different user accessing session URL gets 404 — 30675ce
