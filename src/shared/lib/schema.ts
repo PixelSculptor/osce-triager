@@ -127,7 +127,7 @@ export const sessionEvents = pgTable("session_event", {
     .notNull()
     .references(() => diagnosticTests.id, { onDelete: "restrict" }),
   validatorResult: text("validator_result")
-    .$type<"correct" | "suboptimal" | "critical_miss">()
+    .$type<"correct" | "suboptimal" | "unnecessary" | "critical_miss">()
     .notNull(),
   selectedAt: timestamp("selected_at", { mode: "date" }).notNull().defaultNow(),
 })
