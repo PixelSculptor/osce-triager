@@ -157,8 +157,9 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Wymagania wstępne:** F-01, F-02, F-03
 - **Równolegle z:** S-03
 - **Blokady:** —
-- **Niewiadome:** wybór biblioteki drag-and-drop kompatybilnej z Next.js App Router (RSC/Client boundary) — do zbadania w `/10x-research` przed startem planu.
-- **Ryzyko:** Animacje i drag-and-drop mogą wpłynąć na wydajność na słabszych urządzeniach mobilnych — należy profilować i stosować `will-change`/`transform` z umiarem.
+- **Niewiadome:** rozwiązane — `@dnd-kit/core` + `@dnd-kit/sortable` (9 KB, App Router compatible; `SessionView` już `'use client'`). Szczegóły: `context/changes/ux-improvements/drag-n-drop-research.md`.
+- **Ryzyko:** Gest drag vs tap na mobile — `PointerSensor` z `activationConstraint: { distance: 8 }` zapobiega przypadkowym przeciągnięciom; zweryfikować na urządzeniu dotykowym. `@dnd-kit/core` v6.3.1 (~rok bez wydania) — akceptowalne dla tego zakresu.
+- **Podejście:** 3 fazy — (1) tokeny CSS + przejścia, (2) spinner CSS, (3) DnD cross-container. Pełny plan: `context/changes/ux-improvements/plan.md`.
 - **Status:** planned
 
 ---
@@ -173,7 +174,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | done                  | Zaimplementowane 2026-05-29; GitHub issue #10 zamknięte                        |
 | S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | yes                   | S-01 + F-02 gotowe; gwiazda przewodnia. Opcjonalnie przed startem: dodać `drizzle-kit migrate` do `deploy.yml` (2-3 linie + sekret DATABASE_URL w GitHub) |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | no                    | Czeka na S-02                                                                 |
-| S-04             | ux-improvements         | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop | no                   | Czeka na F-01, F-02, F-03; zbadać bibliotekę DnD przed `/10x-plan`           |
+| S-04             | ux-improvements         | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop | yes                  | Plan gotowy (`plan.md`); uruchom `/10x-implement ux-improvements phase 1`    |
 
 ## Otwarte pytania dotyczące mapy drogowej
 
