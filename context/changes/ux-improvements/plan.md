@@ -376,30 +376,30 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 
 #### Automatic
 
-- [x] 2.1 `npm run typecheck` passes
-- [x] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run typecheck` passes — f6010e7
+- [x] 2.2 `npm run lint` passes — f6010e7
 
 #### Manual
 
-- [x] 2.3 Login form pending state shows spinner on submit button
-- [x] 2.4 Scenario card start button shows spinner while loading
-- [x] 2.5 Test card "Zleć" shows spinner while selecting
-- [x] 2.6 "Zakończ sesję" button shows spinner while ending
+- [x] 2.3 Login form pending state shows spinner on submit button — f6010e7
+- [x] 2.4 Scenario card start button shows spinner while loading — f6010e7
+- [x] 2.5 Test card "Zleć" shows spinner while selecting — f6010e7
+- [x] 2.6 "Zakończ sesję" button shows spinner while ending — f6010e7
 
 ### Phase 3: Cross-Container DnD
 
 #### Automatic
 
-- [ ] 3.1 `npm run typecheck` passes
-- [ ] 3.2 `npm run lint` passes
-- [ ] 3.3 `npm run build` completes without error
+- [x] 3.1 `npm run typecheck` passes
+- [x] 3.2 `npm run lint` passes
+- [x] 3.3 `npm run build` completes without error
 
 #### Manual
 
-- [ ] 3.4 Drag from left column drops test into right column; spinner shows; result badge appears on confirmation
-- [ ] 3.5 Mid-flight guard: dragging during active `loadingTestId` has no effect
-- [ ] 3.6 Drag within right column reorders without server call
-- [ ] 3.7 Click "Zleć" button still works (fallback)
-- [ ] 3.8 DragOverlay ghost card visible during drag
-- [ ] 3.9 Keyboard drag: Tab → Space → arrows → Space/Enter
-- [ ] 3.10 Session end/timer expiry during drag resolves cleanly
+- [x] 3.4 Drag from left column drops test into right column; spinner shows; result badge appears on confirmation
+- [x] 3.5 Mid-flight guard: dragging during active `loadingTestId` has no effect
+- [x] 3.6 Drag within right column reorders without server call
+- [x] 3.7 Click "Zleć" button still works (fallback)
+- [x] 3.8 DragOverlay ghost card visible during drag
+- [x] 3.9 Keyboard drag: Tab → Space → arrows → Space/Enter
+- [x] 3.10 Session end/timer expiry during drag resolves cleanly

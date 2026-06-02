@@ -10,6 +10,7 @@
   width: 100%;
   max-width: 400px;
   padding: 2rem;
+  background: var(--background);
   border: 1px solid rgba(128, 128, 128, 0.2);
   border-radius: 8px;
   box-shadow: var(--shadow-card);
