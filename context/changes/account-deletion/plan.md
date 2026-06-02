@@ -305,29 +305,29 @@ jobs:
 
 #### Automated
 
-- [x] 1.1 Typecheck passes: `npx tsc --noEmit`
-- [x] 1.2 Migration generates: `npx drizzle-kit generate` creates `drizzle/migrations/0002_*.sql`
-- [x] 1.3 Migration applies: `npx drizzle-kit migrate` runs cleanly
-- [x] 1.4 Lint passes: `npm run lint`
+- [x] 1.1 Typecheck passes: `npx tsc --noEmit` — beb45cd
+- [x] 1.2 Migration generates: `npx drizzle-kit generate` creates `drizzle/migrations/0002_*.sql` — beb45cd
+- [x] 1.3 Migration applies: `npx drizzle-kit migrate` runs cleanly — beb45cd
+- [x] 1.4 Lint passes: `npm run lint` — beb45cd
 
 #### Manual
 
-- [x] 1.5 `deletion_requested_at` column visible in Supabase dashboard / psql `\d user`
+- [x] 1.5 `deletion_requested_at` column visible in Supabase dashboard / psql `\d user` — beb45cd
 
 ### Phase 2: Settings Page and Server Actions
 
 #### Automated
 
-- [ ] 2.1 Typecheck passes: `npx tsc --noEmit`
-- [ ] 2.2 Lint passes: `npm run lint`
+- [x] 2.1 Typecheck passes: `npx tsc --noEmit`
+- [x] 2.2 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 2.3 "Ustawienia" link visible in Nav for authenticated users, navigates to `/account/settings`
-- [ ] 2.4 Delete form renders; button disabled until input equals `DELETE`
-- [ ] 2.5 Submitting with `DELETE` → page shows pending deletion banner with purge date
-- [ ] 2.6 Clicking "Anuluj usunięcie" → page reverts to delete form
-- [ ] 2.7 Unauthenticated visit to `/account/settings` → redirected to `/login`
+- [x] 2.3 "Ustawienia" link visible in Nav for authenticated users, navigates to `/account/settings`
+- [x] 2.4 Delete form renders; button disabled until input equals `DELETE`
+- [x] 2.5 Submitting with `DELETE` → page shows pending deletion banner with purge date
+- [x] 2.6 Clicking "Anuluj usunięcie" → page reverts to delete form
+- [x] 2.7 Unauthenticated visit to `/account/settings` → redirected to `/login`
 
 ### Phase 3: Scheduled Cleanup
 
