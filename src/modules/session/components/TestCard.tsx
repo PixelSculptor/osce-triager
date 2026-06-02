@@ -1,6 +1,7 @@
 "use client"
 
 import type { ValidatorResult } from "@/shared/lib/validator"
+import { Spinner } from "@/shared/components/Spinner/Spinner"
 import styles from "./TestCard.module.css"
 
 interface TestCardProps {
@@ -37,7 +38,7 @@ export function TestCard({
           onClick={onSelect}
           disabled={isLoading || !onSelect}
         >
-          {isLoading ? "..." : "Zleć"}
+          {isLoading ? <Spinner size="sm" /> : "Zleć"}
         </button>
       ) : null}
     </div>

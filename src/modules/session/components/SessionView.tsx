@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import type { TestCategory, ValidatorResult } from "@/shared/lib/validator"
 import { endSessionAction, selectTestAction } from "@/modules/session/actions"
+import { Spinner } from "@/shared/components/Spinner/Spinner"
 import { TestCard } from "./TestCard"
 import styles from "./SessionView.module.css"
 
@@ -162,8 +163,9 @@ export function SessionView({
           className={styles.endButton}
           onClick={handleEndSession}
           disabled={isEnding}
+          style={isEnding ? { display: "inline-flex", alignItems: "center", gap: "0.375rem" } : undefined}
         >
-          {isEnding ? "Kończenie..." : "Zakończ sesję"}
+          {isEnding ? <><Spinner size="sm" /> Kończenie…</> : "Zakończ sesję"}
         </button>
       </div>
 

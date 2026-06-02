@@ -361,9 +361,9 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 
 #### Automatic
 
-- [x] 1.1 `npm run typecheck` passes
-- [x] 1.2 `npm run lint` passes
-- [x] 1.3 `npm run build` completes without error
+- [x] 1.1 `npm run typecheck` passes — b85ad66
+- [x] 1.2 `npm run lint` passes — b85ad66
+- [x] 1.3 `npm run build` completes without error — b85ad66
 
 #### Manual
 
@@ -376,15 +376,15 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 
 #### Automatic
 
-- [ ] 2.1 `npm run typecheck` passes
-- [ ] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run typecheck` passes
+- [x] 2.2 `npm run lint` passes
 
 #### Manual
 
-- [ ] 2.3 Login form pending state shows spinner on submit button
-- [ ] 2.4 Scenario card start button shows spinner while loading
-- [ ] 2.5 Test card "Zleć" shows spinner while selecting
-- [ ] 2.6 "Zakończ sesję" button shows spinner while ending
+- [x] 2.3 Login form pending state shows spinner on submit button
+- [x] 2.4 Scenario card start button shows spinner while loading
+- [x] 2.5 Test card "Zleć" shows spinner while selecting
+- [x] 2.6 "Zakończ sesję" button shows spinner while ending
 
 ### Phase 3: Cross-Container DnD
 
