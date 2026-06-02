@@ -305,14 +305,14 @@ jobs:
 
 #### Automated
 
-- [ ] 1.1 Typecheck passes: `npx tsc --noEmit`
-- [ ] 1.2 Migration generates: `npx drizzle-kit generate` creates `drizzle/migrations/0002_*.sql`
-- [ ] 1.3 Migration applies: `npx drizzle-kit migrate` runs cleanly
-- [ ] 1.4 Lint passes: `npm run lint`
+- [x] 1.1 Typecheck passes: `npx tsc --noEmit`
+- [x] 1.2 Migration generates: `npx drizzle-kit generate` creates `drizzle/migrations/0002_*.sql`
+- [x] 1.3 Migration applies: `npx drizzle-kit migrate` runs cleanly
+- [x] 1.4 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 1.5 `deletion_requested_at` column visible in Supabase dashboard / psql `\d user`
+- [x] 1.5 `deletion_requested_at` column visible in Supabase dashboard / psql `\d user`
 
 ### Phase 2: Settings Page and Server Actions
 
