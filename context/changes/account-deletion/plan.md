@@ -318,22 +318,22 @@ jobs:
 
 #### Automated
 
-- [x] 2.1 Typecheck passes: `npx tsc --noEmit`
-- [x] 2.2 Lint passes: `npm run lint`
+- [x] 2.1 Typecheck passes: `npx tsc --noEmit` — 30bbe9a
+- [x] 2.2 Lint passes: `npm run lint` — 30bbe9a
 
 #### Manual
 
-- [x] 2.3 "Ustawienia" link visible in Nav for authenticated users, navigates to `/account/settings`
-- [x] 2.4 Delete form renders; button disabled until input equals `DELETE`
-- [x] 2.5 Submitting with `DELETE` → page shows pending deletion banner with purge date
-- [x] 2.6 Clicking "Anuluj usunięcie" → page reverts to delete form
-- [x] 2.7 Unauthenticated visit to `/account/settings` → redirected to `/login`
+- [x] 2.3 "Ustawienia" link visible in Nav for authenticated users, navigates to `/account/settings` — 30bbe9a
+- [x] 2.4 Delete form renders; button disabled until input equals `DELETE` — 30bbe9a
+- [x] 2.5 Submitting with `DELETE` → page shows pending deletion banner with purge date — 30bbe9a
+- [x] 2.6 Clicking "Anuluj usunięcie" → page reverts to delete form — 30bbe9a
+- [x] 2.7 Unauthenticated visit to `/account/settings` → redirected to `/login` — 30bbe9a
 
 ### Phase 3: Scheduled Cleanup
 
 #### Automated
 
-- [ ] 3.1 Script runs without error: `DATABASE_URL=<dev-url> node scripts/cleanup-expired-accounts.mjs`
+- [x] 3.1 Script runs without error: `DATABASE_URL=<dev-url> node scripts/cleanup-expired-accounts.mjs`
 
 #### Manual
 
