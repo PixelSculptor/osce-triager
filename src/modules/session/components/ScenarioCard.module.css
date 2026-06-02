@@ -6,6 +6,13 @@
   border: 1px solid rgba(128, 128, 128, 0.4);
   border-radius: 6px;
   list-style: none;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 .title {
@@ -36,13 +43,18 @@
 .button {
   align-self: flex-start;
   padding: 0.625rem 1rem;
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--color-primary);
+  color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
 }
 
 .button:disabled {

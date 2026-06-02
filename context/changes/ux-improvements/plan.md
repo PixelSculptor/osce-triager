@@ -361,9 +361,9 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 
 #### Automatic
 
-- [ ] 1.1 `npm run typecheck` passes
-- [ ] 1.2 `npm run lint` passes
-- [ ] 1.3 `npm run build` completes without error
+- [x] 1.1 `npm run typecheck` passes
+- [x] 1.2 `npm run lint` passes
+- [x] 1.3 `npm run build` completes without error
 
 #### Manual
 

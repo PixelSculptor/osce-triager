@@ -6,6 +6,13 @@
   padding: 0.625rem 0.875rem;
   border: 1px solid rgba(128, 128, 128, 0.3);
   border-radius: 4px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:not([data-selected="true"]):hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 .card[data-selected="true"] {
@@ -21,17 +28,22 @@
 .button {
   flex-shrink: 0;
   padding: 0.3125rem 0.75rem;
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--color-primary);
+  color: #fff;
   border: none;
   border-radius: 3px;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
 }
 
 .button:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

@@ -28,6 +28,7 @@
   background: var(--background);
   color: var(--foreground);
   font-size: 1rem;
+  transition: outline var(--transition-fast), border-color var(--transition-fast);
 }
 
 .field input:focus {
@@ -51,13 +52,18 @@
 .submit button {
   width: 100%;
   padding: 0.625rem 1rem;
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--color-primary);
+  color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.submit button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
 }
 
 .submit button:disabled {
