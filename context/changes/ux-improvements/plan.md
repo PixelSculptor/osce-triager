@@ -390,16 +390,16 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 
 #### Automatic
 
-- [x] 3.1 `npm run typecheck` passes
-- [x] 3.2 `npm run lint` passes
-- [x] 3.3 `npm run build` completes without error
+- [x] 3.1 `npm run typecheck` passes — 067b164
+- [x] 3.2 `npm run lint` passes — 067b164
+- [x] 3.3 `npm run build` completes without error — 067b164
 
 #### Manual
 
-- [x] 3.4 Drag from left column drops test into right column; spinner shows; result badge appears on confirmation
-- [x] 3.5 Mid-flight guard: dragging during active `loadingTestId` has no effect
-- [x] 3.6 Drag within right column reorders without server call
-- [x] 3.7 Click "Zleć" button still works (fallback)
-- [x] 3.8 DragOverlay ghost card visible during drag
-- [x] 3.9 Keyboard drag: Tab → Space → arrows → Space/Enter
-- [x] 3.10 Session end/timer expiry during drag resolves cleanly
+- [x] 3.4 Drag from left column drops test into right column; spinner shows; result badge appears on confirmation — 067b164
+- [x] 3.5 Mid-flight guard: dragging during active `loadingTestId` has no effect — 067b164
+- [x] 3.6 Drag within right column reorders without server call — 067b164
+- [x] 3.7 Click "Zleć" button still works (fallback) — 067b164
+- [x] 3.8 DragOverlay ghost card visible during drag — 067b164
+- [x] 3.9 Keyboard drag: Tab → Space → arrows → Space/Enter — 067b164
+- [x] 3.10 Session end/timer expiry during drag resolves cleanly — 067b164
