@@ -305,35 +305,35 @@ jobs:
 
 #### Automated
 
-- [ ] 1.1 Typecheck passes: `npx tsc --noEmit`
-- [ ] 1.2 Migration generates: `npx drizzle-kit generate` creates `drizzle/migrations/0002_*.sql`
-- [ ] 1.3 Migration applies: `npx drizzle-kit migrate` runs cleanly
-- [ ] 1.4 Lint passes: `npm run lint`
+- [x] 1.1 Typecheck passes: `npx tsc --noEmit` — beb45cd
+- [x] 1.2 Migration generates: `npx drizzle-kit generate` creates `drizzle/migrations/0002_*.sql` — beb45cd
+- [x] 1.3 Migration applies: `npx drizzle-kit migrate` runs cleanly — beb45cd
+- [x] 1.4 Lint passes: `npm run lint` — beb45cd
 
 #### Manual
 
-- [ ] 1.5 `deletion_requested_at` column visible in Supabase dashboard / psql `\d user`
+- [x] 1.5 `deletion_requested_at` column visible in Supabase dashboard / psql `\d user` — beb45cd
 
 ### Phase 2: Settings Page and Server Actions
 
 #### Automated
 
-- [ ] 2.1 Typecheck passes: `npx tsc --noEmit`
-- [ ] 2.2 Lint passes: `npm run lint`
+- [x] 2.1 Typecheck passes: `npx tsc --noEmit` — 30bbe9a
+- [x] 2.2 Lint passes: `npm run lint` — 30bbe9a
 
 #### Manual
 
-- [ ] 2.3 "Ustawienia" link visible in Nav for authenticated users, navigates to `/account/settings`
-- [ ] 2.4 Delete form renders; button disabled until input equals `DELETE`
-- [ ] 2.5 Submitting with `DELETE` → page shows pending deletion banner with purge date
-- [ ] 2.6 Clicking "Anuluj usunięcie" → page reverts to delete form
-- [ ] 2.7 Unauthenticated visit to `/account/settings` → redirected to `/login`
+- [x] 2.3 "Ustawienia" link visible in Nav for authenticated users, navigates to `/account/settings` — 30bbe9a
+- [x] 2.4 Delete form renders; button disabled until input equals `DELETE` — 30bbe9a
+- [x] 2.5 Submitting with `DELETE` → page shows pending deletion banner with purge date — 30bbe9a
+- [x] 2.6 Clicking "Anuluj usunięcie" → page reverts to delete form — 30bbe9a
+- [x] 2.7 Unauthenticated visit to `/account/settings` → redirected to `/login` — 30bbe9a
 
 ### Phase 3: Scheduled Cleanup
 
 #### Automated
 
-- [ ] 3.1 Script runs without error: `DATABASE_URL=<dev-url> node scripts/cleanup-expired-accounts.mjs`
+- [x] 3.1 Script runs without error: `DATABASE_URL=<dev-url> node scripts/cleanup-expired-accounts.mjs` — e1f3a2d
 
 #### Manual
 

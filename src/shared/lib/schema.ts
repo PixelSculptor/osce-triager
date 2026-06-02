@@ -17,6 +17,7 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   hashedPassword: text("hashed_password"),
+  deletionRequestedAt: timestamp("deletion_requested_at", { mode: "date" }),
 })
 
 export const accounts = pgTable(

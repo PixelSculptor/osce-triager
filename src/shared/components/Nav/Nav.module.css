@@ -32,6 +32,10 @@
   opacity: 0.8;
 }
 
+.settingsLink {
+  font-size: 0.875rem;
+}
+
 .logoutButton {
   font-size: 0.875rem;
   background: none;

@@ -1,7 +1,7 @@
 ---
 change_id: account-deletion
 title: Account deletion with 30-day data retention (RODO)
-status: planned
+status: implemented
 created: 2026-06-02
 updated: 2026-06-02
 archived_at: null
