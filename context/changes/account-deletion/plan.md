@@ -333,7 +333,7 @@ jobs:
 
 #### Automated
 
-- [x] 3.1 Script runs without error: `DATABASE_URL=<dev-url> node scripts/cleanup-expired-accounts.mjs`
+- [x] 3.1 Script runs without error: `DATABASE_URL=<dev-url> node scripts/cleanup-expired-accounts.mjs` — e1f3a2d
 
 #### Manual
 
