@@ -34,6 +34,7 @@ Student VI roku medycyny przygotowujący się do egzaminów OSCE nie ma możliwo
 | S-02  | first-playable-session  | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                 | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01   | done     |
 | S-03  | session-history-save    | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                               | S-02              | FR-008, US-01                                   | planned  |
 | S-04  | ux-improvements         | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop | F-01, F-02, F-03 | NFR: UI/UX                                   | planned  |
+| S-05  | account-deletion        | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)      | F-01, F-02, F-03  | FR-002, sekcja Access Control                   | planned  |
 
 ## Strumienie
 
@@ -165,6 +166,20 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 
 ---
 
+### S-05: Usunięcie konta z retencją danych
+
+- **Wynik:** Student może zażądać usunięcia konta; dane są trwale usuwane po 30-dniowym okresie retencji — wymóg RODO (prawo do bycia zapomnianym).
+- **ID zmiany:** account-deletion
+- **Odniesienia do PRD:** FR-002, sekcja Access Control
+- **Wymagania wstępne:** F-01, F-02, F-03
+- **Równolegle z:** S-03, S-04
+- **Blokady:** —
+- **Niewiadome:** mechanizm soft-delete (flaga `deleted_at` + cron job vs. scheduled function w Cloudflare Workers) — do rozstrzygnięcia w `/10x-research`.
+- **Ryzyko:** Retencja 30 dni wymaga harmonogramu czyszczenia danych; wyciek danych po upływie retencji to naruszenie RODO.
+- **Status:** planned
+
+---
+
 ## Przekazanie do backlogu
 
 | ID mapy drogowej | ID zmiany               | Sugerowany tytuł problemu                                        | Gotowe do `/10x-plan` | Uwagi                                                                         |
@@ -176,6 +191,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | yes                   | S-01 + F-02 gotowe; gwiazda przewodnia. Opcjonalnie przed startem: dodać `drizzle-kit migrate` do `deploy.yml` (2-3 linie + sekret DATABASE_URL w GitHub) |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | yes                   | Plan gotowy (`plan.md`); uruchom `/10x-implement session-history-save phase 1`               |
 | S-04             | ux-improvements         | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop | yes                  | Plan gotowy (`plan.md`); uruchom `/10x-implement ux-improvements phase 1`    |
+| S-05             | account-deletion        | [S-05] Usunięcie konta z 30-dniową retencją danych (RODO)       | no                   | Uruchom `/10x-research account-deletion`, następnie `/10x-plan account-deletion` |
 
 ## Otwarte pytania dotyczące mapy drogowej
 
