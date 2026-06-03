@@ -4,6 +4,9 @@
   flex-direction: column;
   gap: 1.5rem;
   min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .header {
@@ -11,8 +14,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
+  background: var(--background);
   border: 1px solid rgba(128, 128, 128, 0.3);
   border-radius: 6px;
+  box-shadow: var(--shadow-card);
 }
 
 .timer {
@@ -23,18 +28,23 @@
 }
 
 .timer[data-urgent="true"] {
-  color: #dc2626;
+  color: var(--color-error);
 }
 
 .endButton {
   padding: 0.5rem 1rem;
-  background: #dc2626;
+  background: var(--color-error);
   color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.endButton:hover:not(:disabled) {
+  background: var(--color-error-hover);
 }
 
 .endButton:disabled {
@@ -63,6 +73,26 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.testList[data-drop-target="true"] {
+  border-color: rgba(99, 102, 241, 0.35);
+  border-style: dashed;
+  min-height: 80px;
+}
+
+.testList[data-is-over="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-muted);
+}
+
+.selectError {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem;
 }
 
 /* Result screen */
@@ -80,11 +110,11 @@
 }
 
 .outcome[data-positive="true"] {
-  color: #166534;
+  color: var(--color-outcome-positive);
 }
 
 .outcome[data-positive="false"] {
-  color: #991b1b;
+  color: var(--color-outcome-negative);
 }
 
 .skipped {
@@ -104,10 +134,11 @@
 .backLink {
   align-self: flex-start;
   padding: 0.5rem 1rem;
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--color-primary);
+  color: #fff;
   border-radius: 4px;
   text-decoration: none;
   font-size: 0.9375rem;
   font-weight: 500;
+  transition: opacity var(--transition-fast);
 }

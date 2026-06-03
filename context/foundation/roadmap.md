@@ -3,7 +3,7 @@ project: "OSCE Triager"
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-05-29
+updated: 2026-06-02
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -33,7 +33,7 @@ Student VI roku medycyny przygotowujący się do egzaminów OSCE nie ma możliwo
 | S-01  | auth-flow               | zalogować się i wylogować z kontem e-mail+hasło                                               | F-01              | FR-001, FR-002                                  | done     |
 | S-02  | first-playable-session  | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                 | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01   | done     |
 | S-03  | session-history-save    | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                               | S-02              | FR-008, US-01                                   | planned  |
-| S-04  | ux-improvements         | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop | F-01, F-02, F-03 | NFR: UI/UX                                   | planned  |
+| S-04  | ux-improvements         | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop | F-01, F-02, F-03 | NFR: UI/UX                                   | done     |
 | S-05  | account-deletion        | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)      | F-01, F-02, F-03  | FR-002, sekcja Access Control                   | planned  |
 
 ## Strumienie
@@ -162,7 +162,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 - **Niewiadome:** rozwiązane — `@dnd-kit/core` + `@dnd-kit/sortable` (9 KB, App Router compatible; `SessionView` już `'use client'`). Szczegóły: `context/changes/ux-improvements/drag-n-drop-research.md`.
 - **Ryzyko:** Gest drag vs tap na mobile — `PointerSensor` z `activationConstraint: { distance: 8 }` zapobiega przypadkowym przeciągnięciom; zweryfikować na urządzeniu dotykowym. `@dnd-kit/core` v6.3.1 (~rok bez wydania) — akceptowalne dla tego zakresu.
 - **Podejście:** 3 fazy — (1) tokeny CSS + przejścia, (2) spinner CSS, (3) DnD cross-container. Pełny plan: `context/changes/ux-improvements/plan.md`.
-- **Status:** planned
+- **Status:** done — zaimplementowane 2026-06-02 (branch `feature/account-deletion`, commity `b85ad66`–`fc18de2`; GitHub issue #22 zamknięte). Kluczowe odkrycia: Turbopack nie obsługuje compound CSS selectors (`[data-attr]` w CSS Modules) — zamiast tego klasy CSS dla wariantów spinnera; `over` jest null przy pustej SortableContext — `handleDragEnd` wywołuje `handleSelectTest` bezwarunkowo dla source=available (aktywacja 8px już filtruje przypadkowe gesty).
 
 ---
 
@@ -190,7 +190,7 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | S-01             | auth-flow               | [S-01] UI rejestracji i logowania e-mail+hasło                  | done                  | Zaimplementowane 2026-05-29; GitHub issue #10 zamknięte                        |
 | S-02             | first-playable-session  | [S-02] Pierwsza sesja diagnostyczna z walidatorem ★             | yes                   | S-01 + F-02 gotowe; gwiazda przewodnia. Opcjonalnie przed startem: dodać `drizzle-kit migrate` do `deploy.yml` (2-3 linie + sekret DATABASE_URL w GitHub) |
 | S-03             | session-history-save    | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta    | yes                   | Plan gotowy (`plan.md`); uruchom `/10x-implement session-history-save phase 1`               |
-| S-04             | ux-improvements         | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop | yes                  | Plan gotowy (`plan.md`); uruchom `/10x-implement ux-improvements phase 1`    |
+| S-04             | ux-improvements         | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop | done                 | Zaimplementowane 2026-06-02; GitHub issue #22 zamknięte                       |
 | S-05             | account-deletion        | [S-05] Usunięcie konta z 30-dniową retencją danych (RODO)       | no                   | Uruchom `/10x-research account-deletion`, następnie `/10x-plan account-deletion` |
 
 ## Otwarte pytania dotyczące mapy drogowej
@@ -220,3 +220,4 @@ Fundamenty poniżej zakładają, że te elementy są obecne i NIE tworzą ich po
 | F-02 | data-schema | 5 tabel domenowych + migracja + seed (2 scenariusze, 18 badań, 36 klasyfikacji) | 2026-05-28 | `63de06f`–`fdf0530` |
 | S-01 | auth-flow | UI logowania/rejestracji, Server Actions, globalny Nav, landing page; impl-review + triage (F1–F3) | 2026-05-29 | `49f8b1d`–`a97c82d` |
 | S-02 | first-playable-session | Scenariusze na dashboardzie, sesja z timerem, walidator inline, wynik końcowy; 6 faz (p0–p5) | 2026-06-01 | `fa1c613`–`864c21c` |
+| S-04 | ux-improvements | Tokeny CSS + przejścia, spinner CSS, cross-container DnD (@dnd-kit); 3 fazy (p1–p3) | 2026-06-02 | `b85ad66`–`fc18de2` |

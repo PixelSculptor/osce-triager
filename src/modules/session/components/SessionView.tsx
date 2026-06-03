@@ -1,11 +1,39 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
+import {
+  DndContext,
+  DragOverlay,
+  pointerWithin,
+  rectIntersection,
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  useDroppable,
+  type DragStartEvent,
+  type DragEndEvent,
+  type CollisionDetection,
+} from "@dnd-kit/core"
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable"
 import type { TestCategory, ValidatorResult } from "@/shared/lib/validator"
 import { endSessionAction, selectTestAction } from "@/modules/session/actions"
+import { Spinner } from "@/shared/components/Spinner/Spinner"
 import { TestCard } from "./TestCard"
+import { DraggableTestCard } from "./DraggableTestCard"
+import { SortableTestCard } from "./SortableTestCard"
 import styles from "./SessionView.module.css"
+
+const collisionDetection: CollisionDetection = (args) => {
+  const pointer = pointerWithin(args)
+  if (pointer.length > 0) return pointer
+  return rectIntersection(args)
+}
 
 interface OrderedTest {
   testId: string
@@ -62,7 +90,20 @@ export function SessionView({
 
   const [loadingTestId, setLoadingTestId] = useState<string | null>(null)
   const [isEnding, setIsEnding] = useState(false)
+  const [activeId, setActiveId] = useState<string | null>(null)
+  const [activeName, setActiveName] = useState<string | null>(null)
+  const [activeSource, setActiveSource] = useState<string | null>(null)
+  const [selectError, setSelectError] = useState<string | null>(null)
   const endingRef = useRef(false)
+
+  const { setNodeRef: setRightColumnRef, isOver: isOverRightColumn } = useDroppable({
+    id: "right-column",
+  })
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor)
+  )
 
   useEffect(() => {
     if (sessionState !== "in_progress") return
@@ -100,14 +141,16 @@ export function SessionView({
 
   async function handleSelectTest(testId: string, testName: string) {
     if (loadingTestId || sessionState !== "in_progress") return
+    setSelectError(null)
     setLoadingTestId(testId)
     try {
       const result = await selectTestAction(sessionId, testId)
-      const { validatorResult, category } = result
-      if (validatorResult && category) {
+      if (result.error) {
+        setSelectError(result.error)
+      } else if (result.validatorResult && result.category) {
         setOrderedTests((prev) => [
           ...prev,
-          { testId, name: testName, validatorResult, category },
+          { testId, name: testName, validatorResult: result.validatorResult!, category: result.category! },
         ])
       }
     } finally {
@@ -115,8 +158,46 @@ export function SessionView({
     }
   }
 
-  const orderedTestIds = new Set(orderedTests.map((t) => t.testId))
-  const unorderedTests = tests.filter((t) => !orderedTestIds.has(t.id))
+  function handleDragStart({ active }: DragStartEvent) {
+    setActiveId(active.id as string)
+    setActiveName(active.data.current?.name ?? null)
+    setActiveSource(active.data.current?.source ?? null)
+  }
+
+  function handleDragEnd({ active, over }: DragEndEvent) {
+    setActiveId(null)
+    setActiveName(null)
+    setActiveSource(null)
+    if (loadingTestId || sessionState !== "in_progress") return
+
+    const source = active.data.current?.source
+
+    if (source === "available") {
+      // The drag gesture itself is the selection intent — no valid droppable
+      // is needed on the right column because collision detection returns null
+      // when the right column is empty.
+      handleSelectTest(active.id as string, active.data.current?.name ?? "").catch(console.error)
+      return
+    }
+
+    // Within-right reorder: needs a valid sortable target
+    if (!over || source !== "ordered" || active.id === over.id) return
+    setOrderedTests((prev) => {
+      const oldIndex = prev.findIndex((t) => t.testId === active.id)
+      const newIndex = prev.findIndex((t) => t.testId === over.id)
+      if (oldIndex === -1 || newIndex === -1) return prev
+      return arrayMove(prev, oldIndex, newIndex)
+    })
+  }
+
+  const orderedTestIds = useMemo(
+    () => new Set(orderedTests.map((t) => t.testId)),
+    [orderedTests]
+  )
+  const unorderedTests = useMemo(
+    () => tests.filter((t) => !orderedTestIds.has(t.id)),
+    [tests, orderedTestIds]
+  )
   const minutes = Math.floor(remainingSeconds / 60)
   const seconds = remainingSeconds % 60
 
@@ -152,49 +233,73 @@ export function SessionView({
   return (
     <main className={styles.session}>
       <div className={styles.header}>
-        <span
-          className={styles.timer}
-          data-urgent={remainingSeconds < 60}
-        >
+        <span className={styles.timer} data-urgent={remainingSeconds < 60}>
           {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
         </span>
         <button
           className={styles.endButton}
           onClick={handleEndSession}
           disabled={isEnding}
+          style={isEnding ? { display: "inline-flex", alignItems: "center", gap: "0.375rem" } : undefined}
         >
-          {isEnding ? "Kończenie..." : "Zakończ sesję"}
+          {isEnding ? <><Spinner size="sm" /> Kończenie…</> : "Zakończ sesję"}
         </button>
       </div>
 
-      <div className={styles.columns}>
-        <section className={styles.column}>
-          <h2>Dostępne badania ({unorderedTests.length})</h2>
-          <div className={styles.testList}>
-            {unorderedTests.map((test) => (
-              <TestCard
-                key={test.id}
-                name={test.name}
-                onSelect={() => handleSelectTest(test.id, test.name)}
-                isLoading={loadingTestId === test.id}
-              />
-            ))}
-          </div>
-        </section>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={collisionDetection}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <div className={styles.columns}>
+          <section className={styles.column}>
+            <h2>Dostępne badania ({unorderedTests.length})</h2>
+            {selectError && <p className={styles.selectError}>{selectError}</p>}
+            <div className={styles.testList}>
+              {unorderedTests.map((test) => (
+                <DraggableTestCard
+                  key={test.id}
+                  testId={test.id}
+                  name={test.name}
+                  onSelect={() => handleSelectTest(test.id, test.name)}
+                  isLoading={loadingTestId === test.id}
+                />
+              ))}
+            </div>
+          </section>
 
-        <section className={styles.column}>
-          <h2>Zlecone badania ({orderedTests.length})</h2>
-          <div className={styles.testList}>
-            {orderedTests.map((test) => (
-              <TestCard
-                key={test.testId}
-                name={test.name}
-                validatorResult={test.validatorResult}
-              />
-            ))}
-          </div>
-        </section>
-      </div>
+          <section
+            ref={setRightColumnRef}
+            className={styles.column}
+          >
+            <h2>Zlecone badania ({orderedTests.length})</h2>
+            <div
+              className={styles.testList}
+              data-drop-target={activeSource === "available"}
+              data-is-over={isOverRightColumn && activeSource === "available"}
+            >
+              <SortableContext
+                items={orderedTests.map((t) => t.testId)}
+                strategy={verticalListSortingStrategy}
+              >
+                {orderedTests.map((test) => (
+                  <SortableTestCard
+                    key={test.testId}
+                    testId={test.testId}
+                    name={test.name}
+                    validatorResult={test.validatorResult}
+                  />
+                ))}
+              </SortableContext>
+            </div>
+          </section>
+        </div>
+
+        <DragOverlay>
+          {activeId ? <TestCard name={activeName ?? ""} /> : null}
+        </DragOverlay>
+      </DndContext>
     </main>
   )
 }

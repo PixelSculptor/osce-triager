@@ -3,9 +3,17 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1.25rem;
+  background: var(--background);
   border: 1px solid rgba(128, 128, 128, 0.4);
   border-radius: 6px;
   list-style: none;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 .title {
@@ -29,20 +37,29 @@
 
 .error {
   font-size: 0.875rem;
-  color: #dc2626;
+  color: var(--color-error);
   margin: 0;
 }
 
 .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
   align-self: flex-start;
   padding: 0.625rem 1rem;
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--color-primary);
+  color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
 }
 
 .button:disabled {

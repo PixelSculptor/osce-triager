@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { startSessionAction } from "@/modules/session/actions"
+import { Spinner } from "@/shared/components/Spinner/Spinner"
 import styles from "./ScenarioCard.module.css"
 
 interface ScenarioCardProps {
@@ -47,7 +48,7 @@ export function ScenarioCard({
         onClick={handleStart}
         disabled={loading}
       >
-        {loading ? "Ładowanie..." : "Rozpocznij sesję"}
+        {loading ? <Spinner size="sm" /> : "Rozpocznij sesję"}
       </button>
     </li>
   )
