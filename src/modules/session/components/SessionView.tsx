@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import {
   DndContext,
@@ -93,6 +93,7 @@ export function SessionView({
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeName, setActiveName] = useState<string | null>(null)
   const [activeSource, setActiveSource] = useState<string | null>(null)
+  const [selectError, setSelectError] = useState<string | null>(null)
   const endingRef = useRef(false)
 
   const { setNodeRef: setRightColumnRef, isOver: isOverRightColumn } = useDroppable({
@@ -140,14 +141,16 @@ export function SessionView({
 
   async function handleSelectTest(testId: string, testName: string) {
     if (loadingTestId || sessionState !== "in_progress") return
+    setSelectError(null)
     setLoadingTestId(testId)
     try {
       const result = await selectTestAction(sessionId, testId)
-      const { validatorResult, category } = result
-      if (validatorResult && category) {
+      if (result.error) {
+        setSelectError(result.error)
+      } else if (result.validatorResult && result.category) {
         setOrderedTests((prev) => [
           ...prev,
-          { testId, name: testName, validatorResult, category },
+          { testId, name: testName, validatorResult: result.validatorResult!, category: result.category! },
         ])
       }
     } finally {
@@ -173,7 +176,7 @@ export function SessionView({
       // The drag gesture itself is the selection intent — no valid droppable
       // is needed on the right column because collision detection returns null
       // when the right column is empty.
-      handleSelectTest(active.id as string, active.data.current?.name ?? "")
+      handleSelectTest(active.id as string, active.data.current?.name ?? "").catch(console.error)
       return
     }
 
@@ -187,8 +190,14 @@ export function SessionView({
     })
   }
 
-  const orderedTestIds = new Set(orderedTests.map((t) => t.testId))
-  const unorderedTests = tests.filter((t) => !orderedTestIds.has(t.id))
+  const orderedTestIds = useMemo(
+    () => new Set(orderedTests.map((t) => t.testId)),
+    [orderedTests]
+  )
+  const unorderedTests = useMemo(
+    () => tests.filter((t) => !orderedTestIds.has(t.id)),
+    [tests, orderedTestIds]
+  )
   const minutes = Math.floor(remainingSeconds / 60)
   const seconds = remainingSeconds % 60
 
@@ -246,6 +255,7 @@ export function SessionView({
         <div className={styles.columns}>
           <section className={styles.column}>
             <h2>Dostępne badania ({unorderedTests.length})</h2>
+            {selectError && <p className={styles.selectError}>{selectError}</p>}
             <div className={styles.testList}>
               {unorderedTests.map((test) => (
                 <DraggableTestCard

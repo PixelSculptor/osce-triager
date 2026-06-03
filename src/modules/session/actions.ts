@@ -169,10 +169,20 @@ export async function endSessionAction(
         .where(eq(sessionResults.id, sessionId))
         .limit(1)
 
+      const criticalMissEvents = await db
+        .select()
+        .from(sessionEvents)
+        .where(
+          and(
+            eq(sessionEvents.sessionId, sessionId),
+            eq(sessionEvents.validatorResult, "critical_miss")
+          )
+        )
+
       return {
         outcome: current.outcome as "positive" | "negative",
         isFailed: current.isFailed,
-        skippedCritical: [],
+        skippedCritical: criticalMissEvents.map((e) => e.testId),
       }
     }
 

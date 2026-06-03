@@ -37,7 +37,7 @@
 
 .error {
   font-size: 0.875rem;
-  color: #dc2626;
+  color: var(--color-error);
   margin: 0;
 }
 

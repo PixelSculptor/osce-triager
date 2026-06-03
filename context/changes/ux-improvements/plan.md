@@ -367,10 +367,10 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 
 #### Manual
 
-- [ ] 1.4 Landing page — primary buttons have indigo background, transition on hover
-- [ ] 1.5 `/login` — auth card has shadow; input focus shows smooth outline transition
-- [ ] 1.6 `/dashboard` — scenario cards lift on hover with shadow
-- [ ] 1.7 Session view — header shadow; test cards lift on hover; "Zleć" buttons transition
+- [x] 1.4 Landing page — primary buttons have indigo background, transition on hover — b85ad66
+- [x] 1.5 `/login` — auth card has shadow; input focus shows smooth outline transition — b85ad66
+- [x] 1.6 `/dashboard` — scenario cards lift on hover with shadow — b85ad66
+- [x] 1.7 Session view — header shadow; test cards lift on hover; "Zleć" buttons transition — b85ad66
 
 ### Phase 2: CSS Spinner
 
@@ -403,3 +403,15 @@ There are no test scripts in `package.json`. Success criteria rely on `typecheck
 - [x] 3.8 DragOverlay ghost card visible during drag — 067b164
 - [x] 3.9 Keyboard drag: Tab → Space → arrows → Space/Enter — 067b164
 - [x] 3.10 Session end/timer expiry during drag resolves cleanly — 067b164
+
+---
+
+## Unplanned Changes (discovered during implementation)
+
+Three files outside the original plan were modified. Recorded here as source-of-truth addendum (impl-review F6, 2026-06-03):
+
+| File | Change | Reason |
+|---|---|---|
+| `src/modules/session/actions.ts` | Added try/catch to `startSessionAction` and `endSessionAction`; fixed race-path `skippedCritical` to query DB instead of returning `[]` | Error handling quality improvement; race-path correctness fix |
+| `src/app/dashboard/session/[sessionId]/page.tsx` | `startedAt` prop changed from `Date` to `.toISOString()` string | Required: Next.js RSC cannot pass non-serializable `Date` objects to Client Components |
+| `src/shared/lib/validator.ts` | Added `export` to `CATEGORY_TO_RESULT` constant | Required by new DnD integration code |

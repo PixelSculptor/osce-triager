@@ -28,6 +28,7 @@ export function SortableTestCard({
   return (
     <div
       ref={setNodeRef}
+      aria-label={`Zmień kolejność: ${name}`}
       data-dragging={isDragging}
       style={{
         transform: CSS.Transform.toString(transform) ?? undefined,

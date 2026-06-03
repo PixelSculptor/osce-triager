@@ -9,7 +9,8 @@ export function Spinner({ size = "sm" }: SpinnerProps) {
     <span
       role="status"
       aria-label="Ładowanie"
-      className={size === "md" ? `${styles.spinner} ${styles.md}` : styles.spinner}
+      className={styles.spinner}
+      data-size={size}
     />
   )
 }

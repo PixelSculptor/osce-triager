@@ -48,7 +48,7 @@ export function ScenarioCard({
         onClick={handleStart}
         disabled={loading}
       >
-        {loading ? <><Spinner size="sm" /> Ładowanie…</> : "Rozpocznij sesję"}
+        {loading ? <Spinner size="sm" /> : "Rozpocznij sesję"}
       </button>
     </li>
   )

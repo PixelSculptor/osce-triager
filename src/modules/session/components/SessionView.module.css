@@ -28,12 +28,12 @@
 }
 
 .timer[data-urgent="true"] {
-  color: #dc2626;
+  color: var(--color-error);
 }
 
 .endButton {
   padding: 0.5rem 1rem;
-  background: #dc2626;
+  background: var(--color-error);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -41,6 +41,10 @@
   font-weight: 500;
   cursor: pointer;
   transition: opacity var(--transition-fast);
+}
+
+.endButton:hover:not(:disabled) {
+  background: var(--color-error-hover);
 }
 
 .endButton:disabled {
@@ -85,6 +89,12 @@
   background: var(--color-primary-muted);
 }
 
+.selectError {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem;
+}
+
 /* Result screen */
 .result {
   padding: 3rem 2rem;
@@ -100,11 +110,11 @@
 }
 
 .outcome[data-positive="true"] {
-  color: #166534;
+  color: var(--color-outcome-positive);
 }
 
 .outcome[data-positive="false"] {
-  color: #991b1b;
+  color: var(--color-outcome-negative);
 }
 
 .skipped {

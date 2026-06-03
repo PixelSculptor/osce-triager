@@ -1,6 +1,7 @@
 "use client"
 
 import { useDraggable } from "@dnd-kit/core"
+import { CSS } from "@dnd-kit/utilities"
 import { TestCard } from "./TestCard"
 import styles from "./DraggableTestCard.module.css"
 
@@ -17,14 +18,16 @@ export function DraggableTestCard({
   onSelect,
   isLoading,
 }: DraggableTestCardProps) {
-  const { attributes, listeners, setNodeRef, isDragging } =
+  const { attributes, listeners, setNodeRef, isDragging, transform } =
     useDraggable({ id: testId, data: { source: "available", name } })
 
   return (
     <div
       ref={setNodeRef}
+      aria-label={`Przeciągnij: ${name}`}
       className={styles.wrapper}
       data-dragging={isDragging}
+      style={{ transform: CSS.Transform.toString(transform) ?? undefined }}
       {...attributes}
       {...listeners}
     >
