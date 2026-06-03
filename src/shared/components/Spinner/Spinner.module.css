@@ -14,7 +14,7 @@
   animation: spin 0.7s linear infinite;
 }
 
-[data-size="md"] {
+.spinner[data-size="md"] {
   width: 20px;
   height: 20px;
 }
