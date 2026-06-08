@@ -65,7 +65,7 @@ orchestrator updates Status as artifacts appear on disk.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|------------|-----------------|---------------|------------|--------|---------------|
-| 1 | Runner bootstrap + validator unit tests | Install vitest; prove first test passes; unit-test validator classification logic with fixture data | #1 | unit, integration | planned | context/changes/testing-runner-bootstrap |
+| 1 | Runner bootstrap + validator unit tests | Install vitest; prove first test passes; unit-test validator classification logic with fixture data | #1 | unit, integration | complete | context/changes/testing-runner-bootstrap |
 | 2 | Data isolation + session persistence | Integration tests for userId-scoped queries + session write round-trip against real DB | #2, #3 | integration (DB) | not started | — |
 | 3 | Auth boundary gate | Prove middleware blocks unauthenticated access to all protected routes | #6 | integration, lightweight e2e | not started | — |
 | 4 | Session UI regression baseline | Component interaction test for DnD drag on first/last item; validator feedback display in SessionView | #4 | component interaction | not started | — |
@@ -80,7 +80,7 @@ React 19 + Cloudflare Workers runtime before committing.
 
 | Layer | Tool | Version | Notes |
 |-------|------|---------|-------|
-| unit + integration | Vitest | none yet — see §3 Phase 1 | ESM-native, TypeScript-first hypothesis for this stack. Confirm Next.js 16 + Cloudflare Workers compat in Phase 1 research. |
+| unit + integration | Vitest | ^3.2.6 (installed) | ESM-native, TypeScript-first. Compatible with Next.js 16 + Cloudflare Workers for Node.js environment tests. See §6.1 for patterns. |
 | component interaction | @testing-library/react + jsdom | none yet — see §3 Phase 4 | For SessionView/DnD interaction tests. Pointer event support for @dnd-kit must be verified. |
 | integration (DB) | Vitest + real Supabase test schema | none yet — see §3 Phase 2 | Do not mock Drizzle ORM — mocks hide the persistence guarantee (Risk #3 anti-pattern). |
 | auth middleware | Vitest + fetch mock or Playwright | none yet — see §3 Phase 3 | Cloudflare Workers Edge runtime may require miniflare or Playwright for accurate middleware testing. Verify in Phase 3 research. |

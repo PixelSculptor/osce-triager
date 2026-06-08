@@ -332,12 +332,12 @@ Test cases:
 
 #### Automated
 
-- [x] 3.1 `npm run test` passes all integration tests when `DATABASE_URL_TEST` is set
-- [x] 3.2 `npm run test` skips integration suite and exits 0 when `DATABASE_URL_TEST` is unset
-- [x] 3.3 `npm run typecheck` passes
+- [x] 3.1 `npm run test` passes all integration tests when `DATABASE_URL_TEST` is set — 1e9cef2
+- [x] 3.2 `npm run test` skips integration suite and exits 0 when `DATABASE_URL_TEST` is unset — 1e9cef2
+- [x] 3.3 `npm run typecheck` passes — 1e9cef2
 
 #### Manual
 
-- [x] 3.4 Happy-path: `selectTestAction` returns `{ validatorResult: 'correct', category: 'critical' }` against test schema
-- [x] 3.5 Guard-path: unknown testId returns `{ error: 'Test not in scenario' }`, not silent `"unnecessary"`
-- [x] 3.6 §6.1 cookbook entry in `test-plan.md` is filled in
+- [x] 3.4 Happy-path: `selectTestAction` returns `{ validatorResult: 'correct', category: 'critical' }` against test schema — 1e9cef2
+- [x] 3.5 Guard-path: unknown testId returns `{ error: 'Test not in scenario' }`, not silent `"unnecessary"` — 1e9cef2
+- [x] 3.6 §6.1 cookbook entry in `test-plan.md` is filled in — 1e9cef2
