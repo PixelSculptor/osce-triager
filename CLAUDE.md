@@ -1,52 +1,89 @@
 <!-- BEGIN @przeprogramowani/10x-cli -->
 
-## 10xDevs AI Toolkit - Moduł 2, Lekcja 4
+## Zestaw narzędzi AI 10xDevs — Moduł 3, Lekcja 1
 
-Przygotuj się na trudniejszy strumień implementacji z **łańcuchem planowania opartym na badaniach**:
+Rozpocznij Moduł 3, tworząc **trwałą umowę jakościową opartą na ryzyku** przed napisaniem jakiegokolwiek testu — a następnie przeprowadzaj każdą fazę wdrożenia przez standardowy łańcuch zmian.
 
 ```
-badania wewnętrzne (/10x-research) + badania zewnętrzne (exa.ai, Context7) -> /10x-plan -> /10x-implement -> sukces
+PRD + roadmap + archive
+        │
+        ▼
+   /10x-test-plan  ──►  context/foundation/test-plan.md  (strategia §1–§5 zamrożona + cookbook §6 rośnie)
+        │
+        ▼  (jedna faza wdrożenia na raz, /clear między przekazaniami)
+   /10x-new ──► /10x-research ──► /10x-plan ──► /10x-implement
 ```
 
-Lekcja koncentruje się na rozróżnianiu badań wewnętrznych od zewnętrznych oraz wykorzystywaniu dowodów do wspierania decyzji planistycznych.
+`/10x-test-plan` to **stanowy orkiestrator**, a nie jednorazowy generator. Przy pierwszym uruchomieniu zapisuje fazowe wdrożenie do `context/foundation/test-plan.md`. Przy każdym kolejnym uruchomieniu ponownie wyprowadza stan z artefaktów na dysku i przedstawia następne przekazanie. Lekcja koncentruje się na **strategii i sekwencjonowaniu wdrożenia, a nie na konfiguracji**. Hooki, serwery MCP i YAML CI są konfigurowane w późniejszych lekcjach tego modułu.
 
-### Router zadań - Od czego zacząć
+### Router zadań — Od czego zacząć
 
 | Umiejętność | Kiedy jej używać |
 | --- | --- |
-| **Badania wewnętrzne (fokus lekcji)** | |
-| `/10x-research <change-id>` | Potrzebujesz dowodów z istniejącej bazy kodu — wzorców, konwencji, punktów integracji lub istniejących implementacji. Uruchamia równoległe sub-agenty w repozytorium i zapisuje ustrukturyzowane wyniki do `research.md`. |
-| **Badania zewnętrzne (fokus lekcji)** | |
-| exa.ai | Potrzebujesz natywnego dla AI wyszukiwania w sieci w celu porównania bibliotek, najlepszych praktyk lub kontekstu ekosystemu, na które baza kodu nie może odpowiedzieć. |
-| Context7 (`resolve-library-id` → `get-library-docs`) | Potrzebujesz aktualnej dokumentacji na żywo dla konkretnej biblioteki lub frameworka. Najpierw rozwiązuje ID biblioteki, a następnie pobiera odpowiednie strony dokumentacji. |
-| **Koło zapasowe do ramowania** | |
-| `/10x-frame <change-id>` | Plan nie zbiega się, plan nie przynosi oczekiwanych rezultatów, lub uporczywe odchylenia ciągle psują implementację. Użyj jako wyjścia awaryjnego dla oddzielnego problemu (zademonstrowane na przykładzie Space Explorers), a nie jako rytuału przed badaniami. |
-| **Planowanie i wykonanie** | |
-| `/10x-plan <change-id>` / `/10x-implement <change-id> phase <n>` | Użyj tego samego łańcucha planowania i wykonania z Lekcji 2, teraz z dowodami z badań wstępnych zasilającymi plan. |
+| **Strategia jakości jako plik reguł (fokus lekcji)** | |
+| `/10x-test-plan` | Masz PRD (i idealnie roadmapę oraz kilka zarchiwizowanych fragmentów) i zamierzasz napisać pierwsze testy projektu, lub zauważyłeś, że testy generowane przez AI lądują na pomocnikach, podczas gdy krytyczne przepływy pozostają niepokryte. Pierwsze wywołanie uruchamia odkrywanie (PRD + roadmap + archive + skan gorących punktów), 5-pytaniowy wywiad z użytkownikiem i pas syntezy z obowiązkową kontrolą challengera, a następnie zapisuje `test-plan.md` w `context/foundation/` z mapą ryzyka (5–7 scenariuszy awarii), tabelą fazowego wdrożenia, tabelą stosu, tabelą bramek jakości, sekcją cookbook (`§6`, wypełnia się w miarę wysyłania faz) i sekcją negatywnej przestrzeni (czego celowo nie testujemy). Kolejne wywołania posuwają wdrożenie o jedno przekazanie na raz. |
+| `/10x-test-plan --status` | `test-plan.md` już istnieje i chcesz uzyskać kompaktową migawkę stanu wdrożenia — które fazy są `not started`, `change opened`, `researched`, `planned`, `implementing` lub `complete`, i jakie jest następne działanie. Nie wykonuje żadnej pracy; bezpieczne do uruchomienia w dowolnym momencie. |
+| `/10x-test-plan --refresh` | `test-plan.md` już istnieje i jedno z: nowe ryzyko z top-3 pojawiło się z roadmapy lub archiwum, data `checked:` narzędzia jest starsza niż trzy miesiące, stos technologiczny projektu się zmienił, lub §7 negatywnej przestrzeni nie odpowiada już temu, w co wierzy zespół. Otwiera nowy folder zmian `test-plan-refresh-<RRRR-MM-DD>` zamiast edytować przewodnik na miejscu. |
 
-### Dyscyplina badawcza
+### Łańcuch wdrożenia — co dzieje się po napisaniu przewodnika
 
-- Badania wewnętrzne (`/10x-research`) odpowiadają na pytanie "co już robi nasza baza kodu?" — wzorce, schematy, konwencje, punkty integracji.
-- Badania zewnętrzne (exa.ai, Context7) odpowiadają na pytanie "co powinniśmy zrobić?" — możliwości bibliotek, dokumentacja API, najlepsze praktyki ekosystemu.
-- Połącz oba jako dowodowy wkład do `/10x-plan`. Plan bez dowodów z badań w przypadku nietrywialnego strumienia jest zgadywaniem.
-- Dokumentacja przyjazna agentom (`llms.txt`, markdown-for-agents, `/md` endpoints) jest sygnałem jakości przy wyborze bibliotek — biblioteki, które publikują dokumentację czytelną dla agentów, integrują się szybciej.
+Tabela §3 *Phased Rollout* przewodnika jest stanem orkiestratora. Dla każdego wiersza innego niż `complete` orkiestrator wybiera następne przekazanie na podstawie tego, które artefakty istnieją w `context/changes/<change-id>/`:
 
-### `/10x-frame` jako koło zapasowe
+| Stan na dysku | Następne przekazanie | Status zmienia się na |
+| --- | --- | --- |
+| brak folderu zmian | `/10x-new <change-id>` | `change opened` |
+| tylko `change.md` | `/10x-research` (z krótkim opisem ryzyk do zweryfikowania) | `researched` |
+| `+ research.md` | `/10x-plan` (z ograniczeniami koszt × sygnał + aktualizacja cookbook) | `planned` |
+| `+ plan.md` z oczekującymi elementami `## Progress` | `/10x-implement <change-id> phase <N>` | `implementing` / `complete` |
+| `+ plan.md` w pełni `[x]` | Oznacz wiersz §3 jako `complete`; przejdź do następnego oczekującego wiersza | — |
 
-Trzy wyzwalacze do sięgnięcia po `/10x-frame`:
-1. Plan nie zbiega się — badania ciągle otwierają więcej pytań zamiast zawężać się do kontraktu.
-2. Plan nie przynosi rezultatów — implementacja wielokrotnie nie spełnia kryteriów sukcesu.
-3. Uporczywe odchylenia — implementacja ciągle odbiega od planu w sposób sugerujący, że problem został źle sformułowany.
+Każde przekazanie jest **punktem STOP**. Orkiestrator kopiuje następne polecenie do schowka, prosi użytkownika o `/clear` i uruchomienie go, a następnie kończy działanie. Ponownie wywołaj `/10x-test-plan` (bez argumentów), aby przejść dalej.
 
-Zademonstrowane na przykładzie Space Explorers, a nie na ścieżce SRS. Jest to wyjście awaryjne, a nie obowiązkowy krok.
+### Reguły priorytetyzacji opartej na ryzyku
+
+- Ryzyka to **scenariusze awarii w kategoriach użytkownika / biznesowych**, a nie nazwy testów. „Wylogowany użytkownik uzyskuje dostęp do płatnych treści za pomocą nieaktualnego tokena” to ryzyko; „testowanie formularza logowania” nie jest.
+- Od 5 do 7 ryzyk. Mniej jest zbyt ogólne; więcej sprawia, że priorytetyzacja jest bezużyteczna.
+- Wpływ i prawdopodobieństwo to oceny użytkownika/biznesu, a nie złożoność techniczna.
+- Każde ryzyko ma swoje źródło: sekcja PRD, zarchiwizowany fragment, wpis w roadmapie, pytanie z wywiadu fazy 2, **katalog** gorących punktów z liczbą zmian, lub ograniczenie stosu technologicznego. Brak wymyślonych ryzyk.
+- **Sygnał, nie wiedza.** §2 cytuje *dowody, które podniosły ryzyko*, nigdy plik jako „miejsce, w którym występuje awaria”. Kotwice plik:linia, nazwy funkcji, nazwy schematów i nazwy modułów są zabronione w §2 — należą do danych wyjściowych `/10x-research`, generowanych dla każdej fazy wdrożenia w stosunku do bieżącego kodu. Plan jest specyfikacją QA; nie jest audytem kodu.
+- Pokrycie nie jest metryką. **Pokrycie ryzyka** jest metryką.
+
+### Reguły mapowania dwuwarstwowego
+
+- Najpierw warstwa klasyczna: wygrywa najtańszy test, który daje prawdziwy sygnał. Promuj do e2e tylko wtedy, gdy żadna tańsza warstwa nie pokrywa ryzyka.
+- Druga warstwa natywna dla AI, i tylko tam, gdzie dodaje sygnał, którego klasyczne testy nie dają tanio.
+- Każdy wiersz natywny dla AI ma wiersz **„Kiedy NIE używać”**. Jeśli nie możesz go napisać, usuń wiersz.
+- Każda nazwa narzędzia zawiera datę `checked: <RRRR-MM-DD>`. Nazwy narzędzi są przykładami kategorii, a nie rekomendacjami.
+- Obie warstwy muszą być niepuste w ostatecznym przewodniku, jeśli projekt tego wymaga. Tylko klasyczna to plan z 2020 roku; tylko natywna dla AI to szum. Fazy natywne dla AI nie są obowiązkowe — uwzględnij je tylko wtedy, gdy brief uzasadniał je pod względem kosztu × sygnału.
+
+### Reguły bramek jakości
+
+- Wymagane bramki (lint, typecheck, unit+integration, e2e na krytycznych przepływach) muszą odpowiadać rzeczywistym krokom CI. Jeśli wymagana bramka nie jest jeszcze podłączona, oznacz ją jako `required after §3 Phase <N>` i pozwól nazwanej fazie wdrożenia ją podłączyć.
+- Hook post-edycji jest **zalecany lokalnie**, a nie jako substytut CI.
+- Wielomodalny przegląd wizualny jest **selektywny**, stosowany do 1–3 krytycznych ekranów, a nie do każdej strony.
+- Awaryjne rozwiązanie oparte na wizji (Anthropic Computer Use lub OpenAI CUA) jest zarezerwowane dla powierzchni niedostępnych z DOM; kosztowne na akcję.
+
+### Wzorce Cookbook (§6) — wypełnia się z czasem
+
+`test-plan.md` to zarówno fazowa strategia, jak i **rosnący cookbook**. §6 zaczyna się jako miejsca docelowe (`TBD — zobacz §3 Faza <N>`) i wypełnia się stopniowo — plan każdej fazy wdrożenia kończy się podfazą, która aktualizuje odpowiedni wpis w §6 (lokalizacja, nazewnictwo, test referencyjny, polecenie uruchomienia). Po zakończeniu Modułu 3, §6 staje się kanoniczną odpowiedzią na pytanie „jak dodać test dla X w tym projekcie?” — i to, co `/10x-tdd` czyta w Lekcji 2.
+
+### Granice lekcji
+
+- Nie pisz kodu testowego. To jest Lekcja 2 (`/10x-tdd` i tworzenie testów jednostkowych).
+- Nie konfiguruj hooków, cyklu życia hooków ani hooków debugowania. To jest Lekcja 3.
+- Nie konfiguruj serwerów MCP, API Playwright, kodu e2e ani kodu scenariuszy wielomodalnych. To jest Lekcja 4.
+- Nie uruchamiaj przepływu pracy od błędu do poprawki do testu regresji. To jest Lekcja 5.
+- Nie twórz potoków CI/CD od podstaw ani nie pisz YAML GitHub Actions. Przewodnik nazywa bramki; konfiguracja jest własnością Modułu 1 Lekcji 5 i Modułu 2 Lekcji 5.
+- Nie testuj modeli wielomodalnych. Cytuj kryteria (koszt, opóźnienie, przyjazność dla agenta), nigdy ranking.
+- Nie czytaj bazy kodu w celu uzyskania wiedzy (grafy wywołań, schematy, „który plik jest właścicielem tej awarii”). To jest zadanie `/10x-research`, dla każdej fazy wdrożenia.
 
 ### Ścieżki używane w tej lekcji
 
-- `context/changes/<change-id>/research.md` - wynik badań wewnętrznych
-- `context/changes/<change-id>/frame.md` - wynik ramowania, gdy jest potrzebny
-- `context/changes/<change-id>/plan.md` - kontrakt implementacyjny oparty na dowodach
-- `context/foundation/lessons.md` - powtarzające się zasady i pułapki
-
-Umiejętności nie mogą zapisywać do `context/archive/`. Zarchiwizowane zmiany są niezmienne; jeśli rozwiązana ścieżka docelowa zaczyna się od `context/archive/`, przerwij z komunikatem: "Ta zmiana jest zarchiwizowana. Zamiast tego otwórz nową zmianę za pomocą `/10x-new`."
+- `context/foundation/test-plan.md` — umowa jakościowa tworzona i utrzymywana przez `/10x-test-plan`
+- `context/foundation/prd.md` — główne źródło ryzyka
+- `context/foundation/roadmap.md` — ważenie prawdopodobieństwa
+- `context/foundation/tech-stack.md` — dane wejściowe stosu (jeśli są obecne)
+- `context/archive/<change-id>/plan.md` — zaimplementowana powierzchnia ryzyka
+- `context/changes/<change-id>/` — folder zmian dla każdej fazy wdrożenia (jeden na wiersz w §3)
 
 <!-- END @przeprogramowani/10x-cli -->
