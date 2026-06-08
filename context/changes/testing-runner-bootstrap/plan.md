@@ -321,23 +321,23 @@ Test cases:
 
 #### Automated
 
-- [x] 2.1 `npm run test` passes all validator unit tests
-- [x] 2.2 `npm run typecheck` passes
+- [x] 2.1 `npm run test` passes all validator unit tests — 17c11cc
+- [x] 2.2 `npm run typecheck` passes — 17c11cc
 
 #### Manual
 
-- [x] 2.3 Each test description reads as a classification-spec sentence, not code
+- [x] 2.3 Each test description reads as a classification-spec sentence, not code — 17c11cc
 
 ### Phase 3: selectTestAction Integration Test
 
 #### Automated
 
-- [ ] 3.1 `npm run test` passes all integration tests when `DATABASE_URL_TEST` is set
-- [ ] 3.2 `npm run test` skips integration suite and exits 0 when `DATABASE_URL_TEST` is unset
-- [ ] 3.3 `npm run typecheck` passes
+- [x] 3.1 `npm run test` passes all integration tests when `DATABASE_URL_TEST` is set
+- [x] 3.2 `npm run test` skips integration suite and exits 0 when `DATABASE_URL_TEST` is unset
+- [x] 3.3 `npm run typecheck` passes
 
 #### Manual
 
-- [ ] 3.4 Happy-path: `selectTestAction` returns `{ validatorResult: 'correct', category: 'critical' }` against test schema
-- [ ] 3.5 Guard-path: unknown testId returns `{ error: 'Test not in scenario' }`, not silent `"unnecessary"`
-- [ ] 3.6 §6.1 cookbook entry in `test-plan.md` is filled in
+- [x] 3.4 Happy-path: `selectTestAction` returns `{ validatorResult: 'correct', category: 'critical' }` against test schema
+- [x] 3.5 Guard-path: unknown testId returns `{ error: 'Test not in scenario' }`, not silent `"unnecessary"`
+- [x] 3.6 §6.1 cookbook entry in `test-plan.md` is filled in

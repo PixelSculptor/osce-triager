@@ -111,7 +111,19 @@ the relevant rollout phase ships.
 
 ### 6.1 Adding a unit test (validator logic)
 
-TBD — see §3 Phase 1 for the validator classification pattern and denial/regression oracle.
+**Locations**
+- Unit tests: `src/shared/lib/validator.test.ts`
+- Integration tests: `src/modules/session/actions.test.ts`
+
+**Naming convention**: Test descriptions in sentence form — `'critical test returns correct'` not `'validates critical category'`.
+
+**Oracle rule**: Expected `validatorResult` comes from plain English classification semantics ("critical test must return 'correct'"). Never derive expected values from `CATEGORY_TO_RESULT` in the test — that is a mirror-implementation oracle.
+
+**Run command**: `npm run test`
+
+**Integration test prerequisite**: Set `DATABASE_URL_TEST` in `.env.test` (see `.env.test.example`). Apply schema once: `DATABASE_URL=<test-url> npx drizzle-kit push`.
+
+**Anti-pattern**: Testing only the happy path (`validateTestSelection` with a known classification) without covering the silent-default case (`validateTestSelection('id', {})` returns `"unnecessary"` with no error — protection relies on the `actions.ts:92` guard in the caller).
 
 ### 6.2 Adding an integration test (DB query with userId scoping)
 
