@@ -309,24 +309,24 @@ Test cases:
 
 #### Automated
 
-- [x] 1.1 `npm run test` exits 0 with 1 passing smoke test
-- [x] 1.2 `npm run typecheck` passes
-- [x] 1.3 `npm run lint` passes
+- [x] 1.1 `npm run test` exits 0 with 1 passing smoke test — dcae4af
+- [x] 1.2 `npm run typecheck` passes — dcae4af
+- [x] 1.3 `npm run lint` passes — dcae4af
 
 #### Manual
 
-- [x] 1.4 `npm run test:watch` starts without error
+- [x] 1.4 `npm run test:watch` starts without error — dcae4af
 
 ### Phase 2: Validator Unit Tests
 
 #### Automated
 
-- [ ] 2.1 `npm run test` passes all validator unit tests
-- [ ] 2.2 `npm run typecheck` passes
+- [x] 2.1 `npm run test` passes all validator unit tests
+- [x] 2.2 `npm run typecheck` passes
 
 #### Manual
 
-- [ ] 2.3 Each test description reads as a classification-spec sentence, not code
+- [x] 2.3 Each test description reads as a classification-spec sentence, not code
 
 ### Phase 3: selectTestAction Integration Test
 
