@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build:worker": "opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
@@ -41,6 +43,7 @@
     "supabase": "^2.101.0",
     "tsx": "^4.22.3",
     "typescript": "^5",
+    "vitest": "^3.2.6",
     "wrangler": "^4.94.0"
   }
 }

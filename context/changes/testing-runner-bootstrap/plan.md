@@ -309,13 +309,13 @@ Test cases:
 
 #### Automated
 
-- [ ] 1.1 `npm run test` exits 0 with 1 passing smoke test
-- [ ] 1.2 `npm run typecheck` passes
-- [ ] 1.3 `npm run lint` passes
+- [x] 1.1 `npm run test` exits 0 with 1 passing smoke test
+- [x] 1.2 `npm run typecheck` passes
+- [x] 1.3 `npm run lint` passes
 
 #### Manual
 
-- [ ] 1.4 `npm run test:watch` starts without error
+- [x] 1.4 `npm run test:watch` starts without error
 
 ### Phase 2: Validator Unit Tests
 

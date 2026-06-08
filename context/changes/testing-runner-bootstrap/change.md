@@ -1,7 +1,7 @@
 ---
 change_id: testing-runner-bootstrap
 title: Testing runner bootstrap
-status: planned
+status: implementing
 created: 2026-06-08
 updated: 2026-06-08
 archived_at: null
