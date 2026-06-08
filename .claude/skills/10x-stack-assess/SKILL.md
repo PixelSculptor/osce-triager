@@ -1,16 +1,11 @@
 ---
 name: 10x-stack-assess
 description: >
-  Assess an existing project's stack for agent-friendliness using the 4 quality
-  gates (typed, convention-based, popular in training data, well-documented) as
-  an evaluation lens. Detects stack components from cwd, scores each against the
-  gates, identifies compensation strategies for failures, and writes
-  context/foundation/stack-assessment.md with per-component scores, gap analysis,
-  and ready-to-paste CLAUDE.md/AGENTS.md entries. Use when the user has an
-  existing project and wants to evaluate how well their stack supports AI agent
-  workflows. Trigger phrases: "assess my stack", "evaluate my project",
-  "is my stack agent-friendly", "oceń mój stack", "sprawdź projekt",
-  "stack assessment", "brownfield assessment".
+  Assess an existing project's stack for agent-friendliness against the 4
+  quality gates (typed, convention-based, popular, well-documented); writes
+  context/foundation/stack-assessment.md with per-component scores, gaps, and
+  ready-to-paste CLAUDE.md/AGENTS.md entries. Trigger phrases: "assess my
+  stack", "is my stack agent-friendly", "oceń mój stack", "stack assessment".
   Use AFTER /10x-prd (brownfield), BEFORE /10x-health-check.
 argument-hint: "[path-to-prd]"
 allowed-tools:
@@ -22,21 +17,21 @@ allowed-tools:
   - TaskUpdate
 ---
 
-# Ocena stosu: Oceń istniejący stos pod kątem przyjazności dla agentów
+# Ocena Stosu: Oceń Istniejący Stos pod kątem Przyjazności dla Agentów
 
-Ta umiejętność jest odpowiednikiem brownfield dla `/10x-tech-stack-selector`. Podczas gdy tech-stack-selector pomaga użytkownikom greenfield **wybrać** stos, stack-assess pomaga użytkownikom brownfield **ocenić** ich stos. Wykorzystuje te same cztery bramki jakości przyjazne dla agentów (`references/agent-friendly-criteria.md`), ale stosuje je jako soczewkę oceny, a nie filtr wyboru.
+Ta umiejętność jest odpowiednikiem `/10x-tech-stack-selector` dla projektów typu brownfield. Tam, gdzie tech-stack-selector pomaga użytkownikom greenfield **wybrać** stos, stack-assess pomaga użytkownikom brownfield **ocenić** ich stos. Wykorzystuje te same cztery bramki jakości przyjazne agentom (`references/agent-friendly-criteria.md`), ale stosuje je jako soczewkę oceny, a nie filtr wyboru.
 
 Umiejętność ta znajduje się w łańcuchu brownfield: `/10x-shape → /10x-prd → /10x-stack-assess → /10x-health-check`. Jej jedyne zadanie: ocenić istniejący stos pod kątem bramek jakości i stworzyć ustrukturyzowaną ocenę z konkretnymi strategiami kompensacji.
 
-Podstawową wartością brownfield jest **ścieżka kompensacji** — gdy bramka zawiedzie, umiejętność nie zaleca wymiany stosu. Dokumentuje, co należy dodać do plików instrukcji (CLAUDE.md / AGENTS.md), aby agent mógł skutecznie działać pomimo luki.
+Podstawową wartością dla projektów brownfield jest **ścieżka kompensacji** — gdy bramka zawiedzie, umiejętność nie zaleca wymiany stosu. Dokumentuje, co należy dodać do plików instrukcji (CLAUDE.md / AGENTS.md), aby agent mógł skutecznie działać pomimo luki.
 
 ## Kiedy używać, kiedy pominąć
 
-**Użyj, gdy**: użytkownik ma istniejący projekt i chce ocenić, jak dobrze jego stos wspiera przepływy pracy agentów AI. Katalog projektu powinien zawierać rozpoznawalne znaczniki projektu (`package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `Gemfile`, `composer.json`, `*.csproj`, `pubspec.yaml`). Opcjonalnie, `context/foundation/prd.md` (brownfield) istnieje — jeśli jest obecny, umiejętność używa go do kontekstualizacji oceny (np. które komponenty są w zakresie zmian).
+**Użyj, gdy**: użytkownik ma istniejący projekt i chce ocenić, jak dobrze jego stos wspiera przepływy pracy agentów AI. Katalog projektu powinien zawierać rozpoznawalne znaczniki projektu (`package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `Gemfile`, `composer.json`, `*.csproj`, `pubspec.yaml`). Opcjonalnie, `context/foundation/prd.md` (brownfield) istnieje — jeśli jest obecny, umiejętność wykorzystuje go do kontekstualizacji oceny (np. które komponenty są w zakresie zmian).
 
 **Pomiń, gdy**: użytkownik rozpoczyna nowy projekt od zera — przekieruj do `/10x-tech-stack-selector`. Pomiń również, gdy użytkownik chce tylko audytu zależności lub skanowania bezpieczeństwa bez ram bramek jakości — to jest obszar `/10x-health-check`.
 
-## Związek z innymi umiejętnościami
+## Relacje z innymi umiejętnościami
 
 - `/10x-shape` — upstream. Tworzy `shape-notes.md` z `context_type: brownfield`.
 - `/10x-prd` — upstream. Tworzy `context/foundation/prd.md` (szablon brownfield). Opcjonalne wejście — umiejętność może działać bez PRD.
@@ -46,18 +41,18 @@ Podstawową wartością brownfield jest **ścieżka kompensacji** — gdy bramka
 ## Wymagane dane wejściowe
 
 1. Istniejąca baza kodu w bieżącym katalogu z co najmniej jednym rozpoznawalnym znacznikiem projektu.
-2. `references/agent-friendly-criteria.md` — w pakiecie. Cztery bramki jakości i ścieżka kompensacji.
+2. `references/agent-friendly-criteria.md` — dołączone. Cztery bramki jakości i ścieżka kompensacji.
 
 ## Opcjonalne dane wejściowe
 
-1. `context/foundation/prd.md` — jeśli jest obecny i ma `context_type: brownfield`, umiejętność używa `## Scope of Change` i `## Current System Overview` z PRD, aby skupić ocenę na odpowiednich komponentach stosu.
+1. `context/foundation/prd.md` — jeśli jest obecny i ma `context_type: brownfield`, umiejętność wykorzystuje `## Scope of Change` i `## Current System Overview` z PRD, aby skupić ocenę na odpowiednich komponentach stosu.
 
 ## Początkowa odpowiedź
 
 Gdy ta umiejętność zostanie wywołana:
 
-1. **Jeśli podano argument ścieżki** (np. `/10x-stack-assess @context/foundation/prd.md`), usuń wiodące `@`, jeśli jest obecne, i użyj ścieżki jako lokalizacji PRD dla tego uruchomienia. PRD jest opcjonalnym kontekstem, a nie warunkiem wstępnym — umiejętność działa bez niego.
-2. **Jeśli nie podano argumentu**, sprawdź `context/foundation/prd.md`. Jeśli jest obecny i ma `context_type: brownfield`, załaduj go dla kontekstu. Jeśli nieobecny, kontynuuj bez kontekstu PRD.
+1. **Jeśli podano argument ścieżki** (np. `/10x-stack-assess @context/foundation/prd.md`), usuń początkowe `@` jeśli jest obecne i użyj ścieżki jako lokalizacji PRD dla tego uruchomienia. PRD jest opcjonalnym kontekstem, a nie warunkiem wstępnym — umiejętność działa bez niego.
+2. **Jeśli nie podano argumentu**, sprawdź `context/foundation/prd.md`. Jeśli jest obecny i ma `context_type: brownfield`, załaduj go dla kontekstu. Jeśli brak, kontynuuj bez kontekstu PRD.
 
 ## Przepływ pracy
 
@@ -82,7 +77,7 @@ Jeśli znaleziono znaczniki, przejdź do Kroku 1.
 
 ### Krok 1 — Wykryj komponenty stosu
 
-Odczytaj pliki projektu, aby zidentyfikować stos. Wykrywanie jest oparte na plikach — odczytaj to, co jest na dysku, nie zgaduj.
+Przeczytaj pliki projektu, aby zidentyfikować stos. Wykrywanie jest oparte na plikach — czytaj to, co jest na dysku, nie zgaduj.
 
 **Źródła wykrywania według rodziny języków:**
 
@@ -136,7 +131,7 @@ Jeśli "Correct something": zapytaj, który komponent poprawić, zastosuj nadpis
 
 Załaduj `references/agent-friendly-criteria.md`.
 
-Dla każdego wykrytego komponentu (język, framework, narzędzie do budowania, runner testów) oceń pod kątem czterech bramek. Ocena jest na poziomie komponentu, a nie projektu — projekt może mieć język z typowaniem, ale framework nieoparty na konwencjach.
+Dla każdego wykrytego komponentu (język, framework, narzędzie do budowania, runner testów) oceń pod kątem czterech bramek. Ocena jest na poziomie komponentu, a nie projektu — projekt może mieć język typowany, ale framework nieoparty na konwencjach.
 
 **Zasady oceniania:**
 
@@ -150,15 +145,15 @@ Dla każdego wykrytego komponentu (język, framework, narzędzie do budowania, r
 
 - **Zaliczone**: framework ma silne opinie na temat układu folderów, routingu, konfiguracji (Next.js App Router, Rails, Django, Spring Boot, Astro, Angular, Laravel, .NET).
 - **Niezaliczone**: framework jest minimalistyczny/nieopiniotwórczy, a projekt nie ma udokumentowanych konwencji (Express, Koa, Flask bez blueprintów, Sinatra, czysty Vite + React).
-- **Częściowo zaliczone**: minimalistyczny framework, ALE projekt ma udokumentowane konwencje w plikach instrukcji (CLAUDE.md, AGENTS.md) lub widoczny dokument konwencji. Ocena jako zaliczone z uwagą.
+- **Częściowo zaliczone**: minimalistyczny framework, ALE projekt ma udokumentowane konwencje w plikach instrukcji (CLAUDE.md, AGENTS.md) lub widoczny dokument konwencji. Oceń jako zaliczone z uwagą.
 - **Dowód**: podaj siłę konwencji frameworka lub jej brak.
 
 #### Bramka 3: Popularny w danych treningowych
 
 - **Ocena dla rodziny języków** (kluczowa — patrz `references/agent-friendly-criteria.md`). Oceniaj w ramach rodziny języków, a nie globalnie.
 - **Zaliczone**: framework jest głównym wyborem w swoim ekosystemie językowym (React, Next.js, Vue, Angular w JS; Django, FastAPI, Flask w Pythonie; Rails w Ruby; Spring w Javie; Laravel w PHP; .NET w C#; Flutter w Dart).
-- **Niezaliczone**: niszowy lub bardzo nowy framework z ograniczonymi danymi treningowymi w ramach własnej rodziny języków.
-- **Dowód**: nazwij framework i jego pozycję w ekosystemie językowym.
+- **Niezaliczone**: niszowy lub bardzo nowy framework z ograniczonymi danymi treningowymi w swojej rodzinie języków.
+- **Dowód**: podaj nazwę frameworka i jego pozycję w ekosystemie językowym.
 
 #### Bramka 4: Dobrze udokumentowany
 
@@ -189,9 +184,9 @@ Dla każdej niezaliczonej bramki, stwórz konkretną strategię kompensacji. Kom
 
 **Typowany: niezaliczone** →
 - Dodaj konwencję jawnych adnotacji typów do CLAUDE.md ("Cały nowy kod musi zawierać adnotacje typów na granicach funkcji")
-- Dodaj regułę walidacji na granicach ("Użyj Zod/Pydantic/JSON Schema na granicach API")
+- Dodaj zasadę walidacji na granicach ("Użyj Zod/Pydantic/JSON Schema na granicach API")
 - Jeśli Python: dodaj rekomendację konfiguracji mypy
-- Jeśli JS: dodaj ścieżkę migracji TypeScript lub podpowiedzi typów JSDoc
+- Jeśli JS: dodaj ścieżkę migracji do TypeScript lub podpowiedzi typów JSDoc
 
 **Oparty na konwencjach: niezaliczone** →
 - Udokumentuj konwencje struktury folderów w CLAUDE.md ("Trasy znajdują się w src/routes/, middleware w src/middleware/, ...")
@@ -201,8 +196,8 @@ Dla każdej niezaliczonej bramki, stwórz konkretną strategię kompensacji. Kom
 
 **Popularny w danych treningowych: niezaliczone** →
 - Dodaj przykłady idiomów specyficznych dla frameworka do CLAUDE.md
-- Podlinkuj do oficjalnej dokumentacji w pliku instrukcji
-- Dodaj reguły "preferuj wzorzec X zamiast Y" dla wyborów specyficznych dla frameworka
+- Link do oficjalnej dokumentacji w pliku instrukcji
+- Dodaj zasady "preferuj wzorzec X zamiast Y" dla wyborów specyficznych dla frameworka
 - Zauważ, że agent może potrzebować więcej wskazówek dla tego frameworka
 
 **Dobrze udokumentowany: niezaliczone** →
@@ -211,17 +206,17 @@ Dla każdej niezaliczonej bramki, stwórz konkretną strategię kompensacji. Kom
 - Dołącz wbudowane przykłady typowych wzorców
 - Zauważ specyficzne dla wersji dziwactwa
 
-Każdy wpis kompensacji musi być **gotowy do wklejenia** do pliku instrukcji — nie ogólna porada, ale rzeczywisty tekst reguły.
+Każdy wpis kompensacyjny musi być **gotowy do wklejenia** do pliku instrukcji — nie ogólna porada, ale rzeczywisty tekst reguły.
 
 ### Krok 4 — Określ ogólny werdykt
 
 Na podstawie macierzy ocen i dostępnej kompensacji:
 
-- **ready**: wszystkie bramki zaliczone dla wszystkich komponentów. Stos jest przyjazny dla agentów od razu po wyjęciu z pudełka.
+- **ready**: wszystkie bramki zaliczone dla wszystkich komponentów. Stos jest przyjazny agentom od razu po wyjęciu z pudełka.
 - **ready-with-compensation**: niektóre bramki niezaliczone, ale wszystkie niepowodzenia mają jasne strategie kompensacji. Stos działa z udokumentowanymi konwencjami.
-- **significant-friction**: wiele bramek niezaliczone ORAZ kompensacja jest ciężka (np. język bez typowania + framework nieoparty na konwencjach + niszowy w danych treningowych). Agent będzie potrzebował znacznego kierowania.
+- **significant-friction**: wiele bramek niezaliczone ORAZ kompensacja jest ciężka (np. język nietypowany + framework nieoparty na konwencjach + niszowy w danych treningowych). Agent będzie potrzebował znacznego kierowania.
 
-Werdykt jest informacyjny, nie blokujący. Nawet `significant-friction` nie oznacza "zmień stos" — oznacza "zaplanuj więcej czasu na tworzenie plików instrukcji i spodziewaj się więcej cykli korekcji agenta".
+Werdykt ma charakter informacyjny, nie blokujący. Nawet `significant-friction` nie oznacza "zmień stos" — oznacza "zaplanuj więcej czasu na tworzenie plików instrukcji i spodziewaj się więcej cykli korekcji agenta".
 
 ### Krok 5 — Napisz ocenę
 
@@ -290,9 +285,9 @@ gates_failed: <N>
 <overall verdict, key strengths, key gaps, and recommended next step (/10x-health-check)>
 ```
 
-Zapisz do `context/foundation/stack-assessment.md` (tworząc `context/foundation/`, jeśli nie istnieje).
+Zapisz do `context/foundation/stack-assessment.md` (tworząc `context/foundation/` jeśli nie istnieje).
 
-Po zapisie skopiuj polecenie następnego kroku i ogłoś:
+Po zapisie, skopiuj polecenie następnego kroku i ogłoś:
 
 ```bash
 echo -n "/10x-health-check" | pbcopy 2>/dev/null || echo -n "/10x-health-check" | clip.exe 2>/dev/null || echo -n "/10x-health-check" | xclip -selection clipboard 2>/dev/null || true
@@ -319,7 +314,7 @@ Wydrukuj:
 ═══════════════════════════════════════════════════════════
 ```
 
-ZATRZYMAJ. Nie łącz automatycznie z `/10x-health-check` — użytkownik uruchamia go, gdy jest gotowy.
+ZATRZYMAJ. Nie przechodź automatycznie do `/10x-health-check` — użytkownik uruchamia go, gdy jest gotowy.
 
 ## Wynik
 
@@ -333,14 +328,14 @@ Zapisany pojedynczy plik: `context/foundation/stack-assessment.md` (lub `stack-a
 
 1. **Cwd jest warunkiem wstępnym.** Umiejętność wymaga istniejącej bazy kodu z rozpoznawalnymi znacznikami projektu. Brak oceny wyłącznie na podstawie kontekstu rozmowy.
 
-2. **Oceniaj, nie zalecaj wymiany.** Umiejętność nigdy nie zaleca zmiany stosów. Ocenia to, co istnieje i dostarcza strategie kompensacji. Użytkownik wybrał swój stos z powodów, których umiejętność nie zna — uszanuj ten wybór.
+2. **Oceniaj, nie zalecaj wymiany.** Umiejętność nigdy nie zaleca zmiany stosów. Ocenia to, co istnieje i dostarcza strategie kompensacji. Użytkownik wybrał swój stos z powodów, których umiejętność nie zna — szanuj ten wybór.
 
 3. **Ocena dla rodziny języków dla bramki 3.** Oceniaj "popularny w danych treningowych" w ramach rodziny języków, a nie globalnie. Django jest popularne w Pythonie; to, że ma mniej pobrań npm niż React, jest nieistotne.
 
-4. **Kompensacja jest konkretna, nie ogólna.** Każdy wpis kompensacji musi być gotową do wklejenia regułą pliku instrukcji. "Dodaj lepszą dokumentację" nie jest kompensacją; "Dodaj do CLAUDE.md: `## Routing — Trasy są rejestrowane w src/routes/index.ts. Każdy plik trasy eksportuje domyślny handler Hono. Middleware działa w kolejności rejestracji.`" jest kompensacją.
+4. **Kompensacja jest konkretna, nie ogólna.** Każdy wpis kompensacyjny musi być gotową do wklejenia regułą pliku instrukcji. "Dodaj lepszą dokumentację" nie jest kompensacją; "Dodaj do CLAUDE.md: `## Routing — Trasy są rejestrowane w src/routes/index.ts. Każdy plik trasy eksportuje domyślny handler Hono. Middleware działa w kolejności rejestracji.`" jest kompensacją.
 
 5. **Dowody dla każdej oceny.** Każde zaliczenie lub niezaliczenie bramki musi cytować konkretny plik, sekcję konfiguracji lub jej brak, które uzasadniają ocenę. Brak oceny opartej na "odczuciach".
 
 6. **Etykiety wewnętrzne umiejętności pozostają wewnętrzne.** Rozmawiając z użytkownikiem, nigdy nie odwołuj się do numerów bramek ("Bramka 1"), liter kroków ("Krok 2") ani wewnętrznych nazw pól (`agent_readiness`, `gates_passed`). Używaj prostego języka: "bezpieczeństwo typów twojego stosu", "ogólna gotowość agenta", "ile kryteriów spełnia twój stos".
 
-7. **Tylko język uniwersalny.** Brak prywatnych ścieżek skarbca ani brandingu specyficznego dla organizacji w dostarczanej treści.
+7. **Tylko język uniwersalny.** Brak prywatnych ścieżk do skarbca lub brandingu specyficznego dla organizacji w dostarczanej treści.
