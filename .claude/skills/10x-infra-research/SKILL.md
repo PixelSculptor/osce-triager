@@ -24,11 +24,11 @@ allowed-tools:
 
 Ta umiejętność prowadzi do **świadomej decyzji dotyczącej infrastruktury** — nie jest to rekomendacja oparta na przeczuciach, ale na stosie technologicznym projektu, ograniczeniach operacyjnych dewelopera, świeżych badaniach internetowych oraz trzech soczewkach anty-uprzedzeniowych, które poddają zwycięską platformę testom warunków skrajnych przed zarejestrowaniem decyzji.
 
-Jedynym rezultatem jest plik `context/foundation/infrastructure.md` — trzecia umowa decyzyjna w łańcuchu fundamentów po `prd.md` (co i dla kogo) i `tech-stack.md` (z czego budować). Zawiera: porównanie platform z ocenami, uzasadnienie rekomendacji, historię operacyjną (podgląd / sekrety / wycofywanie / zatwierdzanie / logi) oraz rejestr ryzyka z wstępnie wypełnionymi notatkami dotyczącymi łagodzenia.
+Jedynym rezultatem jest plik `context/foundation/infrastructure.md` — trzecia umowa decyzyjna w łańcuchu fundamentów po `prd.md` (co i dla kogo) i `tech-stack.md` (z czym budować). Zawiera: porównanie platform z punktacją, uzasadnienie rekomendacji, historię operacyjną (podgląd / sekrety / wycofywanie / zatwierdzanie / logi) oraz rejestr ryzyka z wstępnie wypełnionymi notatkami dotyczącymi łagodzenia.
 
 ## Kiedy używać, kiedy pominąć
 
-**Użyj, gdy**: użytkownik musi wybrać platformę wdrożeniową/hostingową dla MVP i chce ustrukturyzowanej, opartej na badaniach decyzji. Umiejętność działa najlepiej, gdy istnieje `context/foundation/tech-stack.md` — wykorzystuje stos jako twarde ograniczenie podczas oceny platform.
+**Użyj, gdy**: użytkownik musi wybrać platformę wdrożeniową/hostingową dla MVP i chce podjąć ustrukturyzowaną, opartą na badaniach decyzję. Umiejętność działa najlepiej, gdy istnieje `context/foundation/tech-stack.md` — wykorzystuje stos jako twarde ograniczenie podczas oceny platform.
 
 **Pomiń, gdy**: platforma jest już wybrana, a użytkownik chce pomocy w konfiguracji CI/CD lub pisaniu Dockerfile'ów — te kwestie wykraczają poza zakres tej umiejętności (patrz Cele nieobjęte). Pomiń również, gdy użytkownik pyta o architekturę na skalę produkcyjną; ta umiejętność koncentruje się na wdrożeniach MVP.
 
@@ -68,8 +68,8 @@ Po wywołaniu tej umiejętności:
 
 Załaduj pliki kontekstowe. Dla każdego istniejącego pliku, odczytaj go i wyodrębnij odpowiednie pola:
 
-- `context/foundation/tech-stack.md` → język, framework, środowisko uruchomieniowe, baza danych (twarde ograniczenia dla kompatybilności platformy)
-- `context/foundation/prd.md` → oczekiwana skala użytkowników, wymagania dotyczące opóźnień/dostępności (miękkie wagi dla oceny platformy)
+- `context/foundation/tech-stack.md` → język, framework, środowisko uruchomieniowe, baza danych (twarde ograniczenia kompatybilności platformy)
+- `context/foundation/prd.md` → oczekiwana skala użytkowników, wymagania dotyczące opóźnień/dostępności (miękkie wagi dla punktacji platformy)
 
 Załaduj `references/agent-friendly-criteria.md` — to jest soczewka oceny używana w Kroku 3.
 
@@ -160,7 +160,7 @@ AskUserQuestion:
     description: "Haven't decided on data layer yet."
   multiSelect: false
 
-Przechowaj wszystkie pięć odpowiedzi jako ograniczenia badawcze przed przejściem do Kroku 2.
+Zapisz wszystkie pięć odpowiedzi jako ograniczenia badawcze przed przejściem do Kroku 2.
 
 ### Krok 2 — Równoległe badanie platform
 
@@ -200,7 +200,7 @@ beta/preview/region-limited capability inline so it carries forward into the ris
 
 Użyj `WebSearch` lub `WebFetch`, aby znaleźć aktualne strony z cennikami, oficjalną dokumentację i najnowsze porównania społeczności (szukaj treści z lat 2024-2025).
 
-Po zakończeniu pracy wszystkich subagentów, zsyntetyzuj ich ustalenia w matrycę punktacji.
+Po zakończeniu pracy przez wszystkich subagentów, zsyntetyzuj ich ustalenia w matrycę punktacji.
 
 ### Krok 3 — Ocena i lista skrócona
 
@@ -210,9 +210,9 @@ Oceń każdą zbadana platformę pod kątem pięciu kryteriów z `references/age
 - Jeśli odpowiedź na pytanie 1 z wywiadu = "Tak (wymagane trwałe połączenia)" → usuń platformy, które nie mogą uruchamiać trwałych procesów (Netlify, Vercel tylko serverless).
 - Jeśli stos technologiczny używa środowiska uruchomieniowego nieobsługiwanego przez platformę → usuń tę platformę.
 
-**Punktacja** (Zaliczone / Częściowo / Niepowodzenie na kryterium):
+**Punktacja** (Zaliczone / Częściowo / Nie zaliczone na kryterium):
 
-| Platforma | CLI-first | Managed/Serverless | Dokumentacja czytelna dla agenta | Stabilne API wdrożeniowe | Integracja MCP / AI | Suma |
+| Platforma | CLI-first | Managed/Serverless | Agent-readable docs | Stable deploy API | MCP / Integracja | Razem |
 |---|---|---|---|---|---|---|
 | Cloudflare | | | | | | |
 | Vercel | | | | | | |
@@ -225,9 +225,9 @@ Miękko waż kryteria według odpowiedzi z wywiadu:
 - Pytanie 2 "minimalizuj koszty" → karaj platformy z drogimi podstawowymi poziomami.
 - Pytanie 3 "istniejąca znajomość" → rozstrzygaj remisy na korzyść znanej platformy.
 - Pytanie 4 "globalny zasięg" → preferuj platformy edge-native.
-- Pytanie 5 "preferowana współlokalizacja" → preferuj platformy z zintegrowanymi bazami danych.
+- Pytanie 5 "preferowana kolokacja" → preferuj platformy ze zintegrowanymi bazami danych.
 
-**Skróć listę do 3 najlepszych platform** według całkowitego wyniku (po filtrach i wagach). Przedstaw listę skróconą z jednoparograficznym uzasadnieniem dla każdej platformy przed przejściem do weryfikacji krzyżowej.
+**Skróć listę do 3 najlepszych platform** według łącznej punktacji (po filtrach i wagach). Przedstaw listę skróconą z jednoparografowym uzasadnieniem dla każdej platformy przed przejściem do weryfikacji krzyżowej.
 
 Wydrukuj dla użytkownika:
 
@@ -242,7 +242,7 @@ Running anti-bias cross-check on the top recommendation (<Platform A>)...
 
 ### Krok 4 — Weryfikacja krzyżowa anty-uprzedzeniowa
 
-Uruchom trzy zapytania weryfikacji krzyżowej dla najwyżej ocenianej platformy. Wykonaj je samodzielnie (nie uruchamiaj subagentów) — jesteś sceptykiem.
+Uruchom trzy zapytania weryfikacji krzyżowej dla najwyżej ocenianej platformy. Wykonaj je samodzielnie (nie uruchamiaj subagentów) — to Ty jesteś sceptykiem.
 
 **Weryfikacja krzyżowa 1 — Adwokat diabła**
 
@@ -276,7 +276,7 @@ AskUserQuestion:
     description: "The risks are significant enough to prefer the third option."
   multiSelect: false
 
-Zastosuj wybór użytkownika. Jeśli zmieni na B lub C, ponownie uruchom trzy weryfikacje krzyżowe dla nowego najlepszego wyboru i przedstaw wyniki (nie ma potrzeby ponownego pytania — zarejestruj to i kontynuuj).
+Zastosuj wybór użytkownika. Jeśli zmieni na B lub C, ponownie uruchom trzy weryfikacje krzyżowe dla nowego najlepszego wyboru i przedstaw wyniki (nie ma potrzeby pytać ponownie — zarejestruj i kontynuuj).
 
 ### Krok 5 — Zapisz wynik
 
@@ -383,9 +383,9 @@ The following were not evaluated in this research:
 - Production-scale architecture (multi-region, HA, DR)
 ```
 
-Zapisz do `context/foundation/infrastructure.md` (lub ścieżki z wersją, jeśli wybrano). Utwórz `context/foundation/`, jeśli nie istnieje.
+Zapisz do `context/foundation/infrastructure.md` (lub do ścieżki z wersją, jeśli wybrano). Utwórz `context/foundation/`, jeśli nie istnieje.
 
-Po zapisie skopiuj podpowiedź do następnego kroku do schowka:
+Po zapisaniu skopiuj wskazówkę dotyczącą następnego kroku do schowka:
 
 ```bash
 echo -n "/10x-implement" | pbcopy 2>/dev/null || echo -n "/10x-implement" | clip.exe 2>/dev/null || echo -n "/10x-implement" | xclip -selection clipboard 2>/dev/null || true
@@ -426,7 +426,7 @@ Zapisany pojedynczy plik: `context/foundation/infrastructure.md` (lub `infrastru
 
 1. **Badaj przed rekomendowaniem.** Nigdy nie rekomenduj platformy wyłącznie na podstawie znajomości danych treningowych. Zawsze uruchamiaj równoległe badania internetowe (Krok 2) za pomocą `WebSearch` / `WebFetch` przed punktacją. Przestarzałe wrażenia dotyczące cen lub obsługi funkcji prowadzą do błędnych rekomendacji.
 
-2. **Stos technologiczny jest twardym ograniczeniem, a nie preferencją.** Jeśli stos technologiczny wymaga środowiska uruchomieniowego, którego platforma nie obsługuje (np. Python na środowisku uruchomieniowym edge tylko dla JS), ta platforma jest odrzucana — żadna punktacja tego nie zmieni.
+2. **Stos technologiczny jest twardym ograniczeniem, a nie preferencją.** Jeśli stos technologiczny wymaga środowiska uruchomieniowego, którego platforma nie obsługuje (np. Python na środowisku uruchomieniowym edge tylko dla JS), ta platforma jest odrzucana — żadna ilość punktacji tego nie zmieni.
 
 3. **Trzech kandydatów, nie jeden.** Zawsze skracaj listę do trzech platform. Użytkownik potrzebuje alternatyw na wypadek, gdyby najlepszy wybór został zablokowany przez koszty, uzależnienie od dostawcy lub ograniczenia organizacyjne.
 
@@ -434,8 +434,8 @@ Zapisany pojedynczy plik: `context/foundation/infrastructure.md` (lub `infrastru
 
 5. **Odpowiedzi z wywiadu napędzają wagi, a nie wykluczenia.** Z wyjątkiem twardego filtra dotyczącego trwałych połączeń vs. serverless, odpowiedzi z wywiadu dostosowują wagi — nie dyskwalifikują platform. Użytkownik wrażliwy na koszty może nadal wybrać Fly.io, jeśli wynik DX jest wystarczająco wysoki; odpowiedź z wywiadu informuje o punktacji, a nie o puli kandydatów.
 
-6. **Zakres to MVP, nie produkcja.** Umiejętność optymalizuje szybkość iteracji, niskie koszty operacyjne i koszty przy niskim ruchu. Nie wprowadzaj kwestii związanych z produkcją (przełączanie awaryjne w wielu regionach, zobowiązania SLA, dedykowane poziomy wsparcia), chyba że PRD wyraźnie tego wymaga.
+6. **Zakres to MVP, a nie produkcja.** Umiejętność optymalizuje szybkość iteracji, niskie koszty operacyjne i koszty przy niskim ruchu. Nie wprowadzaj kwestii związanych z architekturą na skalę produkcyjną (przełączanie awaryjne w wielu regionach, zobowiązania SLA, dedykowane poziomy wsparcia), chyba że PRD wyraźnie tego wymaga.
 
 7. **Etykiety wewnętrzne umiejętności pozostają wewnętrzne.** Rozmawiając z użytkownikiem, nigdy nie odwołuj się do numerów kroków ani wewnętrznych nazw pól. Używaj prostego języka: "porównanie platform", "rekomendowana opcja", "rejestr ryzyka".
 
-8. **Sprawdź poprawność poleceń "Getting Started" w stosunku do dokładnych wersji w stosie technologicznym, a nie ogólnej dokumentacji platformy.** Adaptery platform, CLI i narzędzia do wdrażania szybko ewoluują — przepływ pracy, który był kanoniczny w jednej głównej wersji, może zostać zastąpiony lub być aktywnie błędny w następnej. Przed napisaniem jakiegokolwiek polecenia CLI lub lokalnej rekomendacji deweloperskiej w sekcji "Getting Started", sprawdź, co faktycznie robi dziś konkretna wersja adaptera/narzędzia w `tech-stack.md`. Zwróć szczególną uwagę na: (a) czy serwer deweloperski frameworka już zapewnia wierność środowiska uruchomieniowego dla docelowej platformy (czyniąc oddzielne polecenie deweloperskie natywne dla platformy zbędnym lub przestarzałym), (b) czy interfejsy API, klucze konfiguracyjne lub wzorce dostępu do środowiska zmieniły się między głównymi wersjami, oraz (c) czy narzędzia platformy zostały połączone, zmienione nazwy lub wycofane między tym, co opisuje ogólna dokumentacja, a tym, co faktycznie dostarczają przypięte wersje projektu. Wszelkie różnice w zachowaniu wynikające z wersji należy przedstawić jako "Nieznane niewiadome" w weryfikacji krzyżowej i odzwierciedlić tylko prawidłowy, zgodny z wersją przepływ pracy w "Getting Started". Nigdy nie kopiuj poleceń CLI dosłownie ze stron marketingowych platformy lub ogólnych samouczków bez potwierdzenia, że mają zastosowanie do dokładnych wersji stosu w użyciu.
+8. **Sprawdź poprawność poleceń "Getting Started" w stosunku do dokładnych wersji w stosie technologicznym, a nie ogólnej dokumentacji platformy.** Adaptery platform, CLI i narzędzia do wdrażania szybko ewoluują — przepływ pracy, który był kanoniczny w jednej głównej wersji, może zostać zastąpiony lub być aktywnie błędny w następnej. Przed napisaniem jakiegokolwiek polecenia CLI lub lokalnej rekomendacji deweloperskiej w sekcji "Getting Started", sprawdź, co faktycznie robi dziś konkretna wersja adaptera/narzędzia w `tech-stack.md`. Zwróć szczególną uwagę na: (a) czy serwer deweloperski frameworka już zapewnia wierność środowiska uruchomieniowego dla docelowej platformy (czyniąc oddzielne polecenie deweloperskie natywne dla platformy zbędnym lub przestarzałym), (b) czy interfejsy API, klucze konfiguracyjne lub wzorce dostępu do środowiska zmieniły się między głównymi wersjami, oraz (c) czy narzędzia platformy zostały połączone, zmienione nazwy lub wycofane między tym, co opisuje ogólna dokumentacja, a tym, co faktycznie dostarczają przypięte wersje projektu. Wszelkie różnice w zachowaniu wynikające z wersji należy przedstawić jako "Nieznane niewiadome" w weryfikacji krzyżowej i odzwierciedlić tylko prawidłowy, zgodny z wersją przepływ pracy w sekcji "Getting Started". Nigdy nie kopiuj poleceń CLI dosłownie ze stron marketingowych platformy ani ogólnych samouczków bez potwierdzenia, że mają zastosowanie do dokładnych wersji stosu w użyciu.

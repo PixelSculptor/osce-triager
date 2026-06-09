@@ -32,9 +32,9 @@ Ta umiejętność to etap ramowania. /10x-plan odpowiada na pytanie *jak to zbud
 
 ## Kiedy używać, kiedy pominąć
 
-**Użyj, gdy**: dane wejściowe mają kształt błędu ("X jest zepsute, zbudujmy Y"), kształt zakresu ("powinniśmy podzielić to na dwa plany", "czy to w ogóle właściwy zakres"), kształt projektu ("które podejście w ogóle chcemy") lub kształt założenia ("zakładamy X — czy to prawda?"). Użyj również, gdy stawka jest wysoka, gdy system jest nieznany użytkownikowi, lub gdy /10x-plan ma rozpocząć zadanie, które pachnie podaną przyczyną, a nie zweryfikowaną.
+**Użyj, gdy**: dane wejściowe mają kształt błędu ("X jest zepsute, zbudujmy Y"), kształt zakresu ("powinniśmy podzielić to na dwa plany", "czy to w ogóle właściwy zakres"), kształt projektu ("jakie podejście w ogóle chcemy") lub kształt założenia ("zakładamy X — czy to prawda?"). Użyj również, gdy stawka jest wysoka, gdy system jest nieznany użytkownikowi, lub gdy /10x-plan ma rozpocząć zadanie, które pachnie podaną przyczyną, a nie zweryfikowaną.
 
-**Pomiń, gdy**: zadanie jest czysto mechaniczną zmianą ("zmień nazwę tej funkcji", "zwiększ wersję zależności"), użytkownik sam już opracował ramy i je zweryfikował ("potwierdziłem to — zaplanuj poprawkę"), lub żądanie jest jasno określonym zakresem funkcji bez podstawowego założenia do zakwestionowania.
+**Pomiń, gdy**: zadanie jest czysto mechaniczną zmianą ("zmień nazwę tej funkcji", "zwiększ wersję zależności"), użytkownik sam już opracował ramy i je zweryfikował ("potwierdziłem to — zaplanuj poprawkę"), lub żądanie jest jasno określonym zakresem funkcji bez leżącego u podstaw założenia do zakwestionowania.
 
 W razie wątpliwości, ta umiejętność zadaje krótką serię pytań i szybko kończy działanie, jeśli ramy okażą się solidne. Koszt uruchomienia jej na jasnym żądaniu: ~2–3 pytania. Koszt pominięcia jej na błędnie sformułowanym zadaniu: błędny plan i stracony dzień.
 
@@ -79,7 +79,7 @@ Przeczytaj KAŻDY plik, o którym wspomniał użytkownik, W CAŁOŚCI. Następni
 
 - **Zgłoszona obserwacja** — dosłowna, obserwowalna rzecz. Nie przyczyna. Nie poprawka. Efekt, który widzi użytkownik lub operator, lub postawione pytanie dotyczące zakresu/projektu.
 - **Podana przyczyna lub podejście użytkownika** — co według niego powoduje obserwację, lub ramy, które wnosi do pracy.
-- **Proponowany kierunek użytkownika** — co chce z tym zrobić.
+- **Proponowany kierunek działania użytkownika** — co chce z tym zrobić.
 
 Powtórz je jako trzy oddzielne punkty i potwierdź:
 
@@ -90,8 +90,8 @@ Upewnijmy się, że dobrze to rozumiem:
   Twoje początkowe ramy:            [teoria lub podejście użytkownika]
   Twój proponowany kierunek:         [co chce z tym zrobić]
 
-Zamierzam zakwestionować ramy, zanim zaplanujemy pracę. Obserwacja jest ustalona
-— to jest to, co wiemy. Wszystko inne jest hipotezą, dopóki nie zostanie zweryfikowane.
+Zamierzam zakwestionować ramy, zanim zaplanujemy pracę. Obserwacja jest ustalonym
+gruntem — to wiemy. Wszystko inne jest hipotezą, dopóki nie zostanie zweryfikowane.
 ```
 
 Ramy są w tym momencie zablokowane. Nawet jeśli użytkownik się sprzeciwi ("po prostu zaplanuj poprawkę"), nie łącz obserwacji z ramami. Cała umiejętność opiera się na tym rozdzieleniu.
@@ -102,11 +102,11 @@ Jeśli użytkownik nie podał jasnych początkowych ram ("coś jest nie tak, nap
 
 Ten krok zawsze jest wykonywany. Przed zbudowaniem mapy wymiarów (Krok 2) lub wysłaniem równoległych podagentów (Krok 3), zatrzymaj się na jedną rundę pytań wyjaśniających przy każdym wywołaniu. Celem jest usunięcie niejasności dotyczących *obserwacji i zakresu* — "który z tych elementów jest głównym problemem?", "czy to jedna obserwacja, czy kilka?", "czy obserwowalny jest pojedynczym objawem, czy klasą objawów?" — tak, aby mapa wymiarów była zbudowana w oparciu o skoncentrowaną obserwację, a nie wielopunktową listę zadań.
 
-Użyj AskUserQuestion z **2–3 pytaniami** w jednej rundzie. Każda opcja opisuje obserwację lub pozycję zakresu — co użytkownik faktycznie widzi, lub który fragment pracy chce najpierw zbadać — nigdy przyczynę, podejście lub poprawkę. Zawsze dołącz opcję "Nie jestem pewien / jeszcze ich nie rozdzieliłem", odzwierciedlającą zasadę pewności jako sygnału z Kroku 4.
+Użyj AskUserQuestion z **2–3 pytaniami** w jednej rundzie. Każda opcja opisuje obserwację lub pozycję zakresu — co użytkownik faktycznie widzi, lub który fragment pracy chce najpierw zbadać — nigdy przyczynę, podejście ani poprawkę. Zawsze dołącz opcję "Nie jestem pewien / jeszcze ich nie rozdzieliłem", odzwierciedlającą zasadę pewności jako sygnału z Kroku 4.
 
-Te pytania są ograniczone przez poniższą zasadę #4 ("Pytania zawężające ≠ pytania dotyczące rozwiązania"). Pytania przed wysyłką opisują obserwacje lub pozycje zakresu, nigdy przyczyny ani poprawki. Jeśli zauważysz, że tworzysz opcję, która proponuje poprawkę lub podejście, przekroczyłeś terytorium /10x-plan — zatrzymaj się i przepisz ją jako obserwację.
+Pytania te są ograniczone przez poniższą zasadę #4 ("Pytania zawężające ≠ pytania dotyczące rozwiązania"). Pytania przed wysyłką opisują obserwacje lub pozycje zakresu, nigdy przyczyny ani poprawki. Jeśli zauważysz, że tworzysz opcję, która proponuje poprawkę lub podejście, przekroczyłeś terytorium /10x-plan — zatrzymaj się i przepisz ją jako obserwację.
 
-Zapisz odpowiedzi w rejestrze ramowania wraz z zapisem z Kroku 1; Frame Brief z Kroku 6 zachowuje oba jako oddzielne punkty w sekcji "Initial Framing (preserved)" (nowa linia `Pre-dispatch narrowing`). Oryginalna obserwacja, podana przyczyna i proponowany kierunek pozostają dosłowne z Kroku 1; zawężenie z Kroku 1.5 nakłada się na nie, nie jako zamiennik.
+Zapisz odpowiedzi w rejestrze ram obok zapisu z Kroku 1; Frame Brief z Kroku 6 zachowuje oba jako oddzielne punkty w sekcji "Initial Framing (preserved)" (nowa linia `Pre-dispatch narrowing`). Oryginalna obserwacja, podana przyczyna i proponowany kierunek pozostają dosłowne z Kroku 1; zawężenie z Kroku 1.5 nakłada się na nie, nie zastępując ich.
 
 Ten krok nie wysyła podagentów — to pozostaje zadaniem Kroku 3.
 
@@ -147,7 +147,7 @@ Dla każdej hipotezy podagent bada: "**Jeśli ramy pękły w tym wymiarze, jakic
 Każdy prompt musi zawierać:
 
 - Dosłowną obserwację z Kroku 1 (dosłownie).
-- Konkretną hipotezę wymiarową, która jest testowana.
+- Konkretną hipotezę wymiaru, która jest testowana.
 - Ramowanie oczekiwanych dowodów: "Co byśmy zobaczyli, gdyby TO był wymiar, w którym ramy pękają? Szukaj tego. Zgłoś, czy jest obecne, częściowe, czy nieobecne, z odniesieniami do pliku:linii lub dokumentu:sekcji."
 - Dyrektywę tylko do odczytu — bez edycji.
 
@@ -161,13 +161,13 @@ Użyj AskUserQuestion. **Pytania i opcje tutaj są fundamentalnie różne od tyc
 
 - Każde pytanie powinno izolować jeden lub dwa wymiary mapy. Właściwe pytanie to takie, którego odpowiedź włącza lub wyklucza wymiary.
 - Opcje opisują **obserwacje lub pozycje projektowe** — co użytkownik faktycznie widzi, lub po której stronie rzeczywistego kompromisu się znajduje — a nie przyczyny lub rozwiązania.
-- Nagłówek (`header`) powinien być krótki: np. "Wzorzec", "Kiedy", "Zakres", "Kompromis".
-- Celuj w 2–5 pytań łącznie — wystarczająco, aby triangulować, nie za dużo, aby przeciągać.
+- Zachowaj krótki `header`: np. "Wzorzec", "Kiedy", "Zakres", "Kompromis".
+- Celuj w 2–5 pytań łącznie — wystarczająco, aby triangulować, nie wystarczająco, aby przeciągać.
 - ZAWSZE dołącz opcję "Nie jestem pewien / jeszcze nie sprawdziłem". Pewność użytkownika sama w sobie jest sygnałem; fałszywa pewność jest wrogiem.
 
 Pytanie zawężające, które nie zmienia rankingu hipotez, jest zmarnowane. **Zaprojektuj każde pytanie tak, aby było decydujące.** Jedno dobrze ukierunkowane pytanie, na które udzielono szczerej odpowiedzi, często samo rozwiązuje całe pytanie o przeformułowanie.
 
-Jeśli dowody hipotez z Kroku 3 są już rozstrzygające (jedna hipoteza ma silne dowody, inne nie mają żadnych), możesz pominąć pytania i przejść do Kroku 5 — ale powiedz to wyraźnie: "Krok 3 znalazł silne dowody dla [hipotezy] i żadnych dla pozostałych. Pomijam etap pytań; przeformułowanie bezpośrednio."
+Jeśli dowody hipotez z Kroku 3 są już rozstrzygające (jedna hipoteza ma silne dowody, inne nie mają żadnych), możesz pominąć pytania i przejść do Kroku 5 — ale powiedz to wyraźnie: "Krok 3 znalazł silne dowody na [hipotezę] i żadnych na inne. Pomijam etap pytań; przeformułowuję bezpośrednio."
 
 ### Krok 5: Sprawdzenie między systemami — testowanie wiodącej hipotezy pod presją
 
@@ -176,9 +176,9 @@ Przed sfinalizowaniem przeformułowania, przetestuj je pod presją z innej persp
 Wybierz te, które są przydatne w danym przypadku:
 
 - **Niezależne wyszukiwanie.** Utwórz nowego podagenta Explore z promptem, który NIE nazywa wiodącej hipotezy. Opisz tylko obserwację i zapytaj: "Co w tym systemie lub przestrzeni projektowej jest najbardziej prawdopodobną przyczyną? Szukaj bez uprzedzeń." Jeśli agent niezależnie dojdzie do tej samej hipotezy, pewność wzrasta. Jeśli ujawni coś innego, to jest to sygnał, który warto dokładnie przeczytać.
-- **Szukaj wcześniejszych wystąpień.** Przeszukaj `context/changes/**/` i `context/archive/**/`, komunikaty commitów i historię problemów pod kątem podobnych obserwacji lub decyzji o zakresie w tym projekcie. Wcześniejsze incydenty i wcześniejsze decyzje często zawierają odpowiedź lub wykluczają jedną.
+- **Szukaj wcześniejszych wystąpień.** Przeszukaj `context/changes/**/` i `context/archive/**/`, komunikaty commitów i historię problemów pod kątem podobnych obserwacji lub decyzji dotyczących zakresu w tym projekcie. Wcześniejsze incydenty i wcześniejsze decyzje często zawierają odpowiedź lub wykluczają jedną.
 - **Sprawdź odwrotność.** Jakie inne dowody przewidywałaby wiodąca hipoteza — których jeszcze nie sprawdziłeś? Zweryfikuj je. Co NIE powinno być widoczne, jeśli hipoteza jest prawdziwa? Potwierdź jej brak.
-- **Sprawdź ponownie spójność z podanymi ramami użytkownika.** Jeśli ich oryginalne ramy nadal równie dobrze pasują do dowodów, przeformułowanie może być niepotrzebne. Nie zastępuj działających ram bardziej eleganckimi.
+- **Ponownie sprawdź spójność z podanymi ramami użytkownika.** Jeśli ich oryginalne ramy nadal równie dobrze pasują do dowodów, przeformułowanie może być niepotrzebne. Nie zastępuj działających ram bardziej eleganckimi.
 
 Jeśli testowanie pod presją wzmacnia wiodącą hipotezę, zablokuj pewność. Jeśli ujawni wiarygodną alternatywę lub zaprzeczy hipotezie, **zatrzymaj się** i ponownie uruchom Krok 3 z nową hipotezą na mapie. Przeformułowanie jest wartościowe tylko wtedy, gdy przetrwa uczciwą próbę jego obalenia.
 
@@ -210,7 +210,7 @@ Kroku 1, bez zmian.]
 ## Początkowe ramy (zachowane)
 
 - **Podana przyczyna lub podejście użytkownika**: [z Kroku 1]
-- **Proponowany kierunek użytkownika**: [z Kroku 1]
+- **Proponowany kierunek działania użytkownika**: [z Kroku 1]
 - **Zawężenie przed wysyłką**: [z Kroku 1.5 — pozycja obserwacji/zakresu wybrana przez użytkownika, jego słowami; "jeszcze nie rozdzielone" jest samo w sobie ważną odpowiedzią, którą warto zapisać]
 
 ## Mapa wymiarów
@@ -233,7 +233,7 @@ Obserwacja może pochodzić z któregokolwiek z tych wymiarów:
 
 ## Sygnały zawężające
 
-Decydujące obserwacje z Kroku 4 (raporty użytkownika + ustalenia podagenta), które
+Decydujące obserwacje z Kroku 4 (raporty użytkowników + ustalenia podagentów), które
 zawęziły przestrzeń hipotez:
 
 - [Obserwacja, która włączyła lub wykluczyła wymiar]
@@ -249,7 +249,7 @@ hipoteza pasuje do konwencji?]
 > **Rzeczywisty problem do zaplanowania to**: [jedno zdanie — korzeń, nie powierzchnia]
 
 [2–3 zdania wyjaśniające, dlaczego jest to prawdziwy problem i co by się zmieniło,
-gdyby został rozwiązany. Jeśli oryginalne ramy się sprawdziły, powiedz to wyraźnie:
+gdyby został rozwiązany. Jeśli oryginalne ramy się utrzymały, powiedz to wyraźnie:
 "Początkowe ramy były poprawne — kontynuuj zgodnie z pierwotnie proponowanym
 kierunkiem." Nie twórz przeformułowania, jeśli dowody go nie potwierdzają.]
 
@@ -258,14 +258,14 @@ kierunkiem." Nie twórz przeformułowania, jeśli dowody go nie potwierdzają.]
 - **WYSOKA** — silne dowody + zgodność z konwencją + decydujący sygnał zawężający
 - **ŚREDNIA** — dowody wskazują w jednym kierunku, ale konwencja lub sygnał są słabsze
 - **NISKA** — dowody niejednoznaczne; zalecane dalsze odtworzenie lub
-  zebranie dowodów przed planowaniem
+  zbieranie dowodów przed planowaniem
 
 [Wybierz jedno. Jeśli NISKA, wymień konkretny krok weryfikacji potrzebny przed /10x-plan.]
 
 ## Co zmienia się dla /10x-plan
 
 [1–2 zdania: o czym faktycznie powinien być plan, biorąc pod uwagę przeformułowanie.
-Jeśli przeformułowanie to "brak zmian", stwierdź, że oryginalne ramy się sprawdziły.]
+Jeśli przeformułowanie to "brak zmian", stwierdź, że oryginalne ramy się utrzymały.]
 
 ## Referencje
 
@@ -282,13 +282,13 @@ Wydrukuj podsumowanie na jednym ekranie, a następnie zaproponuj przekazanie:
 
 ```
 ═══════════════════════════════════════════════════════════
-  RAMOWANIE ZAKOŃCZONE: [Temat]
+  RAMY ZAKOŃCZONE: [Temat]
   Pewność: [WYSOKA/ŚREDNIA/NISKA]
 ═══════════════════════════════════════════════════════════
 
   Zgłoszona obserwacja: [jedna linia]
   Początkowe ramy:      [jedna linia]
-  Przeformułowany problem:     [jedna linia — lub "Początkowe ramy się sprawdziły"]
+  Przeformułowany problem:     [jedna linia — lub "Początkowe ramy się utrzymały"]
 
   ► Brief: context/changes/<change-id>/frame.md
 ═══════════════════════════════════════════════════════════
@@ -297,7 +297,7 @@ Wydrukuj podsumowanie na jednym ekranie, a następnie zaproponuj przekazanie:
 Następnie zapytaj:
 
 AskUserQuestion:
-- question: "Ramowanie zakończone. Jak chcesz postępować?"
+- question: "Ramy gotowe. Jak chcesz postąpić?"
   header: "Następny krok"
   options:
   - label: "Przekaż do /10x-plan"
@@ -325,24 +325,24 @@ I wydrukuj: `→ /10x-plan <change-id> (✓ skopiowano)`
 
 ## Krytyczne zabezpieczenia
 
-1. **Dopuszczalny wniosek: "ramy były prawidłowe."** Ta umiejętność nie jest wartościowa tylko wtedy, gdy prowadzi do przeformułowania. Jeśli badanie hipotez potwierdza początkowe ramy użytkownika, TO JEST udane ramowanie — powiedz to jasno i zatrzymaj się. Wytworzone przeformułowania są gorsze niż brak ram: wprowadzają zamieszanie, które użytkownik musi później rozplątać.
+1. **Dopuszczalny wniosek: "ramy były prawidłowe."** Ta umiejętność nie jest wartością dodaną tylko wtedy, gdy prowadzi do przeformułowania. Jeśli badanie hipotez potwierdza początkowe ramy użytkownika, to JEST udane ramowanie — powiedz to jasno i zatrzymaj się. Sztuczne przeformułowania są gorsze niż brak ram: wprowadzają zamieszanie, które użytkownik musi później rozplątać.
 
-2. **Obserwacja i podana przyczyna pozostają oddzielne.** Przez każdy krok. Frame Brief zachowuje oryginalne ramy dosłownie — nawet po przeformułowaniu — ponieważ przyszli czytelnicy (i /10x-plan-review) muszą widzieć, co zakładano, a co odkryto.
+2. **Obserwacja i podana przyczyna pozostają oddzielne.** Na każdym etapie. Frame Brief zachowuje oryginalne ramy dosłownie — nawet po przeformułowaniu — ponieważ przyszli czytelnicy (i /10x-plan-review) muszą widzieć, co zakładano, a co odkryto.
 
 3. **Brak projektowania rozwiązania.** Ta umiejętność nigdy nie wybiera podejścia do implementacji. Nie proponuje faz, zmian w plikach ani decyzji technicznych. Tworzy JEDEN artefakt: przeformułowane (lub potwierdzone) sformułowanie problemu. /10x-plan jest odpowiedzialny za rozwiązanie.
 
-4. **Pytania zawężające ≠ pytania dotyczące rozwiązania.** /10x-plan pyta "które podejście?". /10x-frame pyta "gdzie na mapie wymiarów znajduje się rzeczywisty problem?". Ta zasada wiąże zarówno Krok 1.5 (zawężanie zakresu/obserwacji przed wysyłką), jak i Krok 4 (zawężanie hipotez po wysyłce). Opcje opisują obserwacje lub pozycje projektowe, a nie wybory dotyczące sposobu ich rozwiązania. Jeśli zauważysz, że tworzysz pytanie, którego odpowiedź zmienia *kierunek*, przekroczyłeś terytorium /10x-plan — zatrzymaj się.
+4. **Pytania zawężające ≠ pytania dotyczące rozwiązania.** /10x-plan pyta "jakie podejście?". /10x-frame pyta "gdzie na mapie wymiarów znajduje się rzeczywisty problem?". Ta zasada wiąże zarówno Krok 1.5 (zawężanie zakresu/obserwacji przed wysyłką), jak i Krok 4 (zawężanie hipotez po wysyłce). Opcje opisują obserwacje lub pozycje projektowe, a nie wybory dotyczące sposobu ich rozwiązania. Jeśli zauważysz, że tworzysz pytanie, którego odpowiedź zmienia *kierunek*, przekroczyłeś terytorium /10x-plan — zatrzymaj się.
 
-5. **Przeczytaj materiał źródłowy, zanim sięgniesz po wcześniejsze dane.** Materiał źródłowy oznacza kod, dokumenty, wcześniejsze decyzje lub cokolwiek, na czym faktycznie opiera się ramowanie. Kuszące jest rozpoznanie kształtu z danych treningowych i zaproponowanie przeformułowania przed badaniem. Nie rób tego. Hipotezy muszą pochodzić z mapy wymiarów, którą skonstruowałeś w Kroku 2 z TEGO materiału, a dowody muszą pochodzić z odczytów podagentów TEGO projektu. Pewnie brzmiące przeformułowanie bez dowodów w postaci pliku:linii lub dokumentu:sekcji to tryb awarii, któremu ta umiejętność ma zapobiegać.
+5. **Przeczytaj materiał źródłowy, zanim sięgniesz po wcześniejsze informacje.** Materiał źródłowy oznacza kod, dokumenty, wcześniejsze decyzje lub cokolwiek, na czym faktycznie opierają się ramy. Kuszące jest rozpoznanie kształtu z danych treningowych i zaproponowanie przeformułowania przed badaniem. Nie rób tego. Hipotezy muszą pochodzić z mapy wymiarów, którą skonstruowałeś w Kroku 2 z TEGO materiału, a dowody muszą pochodzić z odczytów podagentów TEGO projektu. Pewnie brzmiące przeformułowanie bez dowodów w postaci pliku:linii lub dokumentu:sekcji to tryb awarii, któremu ta umiejętność ma zapobiegać.
 
 6. **Brak sztucznego zwiększania liczby hipotez.** Jeśli tylko dwa wymiary są wiarygodne, zbadaj dwa. Tworzenie agentów do badania hipotez bez wiarygodności marnuje budżet i sygnalizuje fałszywą rygorystyczność.
 
-7. **Ogranicz czas badania.** Ramowanie powinno zazwyczaj zakończyć się w 2–4 rundach podagentów i 2–5 pytaniach. Jeśli przeciąga się to poza ten czas, przypadek prawdopodobnie wymaga odtworzenia lub zebrania dowodów przed dalszą analizą — zalec to i zatrzymaj się.
+7. **Ogranicz czas badania.** Frame powinien zazwyczaj zakończyć się w 2–4 rundach podagentów i 2–5 pytaniach. Jeśli trwa to dłużej, przypadek prawdopodobnie wymaga odtworzenia lub zebrania dowodów przed dalszą analizą — zalec to i zatrzymaj się.
 
 ## Uwagi
 
 - To jest umiejętność **ramowania**. Badaj i raportuj — nie edytuj kodu, nie pisz planów.
 - Bądź konkretny. Konkrety z `plik:linia` lub `dokument:sekcja` są lepsze niż ogólniki.
-- Rozróżniaj "dowody znalezione w tym projekcie" (weryfikowalne, z plikiem:linią lub dokumentem:sekcją) od "mam przeczucie z poprzednich systemów, które widziałem" (wcześniejsze, niezweryfikowane). Wcześniejsze dane są przydatne do formułowania hipotez; tylko zweryfikowane dowody należą do Frame Brief.
+- Rozróżniaj "dowody znalezione w tym projekcie" (weryfikowalne, z plikiem:linią lub dokumentem:sekcją) od "mam przeczucie z poprzednich systemów, które widziałem" (wcześniejsze, niezweryfikowane). Wcześniejsze informacje są przydatne do formułowania hipotez; tylko zweryfikowane dowody należą do Frame Brief.
 - Jeśli użytkownik sprzeciwi się przeformułowaniu, potraktuj to poważnie — może znać kontekst, którego badanie nie uwzględniło. Ponownie uruchom Krok 3 w odpowiedzi na jego sprzeciw, zamiast bronić przeformułowania.
-- Frame Brief to jedyny artefakt. Zachowaj go krótkim, łatwym do zeskanowania i użytecznym dla /10x-plan.
+- Frame Brief to jedyny artefakt. Zachowaj go krótko, łatwo do zeskanowania i użytecznie dla /10x-plan.

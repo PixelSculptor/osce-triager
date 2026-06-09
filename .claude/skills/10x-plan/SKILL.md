@@ -40,10 +40,10 @@ Proszę podać:
 3. Linki do powiązanych badań lub poprzednich implementacji
 
 Im więcej kontekstu mi przekażesz, tym mniej pytań zadam:
-- Tylko opis zadania → pełne kwestionowanie
+- Tylko opis zadania → pełne pytania
 - Zadanie + dokument badawczy (`context/changes/<change-id>/research.md`) → mniej pytań; nie będę powtarzać tego, co zostało omówione w badaniu
-- Zadanie + brief ramowy (`context/changes/<change-id>/frame.md`) → znacznie mniej pytań; problem został już ujęty
-- Zadanie + ramka + badanie → minimalna liczba pytań; skupiam się tylko na decyzjach projektowych rozwiązania, które wymagają Twojego wkładu
+- Zadanie + brief ramowy (`context/changes/<change-id>/frame.md`) → znacznie mniej pytań; problem jest już sformułowany
+- Zadanie + ramka + badanie → minimalne pytania; skupiam się tylko na decyzjach dotyczących projektowania rozwiązania, które wymagają Twojego wkładu
 
 Wskazówka: wywołaj bezpośrednio z change-id lub ścieżką — `/10x-plan oauth-login` lub `/10x-plan @context/changes/oauth-login/frame.md`
 Aby uzyskać głębszą analizę, spróbuj: `/10x-plan think deeply about @context/changes/oauth-login/research.md`
@@ -55,36 +55,36 @@ Następnie poczekaj na dane wejściowe od użytkownika.
 
 ### Krok 1: Gromadzenie kontekstu i wstępna analiza
 
-#### Krok 1.0: Identyfikacja artefaktów upstream i skalowanie głębokości pytań
+#### Krok 1.0: Identyfikacja artefaktów nadrzędnych i skalowanie głębokości pytań
 
-Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream przekazał użytkownik. Każdy z nich reprezentuje już podjęte decyzje — nie pytaj o nie ponownie.
+Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów nadrzędnych przekazał użytkownik. Każdy z nich reprezentuje już podjęte decyzje — nie pytaj o nie ponownie.
 
-- **Frame brief** — ścieżka pasuje do `context/changes/<change-id>/frame.md`, lub zawartość zaczyna się od `# Frame Brief:` / zawiera sekcję `## Reframed`.
-- **Research doc** — ścieżka pasuje do `context/changes/<change-id>/research.md`, lub YAML frontmatter zawiera pola `topic:` i `researcher:`.
-- **Existing plan** — ścieżka pasuje do `context/changes/<change-id>/plan.md` (tryb wznowienia/dopracowania — poza zakresem tej logiki skalowania).
-- **Task description only** — żadne z powyższych.
+- **Brief ramowy** — ścieżka pasuje do `context/changes/<change-id>/frame.md`, lub zawartość zaczyna się od `# Frame Brief:` / zawiera sekcję `## Reframed`.
+- **Dokument badawczy** — ścieżka pasuje do `context/changes/<change-id>/research.md`, lub YAML frontmatter zawiera pola `topic:` i `researcher:`.
+- **Istniejący plan** — ścieżka pasuje do `context/changes/<change-id>/plan.md` (tryb wznowienia/dopracowania — poza zakresem tej logiki skalowania).
+- **Tylko opis zadania** — żadne z powyższych.
 
 **Liczba pytań i skala skupienia w zależności od dostarczonych informacji:**
 
-| Artefakty upstream          | NISKI | ŚREDNI | WYSOKI | Co się zmienia w stosunku do punktu odniesienia                                                                                                              |
-| --------------------------- | ----- | ------ | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Tylko zadanie (punkt odniesienia) | 4–6   | 7–10   | 11–15 | Pełne kwestionowanie we wszystkich istotnych kategoriach.                                                                                       |
-| Zadanie + badanie             | 3–5   | 5–7    | 8–11  | Pomiń pytania, których odpowiedź znajduje się już w dokumencie badawczym. Nie odtwarzaj podagentów, aby znaleźć to, co badanie już zmapowało.            |
-| Zadanie + ramka                | 2–3   | 4–6    | 7–9   | Pomiń kategorie [D]iagnostyczne — ramka ustaliła ramy problemu. Traktuj Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie jako autorytatywne.    |
-| Zadanie + ramka + badanie     | 1–2   | 3–5    | 5–7   | Pomiń oba. Zadawaj tylko pytania dotyczące projektowania rozwiązania [S], które naprawdę wymagają wkładu użytkownika.                                                        |
+| Artefakty nadrzędne         | NISKI | ŚREDNI | WYSOKI | Co zmienia się w porównaniu do bazowego                                                                                                              |
+| --------------------------- | ----- | ------ | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tylko zadanie (bazowe)      | 4–6   | 7–10   | 11–15 | Pełne pytania we wszystkich istotnych kategoriach.                                                                                                    |
+| Zadanie + badanie           | 3–5   | 5–7    | 8–11  | Pomiń pytania, których odpowiedź znajduje się już w dokumencie badawczym. Nie odtwarzaj podagentów, aby znaleźć to, co już zostało zmapowane w badaniu. |
+| Zadanie + ramka             | 2–3   | 4–6    | 7–9   | Pomiń kategorie [D]iagnostyczne — ramka ustaliła sformułowanie problemu. Traktuj Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie jako autorytatywne. |
+| Zadanie + ramka + badanie   | 1–2   | 3–5    | 5–7   | Pomiń oba. Zadawaj tylko pytania dotyczące projektowania rozwiązania [S], które naprawdę wymagają wkładu użytkownika.                                  |
 
 **Zasada**: każdy przekazany artefakt jest źródłem już podjętych decyzji. Czytanie ich liczy się jako słuchanie użytkownika. Nie pytaj użytkownika o to, co już napisał.
 
 **Gdy obecna jest ramka**, przeczytaj ją W CAŁOŚCI i traktuj jako autorytatywną:
-- Skopiuj **Zgłoszoną Obserwację** + **Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie** jako definicję zadania. Nie kwestionuj ponownie ramki.
+- Skopiuj **Zgłoszoną Obserwację** + **Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie** jako definicję zadania. Nie kwestionuj ponownie sformułowania.
 - Przenieś tabelę **Badanie Hipotez** i **Sygnały Zwężające** do swojej "Analizy Stanu Obecnego" — ta praca jest już wykonana.
-- Jeśli ramka **Confidence: LOW** jest oznaczona, uwzględnij to w sekcji "Otwarte Ryzyka i Założenia" planu i zadaj JEDNO pytanie wyjaśniające, jak postępować (najpierw zweryfikuj, lub planuj z uznanym ryzykiem).
-- NIE badaj ponownie ramki. Ramka odpowiada za ujęcie problemu; Ty odpowiadasz za projekt rozwiązania.
+- Jeśli ramka **Pewność: NISKA** jest oznaczona, uwzględnij to w "Otwartych Ryzykach i Założeniach" planu i zadaj JEDNO pytanie wyjaśniające, jak postępować (najpierw zweryfikuj, lub planuj z uznanym ryzykiem).
+- NIE badaj ponownie sformułowania. Ramka odpowiada za sformułowanie problemu; Ty odpowiadasz za projektowanie rozwiązania.
 
-**Gdy obecne są badania**, przeczytaj je W CAŁOŚCI i użyj jako punktu odniesienia dla bazy kodu:
-- Sekcja "Code References" JEST Twoim ugruntowaniem bazy kodu — nie odtwarzaj agentów Explore, aby znaleźć te same pliki.
-- "Architecture Insights" bezpośrednio zasilają "Analizę Stanu Obecnego".
-- Uruchamiaj podagentów tylko w celu wypełnienia konkretnych luk, których badania nie objęły (np. dokładne pliki, które ten plan zmodyfikuje, jeśli badania były szersze).
+**Gdy obecne jest badanie**, przeczytaj je W CAŁOŚCI i użyj jako bazowego kodu:
+- Sekcja "Odnośniki do kodu" JEST Twoim ugruntowaniem kodu — nie odtwarzaj agentów Explore, aby znaleźć te same pliki.
+- "Wnioski architektoniczne" bezpośrednio zasilają "Analizę Stanu Obecnego".
+- Uruchamiaj podagentów tylko w celu uzupełnienia konkretnych luk, których badanie nie objęło (np. dokładne pliki, które ten plan zmodyfikuje, jeśli badanie było szersze).
 
 #### Krok 1.1: Czytanie i badanie
 
@@ -94,15 +94,15 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
    - Briefy ramowe
    - Powiązane plany implementacji
    - Wszelkie wymienione pliki JSON/danych
-   - `context/foundation/lessons.md` jeśli istnieje — traktuj jego zasady jako priorytety podczas badania zakresu, przypadków brzegowych i wyborów architektonicznych; zasady już zaakceptowane przez zespół zawężają, które pułapki projektowe nadal wymagają świeżego kwestionowania.
+   - `context/foundation/lessons.md`, jeśli istnieje — traktuj jego zasady jako priorytety podczas sondowania zakresu, przypadków brzegowych i wyborów architektonicznych; zasady już zaakceptowane przez zespół zawężają, które pułapki projektowe nadal wymagają świeżego kwestionowania.
    - **WAŻNE**: Użyj narzędzia Read BEZ parametrów limit/offset, aby przeczytać całe pliki
    - **KRYTYCZNE**: NIE uruchamiaj podzadań przed samodzielnym przeczytaniem tych plików w głównym kontekście
    - **NIGDY** nie czytaj plików częściowo - jeśli plik jest wymieniony, przeczytaj go w całości
 
 2. **Uruchom początkowe zadania badawcze w celu zebrania kontekstu** (pomiń lub zawęź na podstawie Kroku 1.0):
-   Zanim zadasz użytkownikowi jakiekolwiek pytania, użyj narzędzia Task z równoległymi podagentami do badania:
-   - **Explore agent** (`subagent_type: "Explore"`) — znajdź wszystkie pliki związane z zadaniem, szukaj wzorców, śledź ścieżki kodu. Użyj do odkrywania plików i pytań dotyczących struktury bazy kodu.
-   - **general-purpose agent** (`subagent_type: "general-purpose"`) — do głębszej analizy, która może wymagać przeczytania wielu plików i syntezy wyników. Użyj do zrozumienia złożonych systemów.
+   Zanim zadasz użytkownikowi jakiekolwiek pytania, użyj narzędzia Task z równoległymi podagentami do zbadania:
+   - **Agent Explore** (`subagent_type: "Explore"`) — znajdź wszystkie pliki związane z zadaniem, szukaj wzorców, śledź ścieżki kodu. Użyj do odkrywania plików i pytań dotyczących struktury kodu.
+   - **Agent ogólnego przeznaczenia** (`subagent_type: "general-purpose"`) — do głębszej analizy, która może wymagać przeczytania wielu plików i syntezy wyników. Użyj do zrozumienia złożonych systemów.
 
    Przykład: uruchom 2-3 agentów Explore równolegle dla różnych wymiarów wyszukiwania (np. "znajdź wszystkie pliki związane z X", "znajdź podobne implementacje Y", "znajdź wcześniejsze decyzje dotyczące Z w `context/changes/**/` i `context/archive/**/`").
 
@@ -120,17 +120,17 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
    - Porównaj wymagania zgłoszenia z rzeczywistym kodem
    - Zidentyfikuj wszelkie rozbieżności lub nieporozumienia
    - Zauważ założenia, które wymagają weryfikacji
-   - Określ prawdziwy zakres na podstawie rzeczywistości bazy kodu
+   - Określ prawdziwy zakres na podstawie rzeczywistości kodu
 
 5. **Przedstaw świadome zrozumienie i oceń złożoność**:
 
    Najpierw przedstaw krótkie podsumowanie tego, co znalazłeś:
 
    ```
-   Na podstawie [zgłoszenia i moich badań bazy kodu / Twojego opisu i mojej analizy], rozumiem, że musimy [dokładne podsumowanie].
+   Na podstawie [zgłoszenia i moich badań kodu / Twojego opisu i mojej analizy], rozumiem, że musimy [dokładne podsumowanie].
 
-   Odkryłem, że:
-   - [Kluczowe odkrycie — odniesienie do kodu, istniejący zasób, wcześniejsza praca lub ograniczenie domeny]
+   Znalazłem, że:
+   - [Kluczowe odkrycie — odniesienie do kodu, istniejący zasób, wcześniejsza praca lub ograniczenie domenowe]
    - [Odpowiedni wzorzec, konwencja lub odkryte ograniczenie]
    - [Potencjalna złożoność lub zidentyfikowany przypadek brzegowy]
    ```
@@ -157,18 +157,18 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
      - label: "Zgadzam się — przejdź do [N] pytań"
        description: "Ocena jest dokładna, zagłębmy się w szczegóły."
      - label: "Wyższa — zadaj więcej pytań"
-       description: "Złożoność jest większa niż zidentyfikowano. Wyjaśnię, czego brakuje."
+       description: "Jest więcej złożoności niż zidentyfikowano. Wyjaśnię, czego brakuje."
      - label: "Niższa — potrzeba mniej pytań"
        description: "To jest prostsze niż się wydaje. Skupmy się na tym."
        multiSelect: false
 
    **Skala złożoności:**
 
-   | Poziom      | Pytania | Kiedy używać                                                                                                                                                                                                                                                                                                           |
-   | ---------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | **NISKI**    | 4-6       | Proste zadanie z jasnymi wymaganiami. Niewiele ruchomych części, zgodne z ustalonymi wzorcami lub konwencjami, ograniczone niewiadome. Przykłady oprogramowania: zmiana pojedynczego pliku, drobna zmiana konfiguracji. Przykłady poza oprogramowaniem: zarys pojedynczego tematu, prosta zmiana procesu.                                 |
-   | **ŚREDNI** | 7-10      | Wiele komponentów lub rozważań, które współdziałają. Wymaga decyzji projektowych, ma przypadki brzegowe warte omówienia, pewna niejednoznaczność w podejściu. Przykłady oprogramowania: funkcja obejmująca wiele plików, nowy punkt końcowy API. Przykłady poza oprogramowaniem: wieloczęściowy plan treści, przeprojektowanie przepływu pracy, moduł kursu.                               |
-   | **WYSOKI**   | 11-15     | Zagadnienia przekrojowe, znaczące niewiadome, wielu interesariuszy lub ograniczeń. Wymaga myślenia architektonicznego, wiąże się z ryzykiem kosztownych przeróbek, jeśli jest błędne. Przykłady oprogramowania: przeprojektowanie systemu, migracja danych. Przykłady poza oprogramowaniem: strategia uruchomienia wielokanałowego, przegląd programu nauczania, zmiana procesu organizacyjnego. |
+   | Poziom     | Pytania | Kiedy używać                                                                                                                                                                                                                                                                                                           |
+   | ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | **NISKI**  | 4-6     | Proste zadanie z jasnymi wymaganiami. Niewiele ruchomych części, zgodne z ustalonymi wzorcami lub konwencjami, ograniczone niewiadome. Przykłady oprogramowania: zmiana pojedynczego pliku, drobna zmiana konfiguracji. Przykłady poza oprogramowaniem: zarys pojedynczego tematu, prosta zmiana procesu.                 |
+   | **ŚREDNI** | 7-10    | Wiele komponentów lub rozważań, które współdziałają. Wymaga decyzji projektowych, ma przypadki brzegowe warte omówienia, pewna niejednoznaczność w podejściu. Przykłady oprogramowania: funkcja wieloplikowa, nowy punkt końcowy API. Przykłady poza oprogramowaniem: wieloczęściowy plan treści, przeprojektowanie przepływu pracy, moduł kursu. |
+   | **WYSOKI** | 11-15   | Zagadnienia przekrojowe, znaczące niewiadome, wielu interesariuszy lub ograniczeń. Wymaga myślenia architektonicznego, wiąże się z ryzykiem kosztownej przeróbki, jeśli jest błędne. Przykłady oprogramowania: przeprojektowanie systemu, migracja danych. Przykłady poza oprogramowaniem: strategia uruchomienia wielokanałowego, przegląd programu nauczania, zmiana procesu organizacyjnego. |
 
    Po potwierdzeniu (lub dostosowaniu) przez użytkownika, przejdź do zadawania pytań.
 
@@ -184,9 +184,9 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
 
    **Każda opcja MUSI zawierać sygnał rekomendacji i analizę kompromisów:**
    - Oznacz dokładnie jedną opcję jako `⭐ Recommended` w jej etykiecie
-   - `description` każdej opcji musi być zgodny z tym formatem:
-     `[1-zdaniowe wyjaśnienie, co to robi] · Mocna strona: [kluczowa zaleta] · Kompromis: [kluczowy koszt lub ryzyko]`
-   - Rekomendacja powinna być oparta na badaniach (wzorcach bazy kodu dla oprogramowania, wiedzy dziedzinowej i kontekście dla zadań poza oprogramowaniem) — a nie na zgadywaniu
+   - Opis `description` każdej opcji musi być zgodny z tym formatem:
+     `[1-zdanie co to robi] · Mocna strona: [kluczowa zaleta] · Kompromis: [kluczowy koszt lub ryzyko]`
+   - Rekomendacja powinna być oparta na badaniach (wzorce kodu dla oprogramowania, wiedza domenowa i kontekst dla zadań poza oprogramowaniem) — a nie na zgadywaniu
 
    **Przykład wywołania AskUserQuestion z rekomendacjami (oprogramowanie):** `Conflicts` to `[S]` — architektura rozwiązania; zawsze zadawane, nawet gdy ramka zdefiniowała problem.
 
@@ -195,7 +195,7 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
      header: "Konflikty"
      options:
      - label: "Ostatni zapis wygrywa"
-       description: "Późniejszy zapis cicho nadpisuje wcześniejszy. · Mocna strona: Zero dodatkowej złożoności, brak potrzeby zmian w interfejsie użytkownika. · Kompromis: Użytkownicy mogą stracić pracę bez ostrzeżenia — akceptowalne tylko wtedy, gdy edycje są rzadkie lub niskiego ryzyka."
+       description: "Późniejszy zapis cicho nadpisuje wcześniejszy. · Mocna strona: Zero dodatkowej złożoności, brak potrzeby zmian w interfejsie użytkownika. · Kompromis: Użytkownicy mogą stracić pracę bez ostrzeżenia — akceptowalne tylko, jeśli edycje są rzadkie lub niskiego ryzyka."
      - label: "⭐ Recommended: Powiadom i połącz"
        description: "Pokaż konflikt użytkownikowi, pozwól mu wybrać, którą wersję zachować. · Mocna strona: Zapobiega utracie danych, jednocześnie utrzymując prosty UX — pasuje do wzorca w istniejącym komponencie EditPanel. · Kompromis: Dodaje modal do rozwiązywania konfliktów i subskrypcję WebSocket do wykrywania w czasie rzeczywistym."
      - label: "Oparte na blokadach"
@@ -210,7 +210,7 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
      options:
      - label: "Przegląd koncepcyjny"
        description: "Zasady wysokiego poziomu, bez kodu. · Mocna strona: Dostępne dla wszystkich poziomów umiejętności, szybsze w produkcji. · Kompromis: Zaawansowani uczniowie mogą uznać to za zbyt płytkie — ryzyko utraty zaangażowania."
-     - label: "⭐ Recommended: Praktyczne przykłady z przewodnikiem"
+     - label: "⭐ Recommended: Praktyczne z przykładami z przewodnikiem"
        description: "Koncepcje połączone z ćwiczeniami krok po kroku. · Mocna strona: Równoważy zrozumienie i praktykę — pasuje do formatu, który uzyskał najwyższe wskaźniki ukończenia w 10xDevs2. · Kompromis: 2-3 razy więcej czasu na przygotowanie na lekcję; wymaga działających repozytoriów przykładów."
      - label: "Głębokie zanurzenie z otwartymi wyzwaniami"
        description: "Minimalne rusztowanie, problemy ze świata rzeczywistego. · Mocna strona: Wymusza prawdziwe rozwiązywanie problemów, najwyższe zatrzymanie wiedzy. · Kompromis: Wysokie ryzyko rezygnacji dla mniej doświadczonych uczniów; trudniejsze do wsparcia na dużą skalę."
@@ -218,7 +218,7 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
 
    **O co pytać** — dostosuj kategorie do dziedziny zadania:
 
-   Najpierw zidentyfikuj dziedzinę zadania: **oprogramowanie**, **treści/edukacja**, **strategia/proces** lub **hybryda**. Następnie wybierz odpowiednie kategorie pytań. Poniższe kategorie są uporządkowane według dziedziny — wybierz to, co istotne, nie narzucaj kategorii oprogramowania zadaniom poza oprogramowaniem.
+   Najpierw zidentyfikuj dziedzinę zadania: **oprogramowanie**, **treść/edukacja**, **strategia/proces** lub **hybryda**. Następnie wybierz odpowiednie kategorie pytań. Poniższe kategorie są uporządkowane według dziedziny — wybierz to, co istotne, nie narzucaj kategorii oprogramowania zadaniom poza oprogramowaniem.
 
    **Każda kategoria jest oznaczona `[D]` (diagnostyczna — dotycząca problemu) lub `[S]` (rozwiązanie — dotyczące sposobu budowania).** Gdy w Kroku 1.0 dostarczono brief ramowy, **pomiń wszystkie kategorie `[D]`** — ramka je ustaliła. Zawsze zadawaj kategorie `[S]`, które nadal wymagają wkładu użytkownika.
 
@@ -226,14 +226,14 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
    - **Granice zakresu** `[D]`: Co jest w zakresie, a co poza nim
    - **Przypadki brzegowe / tryby awarii** `[S]`: Co się dzieje, gdy coś pójdzie nie tak lub stanie się dziwne (obsługa implementacji, nawet jeśli ramka nazwała klasę obserwacji)
    - **Kryteria sukcesu** `[D]`: Skąd wiemy, że to zadziałało — z perspektywy użytkownika końcowego lub interesariusza
-   - **Priorytet** `[D]`: Musi być vs miło mieć — co zostanie odrzucone, jeśli czas jest ograniczony
+   - **Priorytet** `[D]`: Must-have vs nice-to-have — co zostanie odrzucone, jeśli czas jest ograniczony
 
    **Kategorie specyficzne dla oprogramowania (dodaj w zależności od złożoności):**
 
    ŚREDNI+:
    - **Decyzje dotyczące modelu danych** `[S]`: Schemat, relacje, ograniczenia, migracje
    - **Strategia obsługi błędów** `[S]`: Tryby awarii, logika ponawiania, komunikaty dla użytkownika
-   - **Podejście do testowania** `[S]`: Poziom pokrycia, które przypadki brzegowe należy jawnie przetestować
+   - **Podejście do testowania** `[S]`: Poziom pokrycia, które przypadki brzegowe testować jawnie
    - **Granice wydajności** `[S]`: Oczekiwane obciążenie, akceptowalne opóźnienie, buforowanie
 
    WYSOKI:
@@ -248,12 +248,12 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
    ŚREDNI+:
    - **Odbiorcy i wymagania wstępne** `[D]`: Dla kogo to jest, co już wiedzą
    - **Format i medium** `[S]`: Pisemne, wideo, interaktywne, na żywo — i dlaczego
-   - **Łuk narracyjny** `[S]`: Jaką podróż odbywa czytelnik/uczący się
+   - **Łuk narracyjny** `[S]`: Jaką podróż odbywa czytelnik/uczeń
    - **Przykłady i ćwiczenia** `[S]`: Co sprawia, że koncepcje zapadają w pamięć
 
    WYSOKI:
    - **Zależności programowe** `[D]`: Co musi być nauczone przed czym
-   - **Strategia oceny** `[S]`: Jak zweryfikować, czy nauka się odbyła
+   - **Strategia oceny** `[S]`: Jak zweryfikować, czy nauka nastąpiła
    - **Ponowne użycie i modułowość** `[S]`: Czy części mogą być używane samodzielnie lub w innych kontekstach
    - **Dystrybucja i dostęp** `[D]`: Gdzie to się znajduje, jak ludzie to znajdują
 
@@ -272,28 +272,28 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów upstream p
    - **Plan komunikacji** `[S]`: Kto musi wiedzieć co, kiedy, za pośrednictwem jakiego kanału
 
    **O co NIE pytać:**
-   - O cokolwiek, co zostało już ustalone w artefaktach upstream (brief ramowy, dokument badawczy) — ponowne pytanie to tryb awarii, któremu ma zapobiegać to skalowanie
-   - Niskopoziomowe szczegóły implementacji, które możesz ustalić samodzielnie (na podstawie badań bazy kodu dla oprogramowania, na podstawie plików kontekstowych i wcześniejszych prac dla zadań poza oprogramowaniem)
+   - O cokolwiek, co zostało już ustalone w artefaktach nadrzędnych (brief ramowy, dokument badawczy) — ponowne pytanie to tryb awarii, któremu ma zapobiegać to skalowanie
+   - Niskopoziomowe szczegóły implementacji, które możesz ustalić samodzielnie (na podstawie badań kodu dla oprogramowania, na podstawie plików kontekstowych i wcześniejszych prac dla zadań poza oprogramowaniem)
    - Pytania z oczywistymi odpowiedziami, biorąc pod uwagę już dostarczony kontekst
    - Preferencje, które nie wpływają na strukturę ani sukces planu
 
-   **KRYTYCZNE**: MUSISZ zadać liczbę pytań odpowiednią do potwierdzonego poziomu złożoności *i* skalowania artefaktów upstream z Kroku 1.0. Nie skracaj tego, gdy nie dostarczono żadnych artefaktów upstream — dokładne kwestionowanie zapobiega kosztownym przeróbkom. Równie ważne, nie dodawaj pytań, gdy ramka lub badania już pokrywają temat — ponowne pytanie podważa zaufanie do artefaktu upstream. Każde pytanie powinno wymuszać prawdziwą decyzję, a nie potwierdzać coś oczywistego.
+   **KRYTYCZNE**: MUSISZ zadać liczbę pytań odpowiednią do potwierdzonego poziomu złożoności *i* skalowania artefaktów nadrzędnych z Kroku 1.0. Nie skracaj tego, gdy nie dostarczono żadnych artefaktów nadrzędnych — dokładne pytania zapobiegają kosztownym przeróbkom. Równie ważne jest, aby nie dodawać pytań, gdy ramka lub badanie już obejmuje dany obszar — ponowne pytanie podważa zaufanie do artefaktu nadrzędnego. Każde pytanie powinno wymuszać prawdziwą decyzję, a nie potwierdzać coś oczywistego.
 
 ### Krok 2: Badania i odkrycia
 
 Po uzyskaniu wstępnych wyjaśnień od użytkownika, TERAZ jest czas na zajęcie się szczegółami implementacji:
 
-1. **Badanie wzorców implementacji i wcześniejszych prac**:
+1. **Badaj wzorce implementacji i wcześniejsze prace**:
    Na tym etapie samodzielnie odpowiadaj na pytania dotyczące implementacji — nie proś użytkownika o podejmowanie tych decyzji.
 
-   **Dla zadań programistycznych**, zbadaj bazę kodu:
+   **Dla zadań oprogramowania**, badaj bazę kodu:
    - Jakie wzorce baza kodu wykorzystuje dla podobnych funkcji?
    - Jakie jest ustalone podejście do obsługi błędów / logowania / testowania?
    - Które istniejące komponenty lub narzędzia można ponownie wykorzystać?
    - Jakie ograniczenia narzuca obecna architektura?
 
-   **Dla zadań poza oprogramowaniem**, zbadaj pliki kontekstowe i wcześniejsze prace:
-   - Jakie formaty, struktury lub szablony były wcześniej używane do podobnych prac?
+   **Dla zadań poza oprogramowaniem**, badaj pliki kontekstowe i wcześniejsze prace:
+   - Jakie formaty, struktury lub szablony były używane do podobnych prac wcześniej?
    - Jakie ograniczenia wynikają z wcześniejszych decyzji, odbiorców lub platformy?
    - Jakie powiązane treści lub procesy już istnieją, z którymi to powinno być zgodne?
    - Co działało dobrze (lub nie) w poprzednich iteracjach?
@@ -302,13 +302,13 @@ Po uzyskaniu wstępnych wyjaśnień od użytkownika, TERAZ jest czas na zajęcie
 
 2. **Jeśli użytkownik poprawi jakiekolwiek nieporozumienie**:
    - NIE akceptuj po prostu poprawki
-   - Uruchom nowe zadania badawcze, aby zweryfikować poprawne informacje
-   - Przeczytaj konkretne pliki/katalogi, które wspomina
+   - Uruchom nowe zadania badawcze w celu weryfikacji poprawnych informacji
+   - Przeczytaj konkretne pliki/katalogi, które wymienia
    - Kontynuuj dopiero po samodzielnym zweryfikowaniu faktów
 
 3. **Twórz zadania badawcze** za pomocą TaskCreate, aby śledzić eksplorację (pojawiają się one na pasku stanu użytkownika). Aktualizuj je za pomocą TaskUpdate w miarę postępów badań.
 
-4. **Uruchom równoległe podzadania dla kompleksowych badań**:
+4. **Uruchom równoległe podzadania do kompleksowych badań**:
    - Utwórz wielu agentów Task do równoczesnego badania różnych aspektów
    - Użyj odpowiedniego typu agenta dla każdej potrzeby badawczej:
 
@@ -317,7 +317,7 @@ Po uzyskaniu wstępnych wyjaśnień od użytkownika, TERAZ jest czas na zajęcie
    - **general-purpose** (`subagent_type: "general-purpose"`) — Głęboka analiza wymagająca wieloetapowego rozumowania
 
    **Dla kontekstu historycznego:**
-   - **Explore** — Szukaj w `context/changes/**/research.md` i `context/changes/**/plan.md` (oraz tych samych ścieżkach w `context/archive/`) powiązanych dokumentów
+   - **Explore** — Szukaj w `context/changes/**/research.md` i `context/changes/**/plan.md` (i tych samych ścieżkach pod `context/archive/`) powiązanych dokumentów
 
    Każdy agent będzie:
    - Znajdować odpowiednie pliki i wzorce kodu
@@ -333,7 +333,7 @@ Po uzyskaniu wstępnych wyjaśnień od użytkownika, TERAZ jest czas na zajęcie
    Najpierw przedstaw krótkie podsumowanie wyników badań:
 
    ```
-   Na podstawie moich badań, oto co odkryłem:
+   Na podstawie moich badań, oto co znalazłem:
 
    **Stan obecny:**
    - [Kluczowe odkrycie dotyczące istniejącego kodu]
@@ -352,9 +352,9 @@ Po uzyskaniu wstępnych wyjaśnień od użytkownika, TERAZ jest czas na zajęcie
        description: "[Kluczowe kompromisy]"
 
    Jeśli istnieje wyraźnie jedno najlepsze podejście, pomiń AskUserQuestion i wyjaśnij, dlaczego je wybrałeś.
-   Pytaj tylko wtedy, gdy wybór naprawdę ma znaczenie i nie możesz określić odpowiedzi na podstawie wzorców bazy kodu.
+   Pytaj tylko wtedy, gdy wybór ma naprawdę znaczenie i nie możesz określić odpowiedzi na podstawie wzorców kodu.
 
-### Krok 3: Rozwój struktury planu
+### Krok 3: Opracowanie struktury planu
 
 Po uzgodnieniu podejścia:
 
@@ -397,7 +397,7 @@ Po zatwierdzeniu struktury:
    - W przeciwnym razie utwórz kebab-case `<change-id>` z tematu i utwórz folder + `change.md` (odzwierciedlając semantykę `/10x-new`) przed zapisaniem.
    - Odmów, jeśli rozwiązana ścieżka zaczyna się od `context/archive/` — wydrukuj: "Ta zmiana jest zarchiwizowana. Zamiast tego otwórz nową zmianę za pomocą `/10x-new`." i ZATRZYMAJ.
    - Zaktualizuj `change.md`: ustaw `status: planned` i `updated: <dzisiaj>`.
-2. **Użyj tej struktury szablonu** (bloki faz zawierają zwykłe wypunktowania — `- ` zamiast `- [ ]` — i pojedynczą kanoniczną sekcję `## Progress` na dole, która odpowiada za stan pól wyboru, patrz `references/progress-format.md` dla umowy):
+2. **Użyj tej struktury szablonu** (bloki faz zawierają zwykłe punktorzy — `- ` a nie `- [ ]` — i pojedynczą kanoniczną sekcję `## Postęp` na dole, która odpowiada za stan pola wyboru, patrz `references/progress-format.md` dla umowy):
 
 ````markdown
 # [Nazwa funkcji/zadania] Plan implementacji
@@ -412,7 +412,7 @@ Po zatwierdzeniu struktury:
 
 ## Pożądany stan końcowy
 
-[Specyfikacja pożądanego stanu końcowego po zakończeniu tego planu i sposób jego weryfikacji]
+[Specyfikacja pożądanego stanu końcowego po zakończeniu tego planu i sposobu jego weryfikacji]
 
 ### Kluczowe odkrycia:
 
@@ -430,23 +430,23 @@ Po zatwierdzeniu struktury:
 
 ## Krytyczne szczegóły implementacji
 
-Ta sekcja zawiera **ograniczenia, pułapki i wymagania dotyczące kolejności, które implementator musi znać, zanim dotknie kodu** — fakty, które LLM ustala podczas Badań i Odkryć (Krok 2), a które nie są widoczne tylko ze ścieżek plików.
+Ta sekcja zawiera **ograniczenia, pułapki i wymagania dotyczące kolejności, które implementator musi znać, zanim dotknie kodu** — fakty, które LLM ustala podczas badań i odkryć (Krok 2), a które nie są widoczne tylko ze ścieżek plików.
 
-To NIE jest miejsce do wstępnego decydowania o implementacji. Domyślnie: **pomiń** całą sekcję. Dołącz nagłówek poniżej TYLKO wtedy, gdy coś naprawdę zaskakującego lub obciążającego ma zastosowanie — i napisz 1-3 zdania, a nie szablony wypunktowań.
+To NIE jest miejsce do wstępnego decydowania o implementacji. Domyślnie: **pomijaj** całą sekcję. Dołącz nagłówek poniżej TYLKO wtedy, gdy coś naprawdę zaskakującego lub obciążającego ma zastosowanie — i napisz 1-3 zdania, a nie szablony punktorów.
 
-- **Czas i cykl życia** — dołącz tylko wtedy, gdy istnieje nieoczywista kolejność, wyścig lub hak cyklu życia, który implementator mógłby przeoczyć.
-- **Specyfikacja doświadczenia użytkownika** — dołącz tylko wtedy, gdy zachowanie widoczne dla użytkownika ma ograniczenia, których nie można wywnioskować z wymagań użytkownika (np. specyficzne zarządzanie fokusem, zachowanie przewijania).
-- **Ograniczenia wydajności** — dołącz tylko wtedy, gdy istnieje rzeczywisty budżet wydajności lub znany punkt krytyczny; pomiń ogólne porady typu "użyj memoizacji".
-- **Sekwencjonowanie stanu** — dołącz tylko wtedy, gdy kolejność zmian stanu ma znaczenie, a oczywista kolejność jest błędna.
-- **Debugowanie i obserwowalność** — dołącz tylko wtedy, gdy istnieje specyficzna metoda weryfikacji lub potrzeba instrumentacji wykraczająca poza standardowe logowanie.
+- **Czas i cykl życia** — dołącz tylko, jeśli istnieje nieoczywista kolejność, wyścig lub hak cyklu życia, który implementator mógłby przeoczyć.
+- **Specyfikacja doświadczenia użytkownika** — dołącz tylko, gdy zachowanie widoczne dla użytkownika ma ograniczenia, których nie można wywnioskować z wymagań użytkownika (np. specyficzne zarządzanie fokusem, zachowanie przewijania).
+- **Ograniczenia wydajności** — dołącz tylko, gdy istnieje rzeczywisty budżet wydajności lub znany punkt krytyczny; pomiń ogólne porady typu "użyj memoizacji".
+- **Sekwencjonowanie stanu** — dołącz tylko, gdy kolejność zmian stanu ma znaczenie, a oczywista kolejność jest błędna.
+- **Debugowanie i obserwowalność** — dołącz tylko, gdy istnieje specyficzna metoda weryfikacji lub potrzeba instrumentacji wykraczająca poza standardowe logowanie.
 
-Jeśli żadne z powyższych nie ma zastosowania, pomiń całą sekcję. Plan bez niej nie jest niekompletny; plan, który wypełnia ją szablonowymi wypunktowaniami, jest nadmiernie rozbudowany.
+Jeśli żadne z powyższych nie ma zastosowania, pomiń całą sekcję. Plan bez niej nie jest niekompletny; plan, który wypełnia ją szablonowymi punktorami, jest nadmiernie rozbudowany.
 
 ## Faza 1: [Nazwa opisowa]
 
 ### Przegląd
 
-[Co ta faza osiąga]
+[Co osiąga ta faza]
 
 ### Wymagane zmiany:
 
@@ -477,7 +477,7 @@ Fragment kodu pojawia się tutaj TYLKO wtedy, gdy zmiana jest nieoczywista — t
 - Obsługa przypadków brzegowych zweryfikowana ręcznie
 - Brak regresji w powiązanych funkcjach
 
-**Uwaga implementacyjna**: Po zakończeniu tej fazy i pomyślnym przejściu wszystkich automatycznych weryfikacji, zatrzymaj się tutaj na ręczne potwierdzenie od człowieka, że testy ręczne zakończyły się sukcesem, zanim przejdziesz do następnej fazy. Bloki faz używają zwykłych wypunktowań — odpowiadające im pola wyboru `- [ ]` dla tych elementów znajdują się w sekcji `## Progress` na dole planu.
+**Uwaga implementacyjna**: Po zakończeniu tej fazy i przejściu wszystkich automatycznych weryfikacji, zatrzymaj się tutaj, aby uzyskać ręczne potwierdzenie od człowieka, że testy ręczne zakończyły się sukcesem, zanim przejdziesz do następnej fazy. Bloki faz używają zwykłych punktorów — odpowiadające im pola wyboru `- [ ]` dla tych elementów znajdują się w sekcji `## Postęp` na dole planu.
 
 ---
 
@@ -502,7 +502,7 @@ Fragment kodu pojawia się tutaj TYLKO wtedy, gdy zmiana jest nieoczywista — t
 
 1. [Konkretny krok do weryfikacji funkcji]
 2. [Kolejny krok weryfikacji]
-3. [Przypadek brzegowy do ręcznego przetestowania]
+3. [Przypadek brzegowy do przetestowania ręcznie]
 
 ## Uwagi dotyczące wydajności
 
@@ -519,7 +519,7 @@ Fragment kodu pojawia się tutaj TYLKO wtedy, gdy zmiana jest nieoczywista — t
 
 ## Postęp
 
-> Konwencja: `- [ ]` oczekujące, `- [x]` wykonane. Dodaj ` — <commit sha>`, gdy krok zostanie zrealizowany. Nie zmieniaj nazw tytułów kroków. Zobacz `references/progress-format.md`.
+> Konwencja: `- [ ]` oczekujące, `- [x]` wykonane. Dołącz ` — <commit sha>` po zakończeniu kroku. Nie zmieniaj nazw tytułów kroków. Zobacz `references/progress-format.md`.
 
 ### Faza 1: <Nazwa fazy 1>
 
@@ -539,11 +539,11 @@ Fragment kodu pojawia się tutaj TYLKO wtedy, gdy zmiana jest nieoczywista — t
 - [ ] 2.1 <…>
 ````
 
-Sekcja Postęp jest mechaniczna — emituj jeden `### Faza N: <nazwa>` na fazę, z podsekcjami `#### Automatyczne` / `#### Ręczne` wyliczającymi każdy punkt Kryteriów Sukcesu z tej fazy jako `- [ ] <faza>.<indeks> <tytuł>`. Pomiń puste podsekcje. Same bloki faz zawierają zwykłe wypunktowania `- ` (bez pól wyboru); sekcja `## Postęp` jest jedynym miejscem, gdzie pojawiają się `[ ]` / `[x]`.
+Sekcja Postęp jest mechaniczna — emituj jeden `### Faza N: <nazwa>` na fazę, z podsekcjami `#### Automatyczne` / `#### Ręczne` wyliczającymi każdy punkt Kryteriów Sukcesu z tej fazy jako `- [ ] <faza>.<indeks> <tytuł>`. Pomiń puste podsekcje. Same bloki faz zawierają zwykłe punktorzy `- ` (bez pól wyboru); sekcja `## Postęp` jest jedynym miejscem, gdzie pojawiają się `[ ]` / `[x]`.
 
 ### Krok 4.5: Krótki plan (dwustronicowy)
 
-Po napisaniu pełnego planu, wygeneruj zwięzły brief, który przedstawi czytelnikowi ogólny obraz, zanim zagłębi się w 500-1000 linii szczegółów. Brief jest pierwszą rzeczą, którą użytkownik czyta — powinien zająć mniej niż 2 minuty i pozostawić jasny model mentalny tego, co plan robi, dlaczego i jakie były kluczowe decyzje.
+Po napisaniu pełnego planu, wygeneruj zwięzły brief, który da czytelnikowi ogólny obraz, zanim zagłębi się w 500-1000 linii szczegółów. Brief jest pierwszą rzeczą, którą użytkownik czyta — powinien zająć mniej niż 2 minuty i pozostawić jasny model mentalny tego, co plan robi, dlaczego i jakie były kluczowe decyzje.
 
 1. **Napisz brief** do `context/changes/<change-id>/plan-brief.md` (plik siostrzany `plan.md` w tym samym folderze zmian).
 
@@ -553,8 +553,8 @@ Po napisaniu pełnego planu, wygeneruj zwięzły brief, który przedstawi czytel
 # [Nazwa funkcji/zadania] — Krótki plan
 
 > Pełny plan: `context/changes/<change-id>/plan.md`
-> Krótki opis ramowy: `context/changes/<change-id>/frame.md` (jeśli istnieje — w przeciwnym razie pomiń wiersz)
-> Badania: `context/changes/<change-id>/research.md` (jeśli istnieje — w przeciwnym razie pomiń wiersz)
+> Krótki opis ramowy: `context/changes/<change-id>/frame.md` (jeśli istnieje — w przeciwnym razie pomiń linię)
+> Badania: `context/changes/<change-id>/research.md` (jeśli istnieje — w przeciwnym razie pomiń linię)
 
 ## Co i dlaczego
 
@@ -572,33 +572,33 @@ Po napisaniu pełnego planu, wygeneruj zwięzły brief, który przedstawi czytel
 
 Gdy brief ramowy lub dokument badawczy był danymi wejściowymi, oznacz kolumnę **Źródło**, aby pokazać, skąd pochodzi decyzja. Pozwala to czytelnikom zobaczyć pochodzenie: co zostało ustalone wcześniej, a co zostało zdecydowane podczas tej sesji planowania.
 
-| Decyzja                       | Wybór            | Dlaczego (1 zdanie)  | Źródło           |
+| Decyzja                       | Wybór            | Dlaczego (1 zdanie) | Źródło           |
 | ------------------------------ | ----------------- | ----------------- | ---------------- |
-| [Obszar decyzji]                | [Co wybrano]      | [Główne uzasadnienie]  | Ramka / Badania / Plan |
-| [Obszar decyzji]                | [Wybór]           | [Uzasadnienie]       | Ramka / Badania / Plan |
+| [Obszar decyzji]               | [Co wybrano]      | [Główne uzasadnienie] | Ramka / Badania / Plan |
+| [Obszar decyzji]               | [Wybór]           | [Uzasadnienie]    | Ramka / Badania / Plan |
 | ...                            | ...               | ...               | ...              |
 
-(Pomiń kolumnę `Źródło`, jeśli nie dostarczono żadnych artefaktów upstream — każdy wiersz byłby `Plan`.)
+(Pomiń kolumnę `Źródło`, jeśli nie dostarczono żadnych artefaktów nadrzędnych — każdy wiersz byłby `Plan`.)
 
 ## Zakres
 
-**W zakresie:** [Lista punktowana tego, co jest włączone]
+**W zakresie:** [Lista punktowana tego, co jest uwzględnione]
 
 **Poza zakresem:** [Lista punktowana tego, co jest jawnie wykluczone]
 
 ## Architektura / Podejście
 
-[1 krótki akapit lub prosty diagram opisujący ogólne podejście.
+[1 krótki akapit lub prosty diagram opisujący podejście wysokiego poziomu.
 Dla oprogramowania: kluczowe komponenty, przepływ danych, punkty integracji.
 Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależności.]
 
 ## Fazy w skrócie
 
-| Faza     | Co dostarcza       | Kluczowe ryzyko                  |
-| --------- | ---------------------- | ------------------------- |
+| Faza      | Co dostarcza            | Kluczowe ryzyko           |
+| --------- | ----------------------- | ------------------------- |
 | 1. [Nazwa] | [Jednowierszowy rezultat] | [Główne ryzyko lub obawa] |
 | 2. [Nazwa] | [Jednowierszowy rezultat] | [Główne ryzyko]           |
-| ...       | ...                    | ...                       |
+| ...       | ...                     | ...                       |
 
 **Wymagania wstępne:** [Co musi być prawdą przed rozpoczęciem — zależności, dostęp, wcześniejsze prace]
 **Szacowany nakład pracy:** [Przybliżony rozmiar: np. "~2-3 sesje w 3 fazach" lub "8 tygodni, zespół 2-osobowy"]
@@ -617,7 +617,7 @@ Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależnoś
    - Musi mieścić się na około 2 wydrukowanych stronach (~60-80 linii markdown). Jeśli jest dłuższy, skróć.
    - Tabela "Kluczowe decyzje" jest sercem — przedstawia to, co zostało zdecydowane podczas zadawania pytań, aby każdy, kto później czyta plan, zrozumiał wybory bez ponownego czytania wszystkich pytań.
    - "Punkt wyjścia" ugruntowuje czytelnika w tym, co istnieje dzisiaj — bez niego ktoś nieznający projektu nie może zrozumieć różnicy.
-   - "Wymagania wstępne i szacowany nakład pracy" na dole tabeli faz dają czytelnikowi szybką kontrolę wykonalności przed podjęciem decyzji o przeczytaniu pełnego planu.
+   - "Wymagania wstępne i szacowany nakład pracy" na dole tabeli faz daje czytelnikowi szybką kontrolę wykonalności przed podjęciem decyzji o przeczytaniu pełnego planu.
    - Pisz dla kogoś, kto nie brał udziału w rozmowie planistycznej — powinien zrozumieć kształt i uzasadnienie planu tylko z briefu.
    - Link do pełnego planu na górze, aby czytelnik mógł zagłębić się w dowolną sekcję.
 
@@ -648,7 +648,7 @@ Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależnoś
 
    → /10x-implement <change-id> phase 1 (✓ skopiowano)
 
-   Najpierw przejrzyj brief, a następnie sprawdź pełny plan pod kątem wszelkich potrzebnych poprawek:
+   Najpierw przejrzyj brief, a następnie sprawdź pełny plan pod kątem wszelkich potrzebnych dostosowań:
    - Czy fazy są odpowiednio zakresowane?
    - Czy kryteria sukcesu są wystarczająco szczegółowe?
    - Czy jakieś szczegóły techniczne wymagają dostosowania?
@@ -673,34 +673,34 @@ Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależnoś
 
 2. **Bądź interaktywny**:
    - Nie pisz całego planu za jednym razem
-   - Uzyskaj zgodę na każdym głównym kroku
+   - Uzyskaj zgodę na każdym głównym etapie
    - Pozwól na korekty kursu
    - Pracuj wspólnie
 
 3. **Bądź dokładny**:
-   - PRZECZYTAJ WSZYSTKIE pliki kontekstowe W CAŁOŚCI przed planowaniem
+   - PRZED planowaniem przeczytaj WSZYSTKIE pliki kontekstowe W CAŁOŚCI
    - Badaj wzorce za pomocą równoległych podzadań (baza kodu dla oprogramowania, pliki kontekstowe i wcześniejsze prace dla zadań poza oprogramowaniem)
    - Dołącz konkretne odniesienia (file:line dla kodu, ścieżki dokumentów dla treści)
-   - Napisz mierzalne kryteria sukcesu z wyraźnym rozróżnieniem na automatyczne i ręczne
+   - Pisz mierzalne kryteria sukcesu z wyraźnym rozróżnieniem na automatyczne i ręczne
 
 4. **Bądź praktyczny**:
    - Skup się na przyrostowych, testowalnych zmianach
    - Rozważ migrację i wycofywanie
-   - Pomyśl o przypadkach brzegowych
-   - Dołącz "czego NIE robimy"
+   - Myśl o przypadkach brzegowych
+   - Uwzględnij "czego NIE robimy"
 
 5. **Śledź postępy**:
    - Użyj TaskCreate do tworzenia zadań planistycznych i TaskUpdate do oznaczania ich jako ukończone w miarę postępów
-   - Zadania pojawiają się na pasku stanu użytkownika dla widoczności
-   - Oznacz zadania jako ukończone po zakończeniu obszarów badawczych
+   - Zadania pojawiają się na pasku stanu użytkownika, co zapewnia widoczność
+   - Oznaczaj zadania jako ukończone po zakończeniu obszarów badawczych
 
-6. **OBOWIĄZKOWE: Głębokie kwestionowanie skalowane pod kątem złożoności za pomocą AskUserQuestion**:
-   - **PRZED** napisaniem jakiegokolwiek planu, MUSISZ ocenić złożoność (WYSOKA/ŚREDNIA/NISKA) i uzyskać potwierdzenie od użytkownika
+6. **OBOWIĄZKOWE: Skalowane pytania pogłębione za pomocą AskUserQuestion**:
+   - **PRZED** napisaniem jakiegokolwiek planu MUSISZ ocenić złożoność (WYSOKA/ŚREDNIA/NISKA) i uzyskać potwierdzenie od użytkownika
    - Zadaj pełną liczbę pytań odpowiadającą złożoności: NISKA=4-6, ŚREDNIA=7-10, WYSOKA=11-15
    - Każda opcja musi zawierać wybór `⭐ Recommended` z analizą mocnych stron/kompromisów
-   - Omów zakres, przypadki brzegowe, architekturę, model danych, testowanie i wydajność, odpowiednio do złożoności
+   - Omów zakres, przypadki brzegowe, architekturę, model danych, testowanie i wydajność, stosownie do złożoności
    - Zadawaj pytania w rundach po 1-4 pytania — tyle rund, ile potrzeba, aby osiągnąć docelową liczbę
-   - NIE pomijaj ani nie skracaj tego kroku — dokładne kwestionowanie zapobiega krytycznym błędom i przeróbkom
+   - NIE pomijaj ani nie skracaj tego kroku — dokładne pytania zapobiegają krytycznym błędom i przeróbkom
    - Poczekaj na odpowiedzi użytkownika przed przejściem do szczegółowego planowania
 
 7. **Brak otwartych pytań w ostatecznym planie**:
@@ -708,14 +708,14 @@ Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależnoś
    - Natychmiast zbadaj lub poproś o wyjaśnienie
    - NIE pisz planu z nierozwiązanymi pytaniami
    - Plan implementacji musi być kompletny i wykonalny
-   - Każda decyzja musi być podjęta przed sfinalizowaniem planu
-   - Podsekcje "Krytyczne szczegóły implementacji" są opcjonalne: dołącz je tylko wtedy, gdy ma zastosowanie rzeczywiste ograniczenie, pułapka lub wymóg kolejności. Domyślnie pomiń. Plan bez tej sekcji nie jest niekompletny.
+   - Każda decyzja musi zostać podjęta przed sfinalizowaniem planu
+   - Podsekcje "Krytyczne szczegóły implementacji" są opcjonalne: dołącz je tylko wtedy, gdy ma zastosowanie rzeczywiste ograniczenie, pułapka lub wymaganie dotyczące kolejności. Domyślnie pomijaj. Plan bez tej sekcji nie jest niekompletny.
 
-8. **Opisz zamiar, a nie implementację**:
+8. **Opisuj intencje, a nie implementację**:
    - Plan mówi implementatorowi **co zmienić i dlaczego**, a nie jak napisać kod
    - Każdy wpis zmiany w sekcji `### Wymagane zmiany:` oddziela `**Cel**` (co i dlaczego) od `**Kontraktu**` (interfejs, sygnatura, pole schematu, trasa, struktura lub niezmiennik, którego dotyczy zmiana). Fragmenty kodu, jeśli są potrzebne, znajdują się na końcu `**Kontraktu**`
    - Domyślnie brak fragmentów kodu. Dołącz fragment TYLKO wtedy, gdy zmiana jest nieoczywista (trudne wyrażenie regularne, nietypowe wywołanie API, sprzeczna z intuicją kolejność, obejście, kontrakt sygnatury, od którego zależą inne fazy)
-   - W przypadku rutynowych edycji — dodawania pola, podłączania obsługi, naśladowania istniejącego wzorca — opisz `**Cel**` w 1-2 zdaniach, nazwij `**Kontrakt**` w jednym i zakończ. Implementator (człowiek lub agent) ustala kod na podstawie ścieżki pliku, otaczającego wzorca i zamiaru
+   - W przypadku rutynowych edycji — dodawania pola, podłączania obsługi, naśladowania istniejącego wzorca — opisz `**Cel**` w 1-2 zdaniach, nazwij `**Kontrakt**` w jednym i zakończ. Implementator (człowiek lub agent) ustala kod na podstawie ścieżki pliku, otaczającego wzorca i intencji
    - Ścieżki plików i krótkie opisy Celu/Kontraktu są zazwyczaj wystarczające. Oprzyj się pokusie wstępnego pisania kodu
 
 ## Wytyczne dotyczące kryteriów sukcesu
@@ -723,7 +723,7 @@ Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależnoś
 **Zawsze dziel kryteria sukcesu na dwie kategorie:**
 
 1. **Weryfikacja automatyczna** — polecenia, które agenci mogą uruchomić: `make test`, `npm run lint`, sprawdzanie typów, istnienie konkretnego pliku
-2. **Weryfikacja ręczna** — testowanie przez człowieka: UI/UX, rzeczywista wydajność, przypadki brzegowe, akceptacja przez użytkownika
+2. **Weryfikacja ręczna** — testowanie przez człowieka: UI/UX, rzeczywista wydajność, przypadki brzegowe, akceptacja użytkownika
 
 Kryteria sukcesu każdej fazy powinny używać pól wyboru `- [ ]` pod nagłówkami `#### Weryfikacja automatyczna:` i `#### Weryfikacja ręczna:`.
 
@@ -743,11 +743,11 @@ Kryteria sukcesu każdej fazy powinny używać pól wyboru `- [ ]` pod nagłówk
 
 ## Zarządzanie kontekstem
 
-Planowanie może być obciążone kontekstem ze względu na badania + iterację. Utrzymuj efektywny kontekst:
+Planowanie może być obciążone kontekstem ze względu na badania + iteracje. Utrzymuj efektywny kontekst:
 
 - **Deleguj badania do podagentów** — zwracają oni podsumowania, utrzymując główny kontekst w ryzach. Nie czytaj ponownie plików, które podagenci już przeanalizowali, chyba że musisz zweryfikować konkretne szczegóły.
 - **Syntetyzuj, nie akumuluj** — po powrocie podagentów, syntetyzuj wyniki w swoje zrozumienie, zamiast cytować duże bloki dosłownie.
-- **Jeśli kontekst wydaje się pogorszony podczas planowania** — jeśli odpowiedzi stają się powolne lub powtarzalne, zapisz bieżący szkic planu do pliku i zaproponuj użytkownikowi kontynuowanie w nowym kontekście:
+- **Jeśli kontekst wydaje się zdegradowany podczas planowania** — jeśli odpowiedzi stają się powolne lub powtarzalne, zapisz bieżący szkic planu do pliku i zaproponuj użytkownikowi kontynuowanie w nowym kontekście:
   ```
   Szkic planu został zapisany pod adresem: context/changes/<change-id>/plan.md
   Czy chcesz kontynuować dopracowywanie w nowym oknie?
@@ -757,14 +757,14 @@ Planowanie może być obciążone kontekstem ze względu na badania + iterację.
 
 ## Przykład sondowania AskUserQuestion według typu funkcji
 
-### Przykład 1: Oprogramowanie / Funkcja interfejsu użytkownika — złożoność ŚREDNIA (np. Paginacja)
+### Przykład 1: Oprogramowanie / Funkcja interfejsu użytkownika — złożoność ŚREDNIA (np. stronicowanie)
 
-Mieszane: `Loading UX` to `[S]` (zachowanie interfejsu użytkownika — szczegóły rozwiązania); `Scale` to `[D]` (granica problemu — jak duży jest zestaw danych). Z briefem ramowym, pytaj tylko o `Loading UX`; skala powinna już być w przeformułowanym (lub potwierdzonym) oświadczeniu o problemie.
+Mieszane: `Loading UX` to `[S]` (zachowanie interfejsu użytkownika — szczegóły rozwiązania); `Scale` to `[D]` (granica problemu — jak duży jest zestaw danych). Z briefem ramowym, pytaj tylko o `Loading UX`; skala powinna już znajdować się w przeformułowanym (lub potwierdzonym) oświadczeniu o problemie.
 
 AskUserQuestion z pytaniami:
 
 - question: "Co użytkownik powinien widzieć podczas ładowania nowych elementów?"
-  header: "UX ładowania"
+  header: "Loading UX"
   options:
   - label: "Wbudowany spinner"
     description: "Mały spinner pod istniejącą zawartością. · Mocna strona: Użytkownik nadal widzi bieżące elementy, minimalna praca UI. · Kompromis: Wydaje się wolniejszy niż szkielet — użytkownicy widzą ogólny spinner zamiast kształtu zawartości."
@@ -777,27 +777,27 @@ AskUserQuestion z pytaniami:
   header: "Skala"
   options:
   - label: "⭐ Recommended: Setki"
-    description: "Standardowa paginacja z przesunięciem. · Mocna strona: Prosta, dobrze zrozumiała, działa z istniejącymi zapytaniami SQL. · Kompromis: Psuje się po około 5 tys. elementów — akceptowalne, biorąc pod uwagę obecne wolumeny danych."
+    description: "Standardowe stronicowanie z przesunięciem. · Mocna strona: Proste, dobrze zrozumiałe, działa z istniejącymi zapytaniami SQL. · Kompromis: Psuje się po około 5 tys. elementów — akceptowalne, biorąc pod uwagę obecne wolumeny danych."
   - label: "Tysiące"
-    description: "Paginacja oparta na kursorze + wirtualne przewijanie. · Mocna strona: Obsługuje wzrost bez spadku wydajności. · Kompromis: 2-3 razy więcej pracy implementacyjnej; zmienia kontrakt API."
+    description: "Stronicowanie oparte na kursorze + wirtualne przewijanie. · Mocna strona: Obsługuje wzrost bez spadku wydajności. · Kompromis: 2-3 razy więcej pracy implementacyjnej; zmienia kontrakt API."
   - label: "Dziesiątki tysięcy"
     description: "Filtrowanie po stronie serwera + lista wirtualna + wyszukiwanie. · Mocna strona: Skaluje się w nieskończoność. · Kompromis: Znacząca złożoność; wymaga indeksu wyszukiwania i nowego projektu API."
     multiSelect: false
 
-### Przykład 2: Treści / Edukacja — złożoność WYSOKA (np. Projekt modułu kursu)
+### Przykład 2: Treść / Edukacja — złożoność WYSOKA (np. Projekt modułu kursu)
 
-Mieszane: `Outcome` to `[D]` (definiuje, jak wygląda sukces — czyste ujęcie problemu); `Levels` to `[S]` (strategia obsługi odbiorców — jak ustrukturyzować dostarczanie). Z briefem ramowym, pytaj tylko o `Levels`; wynik powinien być ustalony.
+Mieszane: `Outcome` to `[D]` (definiuje, jak wygląda sukces — czyste sformułowanie problemu); `Levels` to `[S]` (strategia obsługi odbiorców — jak ustrukturyzować dostarczanie). Z briefem ramowym, pytaj tylko o `Levels`; wynik powinien być ustalony.
 
 AskUserQuestion z pytaniami:
 
 - question: "Co uczeń powinien być w stanie ZROBIĆ po tym module — nie tylko wiedzieć?"
   header: "Wynik"
   options:
-  - label: "⭐ Recommended: Zbuduj działający prototyp"
+  - label: "⭐ Recommended: Zbudować działający prototyp"
     description: "Uczeń tworzy funkcjonalny artefakt, używając nauczonych technik. · Mocna strona: Wymusza prawdziwe przeniesienie umiejętności — artefakt dowodzi kompetencji. Pasuje do formatu lekcji 'Innowacje' z 10xDevs3. · Kompromis: Wymaga dobrze zaprojektowanych szablonów startowych i jasnych kryteriów akceptacji; przygotowanie zajmuje 2-3 razy dłużej."
-  - label: "Ukończ ćwiczenie z przewodnikiem"
-    description: "Instrukcja krok po kroku z oczekiwanym wynikiem. · Mocna strona: Niska bariera — wszyscy kończą, buduje pewność siebie. · Kompromis: Może produkować 'tutorialowych zombie', którzy potrafią podążać, ale nie potrafią samodzielnie zastosować."
-  - label: "Zalicz test wiedzy"
+  - label: "Ukończyć ćwiczenie z przewodnikiem"
+    description: "Instruktaż krok po kroku z oczekiwanym wynikiem. · Mocna strona: Niska bariera — wszyscy kończą, buduje pewność siebie. · Kompromis: Może produkować 'tutorialowych zombie', którzy potrafią podążać, ale nie potrafią samodzielnie zastosować."
+  - label: "Zdać test wiedzy"
     description: "Quiz lub przegląd kodu potwierdzający zrozumienie koncepcyjne. · Mocna strona: Szybki do stworzenia, łatwy do oceniania na dużą skalę. · Kompromis: Testuje rozpoznawanie, a nie produkcję — uczeń może rozumieć, ale nie być w stanie wykonać."
     multiSelect: false
 - question: "Jak ten moduł powinien radzić sobie z różnymi poziomami umiejętności w grupie odbiorców?"
@@ -811,19 +811,19 @@ AskUserQuestion z pytaniami:
     description: "Dwie równoległe ścieżki rozchodzące się wcześnie. · Mocna strona: Każda grupa odbiorców otrzymuje idealnie dopasowaną treść. · Kompromis: 2x koszt produkcji; podział małej kohorty może zaszkodzić dynamice społeczności."
     multiSelect: false
 
-### Przykład 3: Strategia / Proces — złożoność ŚREDNIA (np. Przepływ pracy newslettera)
+### Przykład 3: Strategia / Proces — złożoność ŚREDNIA (np. Przepływ pracy biuletynu)
 
-`Bottleneck` to `[D]` — czyste ujęcie problemu (jaki problem rozwiązać). To jest dokładnie ten rodzaj pytania, który ramka ma na celu rozstrzygnąć. Z briefem ramowym, pomiń to całkowicie; wiodąca hipoteza jest wąskim gardłem.
+`Bottleneck` to `[D]` — czyste sformułowanie problemu (jaki problem rozwiązać). To jest dokładnie ten rodzaj pytania, który ramka ma na celu rozstrzygnąć. Z briefem ramowym, pomiń to całkowicie; wiodąca hipoteza jest wąskim gardłem.
 
 AskUserQuestion z pytaniami:
 
-- question: "Jakie jest główne wąskie gardło w obecnym procesie tworzenia newslettera?"
+- question: "Jakie jest główne wąskie gardło w obecnym procesie biuletynu?"
   header: "Wąskie gardło"
   options:
   - label: "⭐ Recommended: Kuracja trwa zbyt długo"
-    description: "Znajdowanie i ocenianie linków to powolny krok. · Mocna strona: Bezpośrednio wpływa na czas publikacji — automatyzacja kuracji daje największe oszczędności czasu na podstawie obecnych harmonogramów. · Kompromis: Automatyczna kuracja ryzykuje utratę osobistego głosu redakcyjnego, który cenią subskrybenci."
+    description: "Znalezienie i ocena linków to powolny krok. · Mocna strona: Bezpośrednio celuje w czas publikacji — automatyzacja kuracji daje największe oszczędności czasu na podstawie obecnych czasów procesu. · Kompromis: Automatyczna kuracja ryzykuje utratę osobistego głosu redakcyjnego, który cenią subskrybenci."
   - label: "Pisanie komentarzy"
-    description: "Linki są gotowe, ale pisanie wokół nich jest powolne. · Mocna strona: Wspomagane przez AI tworzenie może skrócić ten czas o połowę. · Kompromis: Intensywne tworzenie przez AI może sprawić, że newsletter będzie wydawał się generyczny — wymaga starannej kalibracji głosu."
+    description: "Linki są gotowe, ale pisanie wokół nich jest powolne. · Mocna strona: Wspomagane przez AI pisanie może skrócić to o połowę. · Kompromis: Intensywne pisanie przez AI może sprawić, że biuletyn będzie wydawał się generyczny — wymaga starannej kalibracji głosu."
   - label: "Dystrybucja i harmonogramowanie"
     description: "Treść jest gotowa, ale publikacja jest ręczna. · Mocna strona: Najłatwiejsze do zautomatyzowania — jasne dane wejściowe i wyjściowe. · Kompromis: Najmniejszy wpływ, jeśli kuracja lub pisanie nadal są wąskim gardłem."
     multiSelect: false

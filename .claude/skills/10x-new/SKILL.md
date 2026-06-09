@@ -12,7 +12,7 @@ allowed-tools:
 
 # /10x-new — Rozpocznij nową zmianę
 
-Uruchom nowy folder zmian w `context/changes/<change-id>/`. Tworzy mały plik tożsamości (`change.md`) i wskazuje użytkownikowi następną umiejętność.
+Zainicjuj nowy folder zmian w `context/changes/<change-id>/`. Tworzy mały plik tożsamości (`change.md`) i wskazuje użytkownikowi następną umiejętność.
 
 „Zmiana” to pojedyncza jednostka pracy od początku do końca — badania, planowanie, implementacja i przegląd, wszystko to znajduje się w jednym folderze oznaczonym `<change-id>`.
 
@@ -25,18 +25,18 @@ Po wywołaniu tego polecenia:
    - Jeśli NIE podano argumentu, odpowiedz następującą wiadomością i **ZATRZYMAJ**:
 
 ```
-I'll create a new change folder. Please provide a change-id (kebab-case slug):
+Utworzę nowy folder zmian. Podaj change-id (slug w kebab-case):
 
-Examples:
+Przykłady:
   /10x-new context-dir-restructure
   /10x-new oauth-login add Google sign-in so users skip the email-password step
   /10x-new @context/changes/oauth-login/
 
-The first token becomes the change-id. Anything after it is freeform intent — used to write a richer title and to pick the next-step suggestion. Path-style references (with or without a leading `@`) are accepted; the last path segment is used as the change-id.
+Pierwszy token staje się change-id. Wszystko, co po nim następuje, to swobodny zamiar — używany do napisania bogatszego tytułu i wyboru sugestii następnego kroku. Akceptowane są odwołania w stylu ścieżki (z wiodącym znakiem "@" lub bez niego); ostatni segment ścieżki jest używany jako change-id.
 
-The change-id must be:
-- kebab-case (lowercase letters, digits, hyphens; no leading/trailing hyphen, no double hyphens)
-- unique across `context/changes/` and `context/archive/`
+Change-id musi być:
+- w kebab-case (małe litery, cyfry, myślniki; bez wiodącego/końcowego myślnika, bez podwójnych myślników)
+- unikalny w `context/changes/` i `context/archive/`
 ```
 
    Następnie **poczekaj**, aż użytkownik poda argument.
@@ -45,20 +45,20 @@ The change-id must be:
 
 Podziel surowy ciąg argumentów na pierwszym ciągu białych znaków:
 
-- **Pierwszy token** = odniesienie do change-id. Znormalizuj go:
-  1. Usuń początkowe `@`, jeśli występuje (`@context/changes/feature-x/` → `context/changes/feature-x/`).
-  2. Usuń końcowe `/`, jeśli występuje.
+- **Pierwszy token** = odwołanie do change-id. Znormalizuj je:
+  1. Usuń wiodący `@`, jeśli występuje (`@context/changes/feature-x/` → `context/changes/feature-x/`).
+  2. Usuń końcowy `/`, jeśli występuje.
   3. Jeśli wynik zawiera `/`, weź ostatni niepusty segment ścieżki (`context/changes/feature-x` → `feature-x`).
   4. Wynikiem jest `<change-id>`.
-- **Wszystko po pierwszym tokenie** = swobodny zamiar. Może być pusty. Może to być zdanie lub akapit. **Nie** traktuj tego jako dosłownego tytułu do wstawienia w całości.
+- **Wszystko po pierwszym tokenie** = swobodny zamiar. Może być pusty. Może być zdaniem lub akapitem. **Nie** traktuj go jako dosłownego tytułu do wstawienia dosłownie.
 
 Przykłady:
 
 | Surowe dane wejściowe | `<change-id>` | Zamiar |
-|-----------|---------------|--------|
-| `feature-x` | `feature-x` | (puste) |
+|---|---|---|
+| `feature-x` | `feature-x` | (pusty) |
 | `oauth-login add Google sign-in for faster onboarding` | `oauth-login` | `add Google sign-in for faster onboarding` |
-| `@context/changes/oauth-login/` | `oauth-login` | (puste) |
+| `@context/changes/oauth-login/` | `oauth-login` | (pusty) |
 | `@context/changes/oauth-login/ revisit the token-refresh edge case` | `oauth-login` | `revisit the token-refresh edge case` |
 | `My Feature add OAuth` | `My Feature` (nie przejdzie kontroli kebab-case) | `add OAuth` |
 
@@ -66,7 +66,7 @@ Przykłady:
 
 Przed utworzeniem czegokolwiek:
 
-1. **Sprawdzenie kebab-case**: `<change-id>` musi pasować do `^[a-z][a-z0-9]*(-[a-z0-9]+)*$` (zaczyna się od litery, segmenty małych liter + cyfr oddzielone pojedynczymi myślnikami, bez początkowego/końcowego myślnika, bez podwójnych myślników).
+1. **Sprawdzenie kebab-case**: `<change-id>` musi pasować do `^[a-z][a-z0-9]*(-[a-z0-9]+)*$` (zaczyna się literą, segmenty małych liter + cyfry oddzielone pojedynczymi myślnikami, bez wiodącego/końcowego myślnika, bez podwójnych myślników).
    - W przypadku niepowodzenia, wydrukuj: `error: change-id "<id>" is not kebab-case. Use lowercase letters, digits, and single hyphens only (e.g., "oauth-login", not "OAuth Login").` i ZATRZYMAJ.
 
 2. **Sprawdzenie unikalności**: ani `context/changes/<change-id>/`, ani `context/archive/<change-id>/` nie mogą już istnieć.
@@ -79,10 +79,10 @@ Przed utworzeniem czegokolwiek:
 1. Utwórz katalog `context/changes/<change-id>/`.
 2. Wyprowadź `<title>`:
    - Jeśli ciąg zamiaru jest pusty, uczłowiecz change-id: zastąp myślniki spacjami i napisz pierwszą literę wielką (np. `multi-course-access` → `Multi course access`).
-   - Jeśli ciąg zamiaru nie jest pusty, napisz zwięzły, czytelny dla człowieka tytuł (≤ 80 znaków, wielkość liter zdania, bez kropki na końcu), który oddaje istotę zmiany. Zamiar jest *wskazówką*, a nie dosłownością — możesz go przeformułować. Nie wrzucaj akapitu do tytułu.
+   - Jeśli ciąg zamiaru nie jest pusty, napisz zwięzły, czytelny dla człowieka tytuł (≤ 80 znaków, wielkość liter zdania, bez kropki na końcu), który oddaje istotę zmiany. Zamiar jest *wskazówką*, a nie dosłownym tekstem — możesz go przeformułować. Nie wrzucaj całego akapitu do tytułu.
 3. Wyprowadź treść `## Notes`:
-   - Jeśli ciąg zamiaru jest pusty, wyemituj komentarz z podpowiedzią: `<!-- Free-form notes for this change: links, ad-hoc context, decisions that don't belong in research/frame/plan. -->`
-   - Jeśli ciąg zamiaru nie jest pusty, wstaw go dosłownie jako treść Notatek — słowa użytkownika są zalążkiem. W takim przypadku nie emituj również komentarza z podpowiedzią (użytkownik pokazał, że wie, do czego służą Notatki).
+   - Jeśli ciąg zamiaru jest pusty, wyemituj komentarz podpowiedzi: `<!-- Free-form notes for this change: links, ad-hoc context, decisions that don't belong in research/frame/plan. -->`
+   - Jeśli ciąg zamiaru nie jest pusty, wstaw go dosłownie jako treść Notatek — słowa użytkownika są zalążkiem. W takim przypadku nie emituj również komentarza podpowiedzi (użytkownik pokazał, że wie, do czego służą Notatki).
 4. Zapisz `context/changes/<change-id>/change.md` w dokładnie takim kształcie (slot `<notes-body>` to to, co wyprodukował krok 3):
 
 ```markdown
@@ -108,7 +108,7 @@ Zobacz `docs/reference/change-md.md` dla pełnego odniesienia do schematu (dozwo
 
 Po pomyślnym utworzeniu, wydrukuj monit o następny krok i skopiuj sugerowane polecenie do schowka.
 
-Domyślnym następnym krokiem jest `/10x-plan <change-id>` — większość zmian przechodzi bezpośrednio do planowania. Pozostałe dwie umiejętności są sytuacyjne: `/10x-research`, gdy przeanalizowany zamiar (lub otaczająca tura) sugeruje, że zmiana wymaga znaczącej eksploracji bazy kodu, zanim będzie można napisać plan, oraz `/10x-frame`, gdy zamiar sygnalizuje, że ramy są podejrzane — albo kształt błędu („napraw”, „błąd”, „zepsuty”, „dlaczego jest”, „główna przyczyna”, „regresja”, „samodiagnozowane rozwiązanie”), albo kształt zakresu/projektu („czy w ogóle powinniśmy”, „czy to jest właściwe”, „co jest faktycznie zepsute”, „przemyśl”, „zakwestionuj założenie”). Wybierz opcję sytuacyjną tylko wtedy, gdy sygnał jest wyraźny; w przeciwnym razie domyślnie użyj `/10x-plan`.
+Domyślnym następnym krokiem jest `/10x-plan <change-id>` — większość zmian przechodzi bezpośrednio do planowania. Pozostałe dwie umiejętności są sytuacyjne: `/10x-research`, gdy przeanalizowany zamiar (lub otaczająca tura) sugeruje, że zmiana wymaga znaczącej eksploracji bazy kodu, zanim będzie można napisać plan, oraz `/10x-frame`, gdy zamiar sygnalizuje, że ramy są podejrzane — albo kształt błędu ("napraw", "błąd", "zepsuty", "dlaczego jest", "przyczyna źródłowa", "regresja", "samodzielnie zdiagnozowane rozwiązanie"), albo kształt zakresu/projektu ("czy w ogóle powinniśmy", "czy to jest właściwe", "co jest faktycznie zepsute", "przemyśl", "zakwestionuj założenie"). Wybierz opcję sytuacyjną tylko wtedy, gdy sygnał jest wyraźny; w przeciwnym razie domyślnie użyj `/10x-plan`.
 
 ```bash
 NEXT_CMD="/10x-plan <change-id>"   # default; see above for when to switch to /10x-research or /10x-frame
@@ -123,21 +123,21 @@ Set-Clipboard $NEXT_CMD
 Następnie wyświetl:
 
 ```
-✓ Created context/changes/<change-id>/change.md (status: new)
+✓ Utworzono context/changes/<change-id>/change.md (status: new)
 
-Next step:
-  → <NEXT_CMD>  (✓ copied to clipboard)
+Następny krok:
+  → <NEXT_CMD>  (✓ skopiowano do schowka)
 
-Other options:
-  /10x-research <change-id>   — explore the codebase first (when planning needs grounding)
-  /10x-frame <change-id>      — challenge the framing first (when the symptom and proposed fix are stated as one, or when the right scope to plan is unclear)
+Inne opcje:
+  /10x-research <change-id>   — najpierw zbadaj bazę kodu (gdy planowanie wymaga ugruntowania)
+  /10x-frame <change-id>      — najpierw zakwestionuj ramy (gdy objaw i proponowana poprawka są podane jako jedno, lub gdy niejasny jest właściwy zakres do zaplanowania)
 ```
 
-Jeśli żadne narzędzie do schowka nie jest dostępne (`pbcopy`, `clip.exe`, `xclip`, `Set-Clipboard`), pomiń adnotację `(✓ copied to clipboard)`, ale nadal wydrukuj sugestię.
+Jeśli żadne narzędzie do schowka nie jest dostępne (`pbcopy`, `clip.exe`, `xclip`, `Set-Clipboard`), pomiń adnotację `(✓ skopiowano do schowka)`, ale nadal wydrukuj sugestię.
 
 ## Czego ta umiejętność NIE robi
 
 - Nie zapisuje `frame.md`, `research.md`, `plan.md` ani żadnych innych artefaktów — pochodzą one z odpowiednich umiejętności.
-- Nie zapisuje do żadnego pliku stanu sidecar; sekcja `## Progress` w `plan.md` jest jedynym źródłem prawdy o stanie wykonania.
+- Nie zapisuje do żadnego pliku stanu; sekcja `## Progress` w `plan.md` jest jedynym źródłem prawdy o stanie wykonania.
 - Nie wymusza przejść statusu — `change.md` jest tylko do zapisu.
-- Nie tworzy katalogu nadrzędnego `context/changes/`; jeśli go brakuje, repozytorium nie jest uruchomione dla tej struktury i użytkownik powinien najpierw to rozwiązać.
+- Nie tworzy katalogu nadrzędnego `context/changes/`; jeśli go brakuje, repozytorium nie jest zainicjowane dla tej struktury i użytkownik powinien najpierw to rozwiązać.

@@ -78,11 +78,11 @@ context/foundation/             [created|present]
 context/foundation/README.md    [created|present]
 ```
 
-Następnie jeden akapit przewodnika, do czego służy każdy katalog i gdzie szukać dalej:
+Następnie jeden akapit przewodnika po tym, do czego służy każdy katalog i gdzie szukać dalej:
 
 - `context/changes/` przechowuje zmiany w toku. Uruchom `/10x-new`, aby utworzyć nowy folder zmiany z plikiem tożsamości `change.md`.
 - `context/archive/` przechowuje ukończone zmiany. Uruchom `/10x-archive`, gdy zmiana zostanie zakończona — przeniesie folder z `changes/` do `archive/`.
-- `context/foundation/` przechowuje dokumenty żywe obejmujące wiele zmian. Nie ma tutaj stałej listy plików; dokumenty podstawowe są własnością umiejętności, które je zapisują (np. `/10x-prd` zapisuje `prd.md`, `/10x-tech-stack-selector` zapisuje `tech-stack.md`).
+- `context/foundation/` przechowuje dokumenty żywe obejmujące wiele zmian. Nie ma stałej listy plików; dokumenty podstawowe są własnością umiejętności, które je zapisują (np. `/10x-prd` zapisuje `prd.md`, `/10x-tech-stack-selector` zapisuje `tech-stack.md`).
 
 Zatrzymaj się. Nie łącz się z `/10x-new` ani żadną inną umiejętnością; użytkownik uruchamia je, gdy ma coś do zrobienia.
 
@@ -92,4 +92,4 @@ Zatrzymaj się. Nie łącz się z `/10x-new` ani żadną inną umiejętnością;
 - **Brak wymuszonego porządku.** Wszystkie sześć artefaktów jest niezależnych. Jeśli istnieją tylko niektóre, utwórz brakujące i pozostaw istniejące bez zmian.
 - **Katalogi nadrzędne są tworzone w razie potrzeby.** `context/` może nie istnieć w nowym projekcie — utwórz go niejawnie za pomocą semantyki `mkdir -p` dla każdego katalogu podrzędnego.
 - **Nie jest warunkiem wstępnym.** Inne umiejętności samodzielnie uruchamiają swoje pliki. `/10x-init` jest dla użytkowników, którzy lubią konfigurować szkielet `/context` z wyprzedzeniem.
-- **`lessons.md` i `contract-surfaces.md` nie są tutaj szkieletowane.** Te pliki są w całości własnością `/10x-lesson`, `/10x-contract` i gałęzi triage `/10x-impl-review`, które samodzielnie je uruchamiają z ich kanonicznymi nagłówkami przy pierwszym użyciu.
+- **`lessons.md` i `contract-surfaces.md` nie są tutaj szkieletowane.** Te pliki są w całości własnością `/10x-lesson`, `/10x-contract` i gałęzi triage `/10x-impl-review`, które samodzielnie uruchamiają je z ich kanonicznymi nagłówkami przy pierwszym użyciu.
