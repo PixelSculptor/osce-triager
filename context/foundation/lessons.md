@@ -15,3 +15,10 @@
 - **Problem**: A criterion named a script absent from package.json, so the command errored "Missing script", yet the [x] box was checked — verification was signed off blind across all 3 phases.
 - **Rule**: Every `npm run <script>` named in a plan's success criteria must exist in package.json before the plan is written; verify each criterion actually executes before marking it [x].
 - **Applies to**: all
+
+## Pages use CSS Modules for layout/spacing — never inline styles
+
+- **Context**: All `page.tsx` files in the Next.js App Router (`src/app/**/*.tsx`)
+- **Problem**: Inline `style={{}}` attributes scatter presentation logic, break dark-mode theming via CSS custom properties, and are inconsistent with the CSS Modules pattern established for all other components.
+- **Rule**: Every `page.tsx` must have a companion `*.module.css` file. Use CSS Modules for all layout, spacing, and typography — never inline `style={{}}` attributes.
+- **Applies to**: plan, implement, impl-review

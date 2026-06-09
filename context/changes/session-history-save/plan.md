@@ -109,7 +109,7 @@ Czas trwania: `Math.round((completedAt.getTime() - startedAt.getTime()) / 1000)`
 
 **Cel**: Dodanie linku "Historia" widocznego dla zalogowanego użytkownika, obok emaila i przycisku "Wyloguj".
 
-**Kontrakt**: `<Link href="/dashboard/history">Historia</Link>` wewnątrz bloku `{session ? (...)}`, przed lub po emailu — spójnie z istniejącą kolejnością elementów.
+**Kontrakt**: `<Link href="/dashboard/history">Historia</Link>` wewnątrz bloku `{session ? (...)}`, między `<span>` z emailem a linkiem `Ustawienia` — wynik: email | Historia | Ustawienia | Wyloguj.
 
 ### Kryteria sukcesu:
 
@@ -161,7 +161,7 @@ getSessionDetails(sessionId: string, userId: string): Promise<{
   }>
 } | null>
 ```
-Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND userId = userId`, (2) events + diagnosticTests join z `WHERE sessionId = sessionId`. Events posortowane po `selectedAt ASC`.
+Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND userId = userId AND outcome != 'in_progress'`, (2) events + diagnosticTests join z `WHERE sessionId = sessionId`. Events posortowane po `selectedAt ASC`.
 
 ---
 
@@ -226,28 +226,29 @@ Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND us
 
 #### Automatyczne
 
-- [ ] 1.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 1.2 Lint przechodzi: `npm run lint`
-- [ ] 1.3 Build przechodzi: `npm run build`
+- [x] 1.1 Typecheck przechodzi: `npm run typecheck` — 25e56a2
+- [x] 1.2 Lint przechodzi: `npm run lint` — 25e56a2
+- [x] 1.3 Build przechodzi: `npm run build` — 25e56a2
 
 #### Ręczne
 
-- [ ] 1.4 Link "Historia" widoczny w Nav dla zalogowanego użytkownika
-- [ ] 1.5 `/dashboard/history` wyświetla zakończone sesje z poprawnymi danymi
-- [ ] 1.6 Pusty stan widoczny gdy brak zakończonych sesji
-- [ ] 1.7 Izolacja danych — student A nie widzi sesji studenta B
+- [x] 1.4 Link "Historia" widoczny w Nav dla zalogowanego użytkownika — 25e56a2
+- [x] 1.5 `/dashboard/history` wyświetla zakończone sesje z poprawnymi danymi — 25e56a2
+- [x] 1.6 Pusty stan widoczny gdy brak zakończonych sesji — 25e56a2
+- [x] 1.7 Izolacja danych — student A nie widzi sesji studenta B — 25e56a2
+- [x] 1.8 Kliknięcie wpisu w historii przenosi do /dashboard/session/[id]/details (może być 404 przed Fazą 2 — akceptowalne) — 25e56a2
 
 ### Faza 2: Szczegóły sesji — read-only view
 
 #### Automatyczne
 
-- [ ] 2.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 2.2 Lint przechodzi: `npm run lint`
-- [ ] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npm run typecheck` — 564cb11
+- [x] 2.2 Lint przechodzi: `npm run lint` — 564cb11
+- [x] 2.3 Build przechodzi: `npm run build` — 564cb11
 
 #### Ręczne
 
-- [ ] 2.4 Strona szczegółów wyświetla breakdown badań z wynikami walidatora
-- [ ] 2.5 `critical_miss` eventy wyraźnie oznaczone
-- [ ] 2.6 Dostęp do cudzej sesji zwraca 404
-- [ ] 2.7 Link "Wróć do historii" działa
+- [x] 2.4 Strona szczegółów wyświetla breakdown badań z wynikami walidatora — 564cb11
+- [x] 2.5 `critical_miss` eventy wyraźnie oznaczone — 564cb11
+- [x] 2.6 Dostęp do cudzej sesji zwraca 404 — 564cb11
+- [x] 2.7 Link "Wróć do historii" działa — 564cb11

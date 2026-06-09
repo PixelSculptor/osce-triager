@@ -1,6 +1,6 @@
 import "server-only"
 
-import { eq } from "drizzle-orm"
+import { and, desc, eq, ne } from "drizzle-orm"
 import { db } from "@/shared/lib/db"
 import {
   diagnosticTests,
@@ -49,4 +49,64 @@ export async function getSessionEvents(sessionId: string) {
     .from(sessionEvents)
     .where(eq(sessionEvents.sessionId, sessionId))
     .orderBy(sessionEvents.selectedAt)
+}
+
+export async function getUserSessions(userId: string) {
+  return db
+    .select({
+      id: sessionResults.id,
+      outcome: sessionResults.outcome,
+      startedAt: sessionResults.startedAt,
+      completedAt: sessionResults.completedAt,
+      scenarioTitle: scenarios.title,
+    })
+    .from(sessionResults)
+    .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
+    .where(and(eq(sessionResults.userId, userId), ne(sessionResults.outcome, "in_progress")))
+    .orderBy(desc(sessionResults.completedAt))
+}
+
+export async function getSessionDetails(sessionId: string, userId: string) {
+  const [sessionRow] = await db
+    .select({
+      id: sessionResults.id,
+      outcome: sessionResults.outcome,
+      startedAt: sessionResults.startedAt,
+      completedAt: sessionResults.completedAt,
+      scenarioTitle: scenarios.title,
+    })
+    .from(sessionResults)
+    .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
+    .where(
+      and(
+        eq(sessionResults.id, sessionId),
+        eq(sessionResults.userId, userId),
+        ne(sessionResults.outcome, "in_progress")
+      )
+    )
+    .limit(1)
+
+  if (!sessionRow) return null
+
+  const events = await db
+    .select({
+      testId: sessionEvents.testId,
+      testName: diagnosticTests.name,
+      validatorResult: sessionEvents.validatorResult,
+      selectedAt: sessionEvents.selectedAt,
+    })
+    .from(sessionEvents)
+    .innerJoin(diagnosticTests, eq(sessionEvents.testId, diagnosticTests.id))
+    .where(eq(sessionEvents.sessionId, sessionId))
+    .orderBy(sessionEvents.selectedAt)
+
+  return {
+    ...sessionRow,
+    outcome: sessionRow.outcome as "positive" | "negative",
+    completedAt: sessionRow.completedAt!,
+    events: events.map((e) => ({
+      ...e,
+      validatorResult: e.validatorResult as "correct" | "suboptimal" | "unnecessary" | "critical_miss",
+    })),
+  }
 }
