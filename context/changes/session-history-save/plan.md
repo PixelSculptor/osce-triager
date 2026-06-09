@@ -109,7 +109,7 @@ Czas trwania: `Math.round((completedAt.getTime() - startedAt.getTime()) / 1000)`
 
 **Cel**: Dodanie linku "Historia" widocznego dla zalogowanego użytkownika, obok emaila i przycisku "Wyloguj".
 
-**Kontrakt**: `<Link href="/dashboard/history">Historia</Link>` wewnątrz bloku `{session ? (...)}`, przed lub po emailu — spójnie z istniejącą kolejnością elementów.
+**Kontrakt**: `<Link href="/dashboard/history">Historia</Link>` wewnątrz bloku `{session ? (...)}`, między `<span>` z emailem a linkiem `Ustawienia` — wynik: email | Historia | Ustawienia | Wyloguj.
 
 ### Kryteria sukcesu:
 
@@ -161,7 +161,7 @@ getSessionDetails(sessionId: string, userId: string): Promise<{
   }>
 } | null>
 ```
-Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND userId = userId`, (2) events + diagnosticTests join z `WHERE sessionId = sessionId`. Events posortowane po `selectedAt ASC`.
+Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND userId = userId AND outcome != 'in_progress'`, (2) events + diagnosticTests join z `WHERE sessionId = sessionId`. Events posortowane po `selectedAt ASC`.
 
 ---
 
@@ -236,6 +236,7 @@ Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND us
 - [ ] 1.5 `/dashboard/history` wyświetla zakończone sesje z poprawnymi danymi
 - [ ] 1.6 Pusty stan widoczny gdy brak zakończonych sesji
 - [ ] 1.7 Izolacja danych — student A nie widzi sesji studenta B
+- [ ] 1.8 Kliknięcie wpisu w historii przenosi do /dashboard/session/[id]/details (może być 404 przed Fazą 2 — akceptowalne)
 
 ### Faza 2: Szczegóły sesji — read-only view
 
