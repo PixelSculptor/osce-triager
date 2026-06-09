@@ -16,6 +16,7 @@ export async function Nav() {
         {session ? (
           <>
             <span className={styles.email}>{session.user?.email}</span>
+            <Link href="/dashboard/history" className={styles.settingsLink}>Historia</Link>
             <Link href="/account/settings" className={styles.settingsLink}>Ustawienia</Link>
             <form>
               <button
