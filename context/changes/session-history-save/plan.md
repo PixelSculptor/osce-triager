@@ -242,13 +242,13 @@ Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND us
 
 #### Automatyczne
 
-- [x] 2.1 Typecheck przechodzi: `npm run typecheck`
-- [x] 2.2 Lint przechodzi: `npm run lint`
-- [x] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npm run typecheck` — 564cb11
+- [x] 2.2 Lint przechodzi: `npm run lint` — 564cb11
+- [x] 2.3 Build przechodzi: `npm run build` — 564cb11
 
 #### Ręczne
 
-- [x] 2.4 Strona szczegółów wyświetla breakdown badań z wynikami walidatora
-- [x] 2.5 `critical_miss` eventy wyraźnie oznaczone
-- [x] 2.6 Dostęp do cudzej sesji zwraca 404
-- [x] 2.7 Link "Wróć do historii" działa
+- [x] 2.4 Strona szczegółów wyświetla breakdown badań z wynikami walidatora — 564cb11
+- [x] 2.5 `critical_miss` eventy wyraźnie oznaczone — 564cb11
+- [x] 2.6 Dostęp do cudzej sesji zwraca 404 — 564cb11
+- [x] 2.7 Link "Wróć do historii" działa — 564cb11
