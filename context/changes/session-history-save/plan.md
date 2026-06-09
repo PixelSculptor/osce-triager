@@ -226,29 +226,29 @@ Dwa osobne zapytania: (1) session + scenario join z `WHERE id = sessionId AND us
 
 #### Automatyczne
 
-- [x] 1.1 Typecheck przechodzi: `npm run typecheck`
-- [x] 1.2 Lint przechodzi: `npm run lint`
-- [x] 1.3 Build przechodzi: `npm run build`
+- [x] 1.1 Typecheck przechodzi: `npm run typecheck` — 25e56a2
+- [x] 1.2 Lint przechodzi: `npm run lint` — 25e56a2
+- [x] 1.3 Build przechodzi: `npm run build` — 25e56a2
 
 #### Ręczne
 
-- [x] 1.4 Link "Historia" widoczny w Nav dla zalogowanego użytkownika
-- [x] 1.5 `/dashboard/history` wyświetla zakończone sesje z poprawnymi danymi
-- [x] 1.6 Pusty stan widoczny gdy brak zakończonych sesji
-- [x] 1.7 Izolacja danych — student A nie widzi sesji studenta B
-- [x] 1.8 Kliknięcie wpisu w historii przenosi do /dashboard/session/[id]/details (może być 404 przed Fazą 2 — akceptowalne)
+- [x] 1.4 Link "Historia" widoczny w Nav dla zalogowanego użytkownika — 25e56a2
+- [x] 1.5 `/dashboard/history` wyświetla zakończone sesje z poprawnymi danymi — 25e56a2
+- [x] 1.6 Pusty stan widoczny gdy brak zakończonych sesji — 25e56a2
+- [x] 1.7 Izolacja danych — student A nie widzi sesji studenta B — 25e56a2
+- [x] 1.8 Kliknięcie wpisu w historii przenosi do /dashboard/session/[id]/details (może być 404 przed Fazą 2 — akceptowalne) — 25e56a2
 
 ### Faza 2: Szczegóły sesji — read-only view
 
 #### Automatyczne
 
-- [ ] 2.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 2.2 Lint przechodzi: `npm run lint`
-- [ ] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npm run typecheck`
+- [x] 2.2 Lint przechodzi: `npm run lint`
+- [x] 2.3 Build przechodzi: `npm run build`
 
 #### Ręczne
 
-- [ ] 2.4 Strona szczegółów wyświetla breakdown badań z wynikami walidatora
-- [ ] 2.5 `critical_miss` eventy wyraźnie oznaczone
-- [ ] 2.6 Dostęp do cudzej sesji zwraca 404
-- [ ] 2.7 Link "Wróć do historii" działa
+- [x] 2.4 Strona szczegółów wyświetla breakdown badań z wynikami walidatora
+- [x] 2.5 `critical_miss` eventy wyraźnie oznaczone
+- [x] 2.6 Dostęp do cudzej sesji zwraca 404
+- [x] 2.7 Link "Wróć do historii" działa
