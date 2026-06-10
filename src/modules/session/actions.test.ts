@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest'
+import { describe, it, expect, vi, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { eq } from 'drizzle-orm'
 
 // Hoisted — applies before selectTestAction and db are imported
@@ -6,7 +6,7 @@ vi.mock('@/modules/auth/auth', () => ({
   auth: vi.fn().mockResolvedValue({ user: { id: 'test-user-id' } }),
 }))
 
-import { selectTestAction } from '@/modules/session/actions'
+import { selectTestAction, endSessionAction } from '@/modules/session/actions'
 import { db } from '@/shared/lib/db'
 import {
   users,
@@ -70,5 +70,88 @@ describe.skipIf(!runIntegration)('selectTestAction integration', () => {
   it('unknown test id returns error — guard at actions.ts:92 fires, not silent unnecessary', async () => {
     const result = await selectTestAction('test-session-1', 'dt-999')
     expect(result).toEqual({ error: 'Test not in scenario' })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Hermetic: Write 2 partial failure in endSessionAction
+// Uses vi.spyOn on db so the real DB (used above) is unaffected.
+// ---------------------------------------------------------------------------
+
+describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
+  const sessionRow = {
+    id: 'test-session-id',
+    userId: 'test-user-id',
+    scenarioId: 'test-scenario',
+    outcome: 'in_progress',
+    isFailed: false,
+    startedAt: new Date('2024-01-01'),
+    completedAt: null,
+  }
+  const claimedRow = {
+    ...sessionRow,
+    outcome: 'negative',
+    isFailed: true,
+    completedAt: new Date('2024-01-01'),
+  }
+  const classificationRow = {
+    testId: 'dt-critical',
+    scenarioId: 'test-scenario',
+    classification: 'critical',
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function makeSelectChain(value: unknown[]): any {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const chain: any = {
+      from: () => chain,
+      where: () => chain,
+      limit: () => chain,
+      orderBy: () => chain,
+      then(onFulfilled: (v: unknown) => unknown, onRejected: (e: unknown) => unknown) {
+        return Promise.resolve(value).then(onFulfilled, onRejected)
+      },
+    }
+    return chain
+  }
+
+  beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(db as any, 'select')
+      .mockImplementationOnce(() => makeSelectChain([sessionRow]))   // Select 1: sessionResults
+      .mockImplementationOnce(() => makeSelectChain([]))              // Select 2: sessionEvents (no selections)
+      .mockImplementationOnce(() => makeSelectChain([classificationRow])) // Select 3: testClassifications
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(db as any, 'update').mockImplementation(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const chain: any = {
+        set: () => chain,
+        where: () => chain,
+        returning: vi.fn().mockResolvedValue([claimedRow]),
+      }
+      return chain
+    })
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(db as any, 'insert').mockImplementation(() => ({
+      values: vi.fn().mockRejectedValue(new Error('DB timeout')),
+    }))
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('returns { error: "Internal error" } and logs when Write 2 fails', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    const result = await endSessionAction('test-session-id')
+
+    expect(result).toEqual({ error: 'Internal error' })
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[endSessionAction] DB error:'),
+      expect.any(Error)
+    )
   })
 })

@@ -23,7 +23,7 @@ allowed-tools:
 
 Utwórz plik `AGENTS.md`, który będzie służył jako dokument wprowadzający dla agentów kodujących AI w tym repozytorium. Plik jest krótki, specyficzny dla repozytorium i ma strukturę, w której najważniejsze zasady pojawiają się na początku.
 
-## Rozwiązanie wejścia
+## Rozwiązanie wejściowe
 
 `$ARGUMENTS` jest opcjonalny. Może to być:
 
@@ -42,37 +42,37 @@ Ta sama umiejętność może wytworzyć dwa istotnie różne dokumenty w zależn
 
 **Zakres na poziomie repozytorium.** Postępuj zgodnie z procedurą i „Strukturą wyjściową” poniżej w niezmienionej formie — dokument jest ogólnym przewodnikiem wprowadzającym (struktura projektu, polecenia kompilacji, brama CI, konwencje commitów itp.).
 
-**Zakres na poziomie katalogu.** Całkowicie pomiń ramkę wprowadzającą do repozytorium. Czytelnik już zna repozytorium; potrzebuje zasad *tego* katalogu. Zmień orientację odkrywania i wyjścia:
+**Zakres na poziomie katalogu.** Całkowicie pomiń ramkę wprowadzającą do repozytorium. Czytelnik już zna repozytorium; potrzebuje zasad *tego* katalogu. Zmień orientację odkrywania i danych wyjściowych:
 
-- **Najpierw odkryj lokalnie.** Sprawdź pliki faktycznie znajdujące się obok celu: pliki źródłowe rodzeństwa, najbliższy `index.*`/`mod.rs`/`__init__.py`, współlokalizowane testy, plik README katalogu nadrzędnego, jeśli istnieje, oraz wszelkie zagnieżdżone konfiguracje (np. `tsconfig.json`, `.eslintrc`, manifesty tras), które nadpisują domyślne ustawienia na poziomie repozytorium. Konsultuj dokumenty z katalogu głównego repozytorium (`README.md`, `CLAUDE.md`) tylko w celu **rozwiązania konfliktów** lub pobrania pojedynczego kanonicznego odniesienia `@` — nie jako główne źródło.
-- **Wywnioskuj lokalny wzorzec, czytając rodzeństwo.** Jaki kształt przyjmują istniejące pliki w tym katalogu? Układ plików komponentów, nazewnictwo (`PascalCase.tsx`, `kebab-case.ts`, `*.handler.ts`), eksporty domyślne vs. nazwane, konwencje prop/argumentów, gdzie znajdują się typy/style/testy względem jednostki, idiomy obsługi błędów, co jest importowane skąd. AGENTS.md zawiera zaobserwowaną konwencję, a nie ogólne porady.
-- **Przeformułuj sekcje wokół jednostki lokalnej.** Zastąp sekcje na poziomie repozytorium sekcjami istotnymi dla katalogu. Przydatne wartości domyślne (dostosuj do tego, co jest):
+- **Najpierw odkryj lokalnie.** Sprawdź pliki faktycznie znajdujące się obok celu: pliki źródłowe rodzeństwa, najbliższy `index.*`/`mod.rs`/`__init__.py`, współlokowane testy, plik README katalogu nadrzędnego, jeśli istnieje, oraz wszelkie zagnieżdżone konfiguracje (np. `tsconfig.json`, `.eslintrc`, manifesty tras), które nadpisują domyślne ustawienia na poziomie repozytorium. Konsultuj dokumenty z katalogu głównego repozytorium (`README.md`, `CLAUDE.md`) tylko w celu **rozwiązania konfliktów** lub pobrania pojedynczego kanonicznego odniesienia `@` — a nie jako główne źródło.
+- **Wywnioskuj lokalny wzorzec, czytając rodzeństwo.** Jaki kształt przyjmują istniejące pliki w tym katalogu? Układ plików komponentów, nazewnictwo (`PascalCase.tsx`, `kebab-case.ts`, `*.handler.ts`), eksporty domyślne vs. nazwane, konwencje dotyczące właściwości/argumentów, gdzie znajdują się typy/style/testy względem jednostki, idiomy obsługi błędów, co jest importowane skąd. AGENTS.md zawiera zaobserwowaną konwencję, a nie ogólne porady.
+- **Zmień ramki sekcji wokół jednostki lokalnej.** Zastąp sekcje na poziomie repozytorium sekcjami istotnymi dla katalogu. Przydatne wartości domyślne (dostosuj do tego, co jest):
   - *Dodawanie nowej \<jednostki\>* — konkretne kroki dla dominującego artefaktu w tym katalogu (komponent, handler trasy, migracja, hook, worker itp.), cytując jedno istniejące rodzeństwo jako kształt referencyjny za pomocą `@./<sibling-file>`.
-  - *Układ plików i nazewnictwo* — wzorzec nazewnictwa, zasady współlokalacji (test obok źródła? style wbudowane? typy w pliku rodzeństwa?), polityka eksportu zbiorczego, jeśli istnieje.
-  - *Lokalne konwencje* — kształt props/args, zasady stanu/przepływu danych, dozwolone importy (i zabronione — np. „komponenty w tym katalogu nie mogą importować z `src/server/`”), zasady dostępności lub i18n widoczne w rodzeństwie.
-  - *Testowanie tej jednostki* — wzorzec testowy używany przez sąsiadów, jak uruchomić testy tylko tego katalogu.
+  - *Układ plików i nazewnictwo* — wzorzec nazewnictwa, zasady współlokacji (test obok źródła? style wbudowane? typy w pliku rodzeństwa?), polityka eksportu zbiorczego, jeśli istnieje.
+  - *Lokalne konwencje* — kształt właściwości/argumentów, zasady przepływu stanu/danych, dozwolone importy (i zabronione — np. „komponenty w tym katalogu nie mogą importować z `src/server/`”), zasady dostępności lub i18n widoczne w rodzeństwie.
+  - *Testowanie tej jednostki* — wzorzec testowy używany przez sąsiadów, jak uruchomić testy tylko z tego katalogu.
   - *Pułapki* — specyficzne dla katalogu zasady „nigdy nie rób X” widoczne w rodzeństwie lub pobliskim fragmencie CLAUDE.md.
 - **Pomiń sekcje na poziomie repozytorium.** Brak mapy struktury projektu najwyższego poziomu, brak listy pakietów monorepo, brak globalnego przeglądu kompilacji/CI, brak podsumowania konwencji commitów — te należą do głównego `AGENTS.md`. Jeśli czytelnik ich potrzebuje, podaj link raz: `Zobacz @AGENTS.md w katalogu głównym repozytorium, aby zapoznać się z zasadami obowiązującymi w całym repozytorium.`
 - **Budżet długości maleje.** Celuj w **120–250 słów** treści dla przewodników na poziomie katalogu; powierzchnia jest mniejsza, a wypełnianie tutaj jest gorsze niż w katalogu głównym.
 
-Zabezpieczenia jakości nadal obowiązują, z jednym zastąpieniem: zabezpieczenie 5 („Krytyczne zasady na początku”) staje się „Zasady lokalne na początku” — najbardziej wpływowa linia to ta, która zapobiega lądowaniu w tym katalogu pliku o niewłaściwym kształcie.
+Zabezpieczenia jakości nadal obowiązują, z jednym zastąpieniem: zabezpieczenie 5 („Najpierw krytyczne zasady”) staje się „Najpierw zasady lokalne” — najbardziej wpływowa linia to ta, która zapobiega lądowaniu w tym katalogu pliku o niewłaściwym kształcie.
 
 ## Interaktywne podpowiedzi — niezależne od hosta
 
-Ilekroć procedura mówi „zapytaj użytkownika”, użyj dowolnego narzędzia do interaktywnych pytań, które udostępnia agent hosta. Umiejętność jest niezależna od hosta; nie koduj na stałe nazwy narzędzia. Znane odpowiedniki (niepełna lista):
+Ilekroć procedura mówi „zapytaj użytkownika”, użyj dowolnego narzędzia do interaktywnych pytań, które udostępnia agent hosta. Umiejętność jest niezależna od hosta; nie koduj na stałe nazwy jednego narzędzia. Znane odpowiedniki (niekompletne):
 
 - Claude Code → `AskUserQuestion`
 - Cursor → `ask_question`
 - OpenAI Codex / Codex CLI → `request_user_input`
 - Inne uprzęże → poszukaj dowolnego narzędzia, którego opis wspomina o zadawaniu użytkownikowi ustrukturyzowanego pytania z opcjami.
 
-**Zasada samodzielnego odkrywania.** Przed pierwszym interaktywnym krokiem przeskanuj dostępne narzędzia pod kątem jednego pasującego do powyższych wzorców (nazwy zawierające `ask`, `question`, `input`, `prompt_user` itp., z parametrem `question` lub `prompt` i polem `options`/`choices`). Użyj pierwszego dopasowania. Jeśli żadne nie jest dostępne, wróć do zwykłej wiadomości konwersacyjnej, prosząc użytkownika o odpowiedź jedną z oznaczonych opcji — nie blokuj procedury.
+**Zasada samodzielnego odkrywania.** Przed pierwszym interaktywnym krokiem przeskanuj dostępne narzędzia pod kątem jednego pasującego do powyższych wzorców (nazwy zawierające `ask`, `question`, `input`, `prompt_user` itp., z parametrem `question` lub `prompt` i polem `options`/`choices`). Użyj pierwszego dopasowania. Jeśli żadne nie jest dostępne, wróć do zwykłej wiadomości konwersacyjnej z prośbą o odpowiedź użytkownika z jedną z oznaczonych opcji — nie blokuj procedury.
 
 Podaj, które narzędzie wybrałeś (lub że wróciłeś do zwykłego czatu) za pierwszym razem, gdy zadajesz pytanie, aby użytkownik mógł cię poprawić, jeśli istnieje lepsza opcja.
 
 ## Równoległe badania za pomocą subagentów (opcjonalnie)
 
-Jeśli host udostępnia narzędzie do tworzenia subagentów / zadań, kroki odkrywania i różnicowania są czysto równoległe — są to głównie niezależne odczyty. Znane odpowiedniki (niepełna lista):
+Jeśli host udostępnia narzędzie do tworzenia subagentów / zadań, kroki odkrywania i różnicowania są czysto równoległe — są to w większości niezależne odczyty. Znane odpowiedniki (niekompletne):
 
 - Claude Code → `Agent` (z typami subagentów `Explore`/`general-purpose`)
 - Cursor → subagenci w tle
@@ -86,7 +86,7 @@ Jeśli host udostępnia narzędzie do tworzenia subagentów / zadań, kroki odkr
 - jeden sprawdza konfigurację testów + przepływy pracy CI;
 - jeden uruchamia zapytania historii git (konwencje commitów, ostatni dotyk na AGENTS.md, zakres różnic od `LAST_TOUCH`).
 
-Każdy subagent powinien zwrócić **krótki ustrukturyzowany raport** (≤200 słów: tylko fakty, z cytatami `path:line`) — a nie pełny zrzut pliku. Główny agent następnie syntetyzuje AGENTS.md z tych raportów.
+Każdy subagent powinien zwrócić **krótki, ustrukturyzowany raport** (≤200 słów: tylko fakty, z cytatami `path:line`) — a nie pełny zrzut pliku. Główny agent następnie syntetyzuje AGENTS.md z tych raportów.
 
 **Kiedy nie używać subagentów.** Pomiń rozgałęzienie, jeśli:
 
@@ -94,13 +94,13 @@ Każdy subagent powinien zwrócić **krótki ustrukturyzowany raport** (≤200 s
 - host nie obsługuje subagentów — wróć do sekwencyjnych odczytów w głównej pętli;
 - większość odpowiednich plików została już załadowana w bieżącym kontekście — ponowne odczytywanie za pomocą subagenta tylko spala tokeny.
 
-**Nie deleguj** kroku syntezy (tworzenia szkicu i sprawdzania zabezpieczeń jakości). Tworzenie szkicu wymaga utrzymania pełnego obrazu w jednym kontekście, aby wymusić budżet 200–400 słów, kolejność i politykę odniesień `@`.
+**Nie deleguj** kroku syntezy (opracowywania i sprawdzania zabezpieczeń jakości). Opracowywanie wymaga utrzymania pełnego obrazu w jednym kontekście, aby wymusić budżet 200–400 słów, kolejność i politykę odniesień `@`.
 
 ## Czego ta umiejętność NIE robi
 
-- Nie wymyśla faktów projektu. Każde twierdzenie w wynikach musi odnosić się do pliku, polecenia lub commita, który faktycznie sprawdziłeś.
+- Nie wymyśla faktów projektu. Każde twierdzenie w danych wyjściowych musi odnosić się do pliku, polecenia lub commita, które faktycznie sprawdziłeś.
 - Nie osadza wieloliniowych fragmentów kodu ani konfiguracji. Zamiast tego użyj odniesień `@` do kanonicznych plików (np. `@package.json`, `@tsconfig.json`, `@docs/architecture.md`).
-- Nie pisze ogólnych porad inżynierskich („pisz czysty kod”, „stosuj najlepsze praktyki”, „prawidłowo obsługuj błędy”). Jeśli zasady nie można sprawdzić w stosunku do różnicy, usuń ją lub przepisz konkretnie.
+- Nie pisze ogólnych porad inżynierskich („pisz czysty kod”, „stosuj najlepsze praktyki”, „prawidłowo obsługuj błędy”). Jeśli zasady nie można sprawdzić w porównaniu z różnicą, usuń ją lub przepisz konkretnie.
 - Nie powtarza domyślnych ustawień frameworka, samouczków językowych ani niczego, co agent już wie z treningu. Tylko wiedza specyficzna dla projektu zasługuje na linię.
 - Nie edytuje niepowiązanych plików. Umiejętność zapisuje jeden plik markdown i zatrzymuje się.
 
@@ -139,7 +139,7 @@ Uruchamiana, gdy plik docelowy już istnieje. Domyślnie jest to **edycja chirur
 2. **Datuj plik za pomocą git.**
    - `git log --follow --format="%h %ad %s" --date=short -- <path>` — pełna historia edycji pliku.
    - Zauważ **hash commita ostatniego dotyku** i datę. Nazwij to `LAST_TOUCH`.
-   - Jeśli plik jest nieśledzony (`git ls-files --error-unmatch <path>` zawodzi), traktuj go jako świeżo utworzony: pomiń kroki git-diff i uruchom pełne odkrywanie ścieżki tworzenia, ale nadal zachowaj wszelkie oczywiście specyficzne dla projektu treści, które napisał użytkownik.
+   - Jeśli plik jest nieśledzony (`git ls-files --error-unmatch <path>` zawodzi), traktuj go jako świeżo utworzony: pomiń kroki git-diff i uruchom pełne odkrywanie ścieżki tworzenia, ale nadal zachowaj wszelkie oczywiście specyficzne dla projektu treści, które użytkownik napisał.
 
 3. **Porównaj stan repozytorium od `LAST_TOUCH`.** Użyj tych sprawdzeń (pomiń te, do których plik nie odwołuje się):
    - `git diff --stat LAST_TOUCH..HEAD -- README.md CLAUDE.md docs/` — czy dokumentacja najwyższego poziomu została przeniesiona lub zmieniona?
@@ -147,25 +147,25 @@ Uruchamiana, gdy plik docelowy już istnieje. Domyślnie jest to **edycja chirur
    - `git diff LAST_TOUCH..HEAD -- .eslintrc* oxlint* biome.json tsconfig.json ruff.toml .editorconfig` — czy zmienił się zestaw narzędzi lint/format/typ?
    - `git diff LAST_TOUCH..HEAD -- vitest.config.* jest.config.* pytest.ini playwright.config.*` — czy zmienił się stos testowy lub układ?
    - `git diff --stat LAST_TOUCH..HEAD -- .github/workflows/` — czy zmieniła się brama CI?
-   - `git log --oneline LAST_TOUCH..HEAD -- <commit-conventions-relevant-area>` i `git log --oneline -n 30` — czy obserwacja stylu commita w pliku nadal pasuje do najnowszej historii?
-   - Dla każdego odniesienia `@` i ścieżki wymienionej w pliku: `ls`/`Read` ścieżkę. Jeśli już nie istnieje lub została zmieniona nazwa, ta linia jest nieaktualna.
+   - `git log --oneline LAST_TOUCH..HEAD -- <commit-conventions-relevant-area>` i `git log --oneline -n 30` — czy obserwacja stylu commita w pliku nadal odpowiada ostatniej historii?
+   - Dla każdego odniesienia `@` i ścieżki, o której wspomina plik: `ls`/`Read` ścieżkę. Jeśli już nie istnieje lub została zmieniona nazwa, ta linia jest nieaktualna.
 
 4. **Sklasyfikuj każdą linię istniejącego pliku** do jednego z czterech kubełków:
    - **ZACHOWAJ** — nadal dokładne; cytowany plik/polecenie/ścieżka nadal istnieje w tej samej formie.
    - **AKTUALIZUJ** — kierunkowo poprawne, ale szczegół jest nieaktualny (zmieniony skrypt, przeniesiona ścieżka, zmienione narzędzie, zwiększona wersja). Zauważ dokładne zastąpienie.
-   - **USUŃ** — bazowy plik/polecenie/konwencja już nie istnieje, lub zasada została sprzeczna z nowszym źródłem (CLAUDE.md, README), któremu bardziej ufasz.
+   - **USUŃ** — podstawowy plik/polecenie/konwencja już nie istnieje, lub zasada została sprzeczna z nowszym źródłem (CLAUDE.md, README), któremu bardziej ufasz.
    - **BRAKUJĄCE** — obecnie nie ma w pliku, ale powinno być (nowy pakiet najwyższego poziomu, nowy wymagany skrypt, nowa zasada „nigdy nie rób X” wprowadzona przez walidator CI, nowa konwencja commitów widoczna w `git log`).
    Zachowaj tę klasyfikację jako krótką tabelę, którą możesz pokazać użytkownikowi. Cytuj `path:line` (w istniejącym AGENTS.md) dla każdego wpisu AKTUALIZUJ/USUŃ i cytuj ścieżkę źródła prawdy (np. `package.json:42`) dla każdego wpisu AKTUALIZUJ/BRAKUJĄCE.
 
 5. **Potwierdź zakres przed edycją.** Użyj narzędzia do interaktywnych pytań hosta raz (patrz „Interaktywne podpowiedzi — niezależne od hosta” powyżej) z tymi opcjami:
-   - **Zastosuj proponowane aktualizacje** — wykonaj listę AKTUALIZUJ/USUŃ/BRAKUJĄCE jako ukierunkowane wywołania `Edit`; linie ZACHOWAJ nie są dotykane.
+   - **Zastosuj proponowane aktualizacje** — wykonaj listę AKTUALIZUJ/USUŃ/BRAKUJĄCE jako docelowe wywołania `Edit`; linie ZACHOWAJ nie są dotykane.
    - **Pokaż mi najpierw listę zmian** — wydrukuj tabelę klasyfikacji na czacie, bez edycji, a następnie zapytaj ponownie.
-   - **Pełna regeneracja** — odrzuć istniejący plik i uruchom ścieżkę tworzenia. Używaj tylko wtedy, gdy istniejący plik jest w większości nieaktualny lub użytkownik wyraźnie chce czystej karty.
+   - **Pełne ponowne generowanie** — odrzuć istniejący plik i uruchom ścieżkę tworzenia. Używaj tylko wtedy, gdy istniejący plik jest w większości nieaktualny lub użytkownik wyraźnie chce czystej karty.
    - **Anuluj** — brak zmian.
 
-6. **Edytuj chirurgicznie.** Dla wyboru „Zastosuj” preferuj wiele małych wywołań `Edit` (jedno na wpis AKTUALIZUJ/USUŃ/BRAKUJĄCE) zamiast pojedynczego przepisania `Write`. Zachowuje to głos autora w sekcjach ZACHOWAJ i tworzy możliwą do przejrzenia różnicę. Jeśli kolejność sekcji narusza zabezpieczenie „krytyczne zasady na początku” z zabezpieczeń jakości, a użytkownik zatwierdził aktualizacje, możesz przenosić całe sekcje — ale tylko sekcje, nigdy nie zmieniaj cicho sformułowania zasad.
+6. **Edytuj chirurgicznie.** Dla wyboru „Zastosuj” preferuj wiele małych wywołań `Edit` (jedno na wpis AKTUALIZUJ/USUŃ/BRAKUJĄCE) zamiast pojedynczego przepisania `Write`. Zachowuje to głos autora w sekcjach ZACHOWAJ i tworzy możliwą do przejrzenia różnicę. Jeśli kolejność sekcji narusza zabezpieczenie „najpierw krytyczne zasady” z zabezpieczeń jakości, a użytkownik zatwierdził aktualizacje, możesz przenosić całe sekcje — ale tylko sekcje, nigdy nie zmieniaj cicho sformułowania zasad.
 
-7. **Ponownie uruchom zabezpieczenia jakości** na zaktualizowanym pliku. Obowiązuje tych samych pięć bram. Jeśli zabezpieczenie teraz zawiedzie z powodu aktualizacji (np. treść przekroczyła 400 słów po dodaniu BRAKUJĄCYCH), przytnij zawartość ZACHOWAJ, która stała się mało wartościowa, zamiast usuwać nową zawartość BRAKUJĄCĄ.
+7. **Ponownie uruchom zabezpieczenia jakości** na zaktualizowanym pliku. Obowiązuje tych samych pięć bram. Jeśli zabezpieczenie teraz zawiedzie z powodu aktualizacji (np. treść przekroczyła 400 słów po dodaniu BRAKUJĄCYCH), przytnij zawartość ZACHOWAJ, która stała się mało użyteczna, zamiast usuwać nową zawartość BRAKUJĄCĄ.
 
 8. **Raport.** Potwierdź ścieżkę, nową liczbę słów i jednoliniowe podsumowanie tego, co zmieniło się w każdym kubełku (np. „3 zaktualizowane, 1 usunięty, 2 dodane; kolejność sekcji bez zmian”).
 
@@ -181,10 +181,10 @@ Uporządkuj sekcje według **wpływu na świeżego agenta**, a nie według trady
 4. **Styl kodowania i konwencje nazewnictwa** — wcięcia, wersja języka, wzorce nazewnictwa (z jednym krótkim przykładem wzorca, a nie blokiem kodu) oraz narzędzia lint/format, które je wymuszają.
 5. **Wytyczne dotyczące testowania** — framework, gdzie znajdują się testy, wzorzec nazewnictwa, jak uruchomić pojedynczy test, wszelkie progi pokrycia, które repozytorium faktycznie sprawdza.
 6. **Wytyczne dotyczące commitów i żądań ściągnięcia** — konwencja obserwowana w `git log` (np. widziane prefiksy Conventional Commits), oczekiwania dotyczące opisu PR, wymagane sprawdzenia CI.
-7. **Wskazówki dotyczące bezpieczeństwa i konfiguracji** *(opcjonalnie)* — obsługa sekretów, lokalizacja pliku env, skrypty walidacyjne, które powodują błąd CI.
+7. **Wskazówki dotyczące bezpieczeństwa i konfiguracji** *(opcjonalnie)* — obsługa sekretów, lokalizacja pliku env, skrypty walidacyjne, które powodują awarię CI.
 8. **Przegląd architektury** *(opcjonalnie, tylko jeśli nie został już objęty odniesieniem `@`)* — maksymalnie 3–6 punktów; w przeciwnym razie podaj link.
 
-Rozpocznij plik krótkim akapitem (1–2 zdania) określającym, czym jest projekt i jaki jest główny stos — wystarczająco, aby agent lądujący w repozytorium po raz pierwszy miał punkt odniesienia. Bez misji, wprowadzeń zespołu ani wartości.
+Otwórz plik krótkim akapitem (1–2 zdania) nazywającym projekt i główny stos — wystarczająco, aby agent lądujący w repozytorium po raz pierwszy miał punkt odniesienia. Bez misji, wprowadzeń zespołu ani wartości.
 
 ## Zabezpieczenia jakości (uruchamiane przed `Write`)
 
@@ -194,7 +194,7 @@ Każde zabezpieczenie jest twardą bramą. Jeśli którekolwiek zawiedzie, popra
 2. **Brak wieloliniowych fragmentów.** Brak bloków kodu dłuższych niż pojedyncza linia polecenia. Zastąp przykładowe komponenty / konfiguracje / migracje za pomocą `@path/to/file`. Krótkie jednoliniowe przykłady poleceń (`pnpm test`, `git rebase main`) są w porządku.
 3. **Każda zasada jest sprawdzalna.** Przeczytaj ponownie każde zdanie i zadaj sobie pytanie: *czy recenzent mógłby zgłosić różnicę w stosunku do tego?* Jeśli nie, przepisz ją z konkretnym wzorcem, progiem lub nazwanym narzędziem. Usuń frazy takie jak „czysty kod”, „najlepsze praktyki”, „nowoczesne wzorce”, „bądź konsekwentny”, „prawidłowo obsługuj błędy”, „zachowaj prostotę”.
 4. **Brak zbędnej wiedzy.** Usuń każdą linię, którą mógłbyś napisać bez otwierania repozytorium. Domyślne ustawienia frameworka, samouczki językowe i definicje typowych terminów nie zasługują na miejsce. Jeśli zasada duplikuje `README.md` / `package.json` / konfigurację lint, zastąp ją `@README.md` / `@package.json` / `@.eslintrc.json`.
-5. **Krytyczne zasady na początku.** Pierwsza trzecia pliku musi zawierać zasady o najwyższym znaczeniu i najczęściej używane polecenia. Jeśli jedyna zasada „nigdy nie rób X” znajduje się na dole, przenieś ją na górę. Jeśli na górze znajduje się powitanie/misja/wartości, usuń je.
+5. **Najpierw krytyczne zasady.** Pierwsza trzecia pliku musi zawierać zasady o najwyższym znaczeniu i najczęściej używane polecenia. Jeśli jedyna zasada „nigdy nie rób X” znajduje się na dole, przenieś ją na górę. Jeśli na górze znajduje się powitanie/misja/wartości, usuń je.
 
 ## Ton
 
@@ -216,8 +216,8 @@ Nie proponuj dalszych działań, chyba że użytkownik o to poprosi.
 - **Nie wykryto `README.md` i manifestu.** Zatrzymaj się i poinformuj użytkownika, że repozytorium wygląda na puste lub nieznane; poproś o jednoliniowy opis projektu przed sporządzeniem szkicu.
 - **Monorepo z plikami README dla każdego pakietu.** Utwórz główny `AGENTS.md`, który wymienia pakiety i odwołuje się do każdego pliku README pakietu za pomocą `@`, zamiast duplikować szczegóły dla każdego pakietu. Zasugeruj zagnieżdżone `packages/<name>/AGENTS.md` dla każdego pakietu, którego zasady istotnie się różnią.
 - **Istniejący bogaty `CLAUDE.md` w repozytorium.** Traktuj go jako autorytatywny materiał źródłowy. Nowy `AGENTS.md` powinien być bardziej zwięzłym, niezależnym od narzędzi agenta destylatem, który wskazuje na `@CLAUDE.md` w celu uzyskania szczegółów, a nie dosłowną kopią.
-- **Istniejący `AGENTS.md` został edytowany ręcznie po ostatnim commicie.** `git diff HEAD -- <path>` pokaże niezacommitowane zmiany. Najpierw przeczytaj te zmiany i traktuj je jako ZACHOWAJ, chyba że bezpośrednio sprzeciwiają się zasadzie wymuszonej przez CI — użytkownik jest w trakcie edycji i nie wolno nadpisywać trwającej pracy.
+- **Istniejący `AGENTS.md` został edytowany ręcznie po ostatnim commicie.** `git diff HEAD -- <path>` pokaże niezacommitowane zmiany. Najpierw przeczytaj te zmiany i traktuj je jako ZACHOWAJ, chyba że bezpośrednio sprzeciwiają się zasadzie wymuszonej przez CI — użytkownik jest w trakcie edycji i nie wolno nadpisywać trwających prac.
 - **`LAST_TOUCH` to początkowy commit repozytorium.** Zakres różnic staje się `LAST_TOUCH..HEAD` bez użytecznego sygnału. Wróć do sprawdzania bieżącego stanu repozytorium w stosunku do twierdzeń pliku, linia po linii, bez skrótu git-diff.
 - **Plik istnieje, ale jest pusty lub jest stubem.** Pomiń ścieżkę aktualizacji — uruchom ścieżkę tworzenia i nadpisz, ponieważ nie ma treści autorskiej do zachowania.
-- **Repozytorium bez historii commitów (`git log` puste).** Pomiń sekcję konwencji commitów, zamiast zgadywać; w sekcji PR zaznacz, że konwencja ma zostać zdefiniowana.
+- **Repozytorium bez historii commitów (`git log` jest puste).** Pomiń sekcję konwencji commitów, zamiast zgadywać; zanotuj w sekcji PR, że konwencja ma zostać zdefiniowana.
 - **Repozytorium poliglota (brak pojedynczego manifestu).** Wybierz dominujący stos według liczby plików dla sekcji „Build/Test/Dev”; wspomnij o stosach drugorzędnych tylko wtedy, gdy mają własne polecenia, których agent będzie potrzebował.

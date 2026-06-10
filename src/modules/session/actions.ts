@@ -201,7 +201,8 @@ export async function endSessionAction(
       isFailed: claimed[0].isFailed,
       skippedCritical,
     }
-  } catch {
+  } catch (error) {
+    console.error("[endSessionAction] DB error:", error)
     return { error: "Internal error" }
   }
 }

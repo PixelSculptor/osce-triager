@@ -18,17 +18,17 @@ allowed-tools:
   - TaskUpdate
 ---
 
-# Bootstrapper: Od stosu technologicznego do szkieletowego projektu
+# Bootstrapper: Od stosu technologicznego do projektu z szablonu
 
-Ta umiejętność jest końcówką łańcucha sekwencji bootstrap (`/10x-shape → /10x-prd → /10x-tech-stack-selector → 10x-bootstrapper`). Jej jedyne zadanie: przekształcić pisemne przekazanie stosu technologicznego w projekt szkieletowy w bieżącym katalogu roboczym, z wynikami weryfikacji zapisanymi w dzienniku do przeglądu przez użytkownika.
+Ta umiejętność jest końcowym ogniwem sekwencji uruchamiania (`/10x-shape → /10x-prd → /10x-tech-stack-selector → 10x-bootstrapper`). Jej jedyne zadanie: przekształcić pisemne przekazanie stosu technologicznego w projekt z szablonu w bieżącym katalogu roboczym, z wynikami weryfikacji zapisanymi w dzienniku do wglądu użytkownika.
 
 Umiejętność ta jest **konsumentem rejestru**, a nie jego właścicielem. Rejestr starterów znajduje się w `/10x-tech-stack-selector` (`/skills/10x-tech-stack-selector/references/starter-registry.yaml`); bootstrapper wyszukuje wybraną kartę po `starter_id`, podstawia jej `cmd_template` i przekazuje do odpowiedniej strategii cwd. Walidator CI (`scripts/validate-starter-registry-sync.mjs`) zapobiega odwoływaniu się bootstrapper'a do `starter_id` nieobecnego w tym rejestrze.
 
-v1 działa **tylko w trybie łańcuchowym**. Bez `context/foundation/tech-stack.md` umiejętność odmawia i przekierowuje do `/10x-tech-stack-selector`. Nie ma wbudowanego mini-przekazania, trybu samodzielnego, ani awaryjnego rozwiązania AI-jako-mostu dla nieznanych stosów. v1 również **nie** generuje `AGENTS.md` / `CLAUDE.md` — ta odpowiedzialność należy do przyszłej umiejętności M1L4.
+v1 działa **tylko w trybie łańcuchowym**. Bez `context/foundation/tech-stack.md` umiejętność odmawia i przekierowuje do `/10x-tech-stack-selector`. Nie ma wbudowanego mini-przekazania, trybu samodzielnego, ani awaryjnego rozwiązania AI-as-bridge dla nieznanych stosów. v1 również **nie** generuje `AGENTS.md` / `CLAUDE.md` — ta odpowiedzialność należy do przyszłej umiejętności M1L4.
 
 ## Kiedy uruchomić
 
-Użyj, gdy `context/foundation/tech-stack.md` istnieje, a użytkownik jest gotowy do utworzenia szkieletu. Frazy wyzwalające: "bootstrap the project", "scaffold the app", "set up the codebase", "let's start the project", "spin up the repo", lub dowolne naturalne kontynuacje po uruchomieniu `/10x-tech-stack-selector`, które właśnie zapisało przekazanie.
+Użyj, gdy `context/foundation/tech-stack.md` istnieje, a użytkownik jest gotowy do utworzenia szablonu. Frazy wyzwalające: "bootstrap the project", "scaffold the app", "set up the codebase", "let's start the project", "spin up the repo" lub dowolne naturalne następstwo uruchomienia `/10x-tech-stack-selector`, które właśnie zapisało przekazanie.
 
 Warunkiem wstępnym jest pojedynczy plik na dysku: `context/foundation/tech-stack.md`. Umiejętność nigdy nie wraca do historii rozmów, nigdy nie uruchamia ponownie wywiadu dotyczącego stosu technologicznego, nigdy nie akceptuje stosu nazwanego w tekście.
 
@@ -56,7 +56,7 @@ Pomiń, gdy:
 
 Gdy ta umiejętność zostanie wywołana:
 
-1. **Jeśli podano argument ścieżki** (np. `/10x-bootstrapper @context/foundation/tech-stack-v2.md` lub `/10x-bootstrapper path/to/tech-stack.md`), usuń początkowe `@`, jeśli jest obecne, i użyj ścieżki dosłownie jako lokalizacji przekazania dla tego uruchomienia.
+1. **Jeśli podano argument ścieżki** (np. `/10x-bootstrapper @context/foundation/tech-stack-v2.md` lub `/10x-bootstrapper path/to/tech-stack.md`), usuń początkowy `@`, jeśli jest obecny, i użyj ścieżki dosłownie jako lokalizacji przekazania dla tego uruchomienia.
 2. **Jeśli nie podano argumentu**, domyślnie ustaw ścieżkę przekazania na `context/foundation/tech-stack.md`.
 
 Przenieś rozwiązaną ścieżkę przez Krok 0; reszta przepływu pracy działa na niej jako `<handoff-path>`.
@@ -85,10 +85,10 @@ Set-Clipboard "/10x-tech-stack-selector"
 Wydrukuj dosłownie (podstaw rozwiązaną ścieżkę; jeśli domyślna, to `context/foundation/tech-stack.md`):
 
 ```
-Bootstrapper wymaga przekazania stosu technologicznego pod adresem `<handoff-path>`. Najpierw uruchom `/10x-tech-stack-selector`, a następnie ponownie wywołaj.
+Bootstrapper wymaga przekazania stosu technologicznego pod adresem `<handoff-path>`. Najpierw uruchom `/10x-tech-stack-selector`, a następnie wywołaj ponownie.
 ```
 
-Następnie ZATRZYMAJ. Kontekst rozmowy **nie** jest awaryjnym rozwiązaniem — nawet jeśli wybór stosu był wcześniej omawiany na czacie, umiejętność wymaga pliku na dysku. Pełny zestaw warunków odmowy i ciągów schowka znajduje się w `references/refusal-protocol.md`.
+Następnie ZATRZYMAJ. Kontekst rozmowy **nie** jest awaryjnym rozwiązaniem — nawet jeśli wybór stosu był wcześniej omawiany na czacie, umiejętność wymaga pliku na dysku. Zobacz `references/refusal-protocol.md` dla pełnego zestawu warunków odmowy i ciągów schowka.
 
 **Jeśli obecny**, przeczytaj go W CAŁOŚCI (bez `limit`/`offset`) i kontynuuj. Przeanalizuj frontmatter zgodnie z `references/handoff-consumer.md` i rozwiąż wybraną kartę przez wyszukiwanie `starter_id` w `/skills/10x-tech-stack-selector/references/starter-registry.yaml`. Jeśli wyszukiwanie się nie powiedzie, uruchom odmowę dryfu rejestru z `references/refusal-protocol.md` i ZATRZYMAJ.
 
@@ -116,13 +116,13 @@ AskUserQuestion:
     description: "Kontynuuj z przekazaniem w odczytanej formie."
   - label: "Popraw wartość"
     description: "Zapytam, które pole nadpisać dla tego uruchomienia; plik na dysku pozostanie niezmieniony."
-  - label: "Zatrzymaj — najpierw napraw przekazanie"
-    description: "Wyjdź. Uruchom ponownie /10x-tech-stack-selector, aby zaktualizować tech-stack.md, a następnie ponownie wywołaj."
+  - label: "Zatrzymaj — najpierw popraw przekazanie"
+    description: "Wyjdź. Uruchom ponownie /10x-tech-stack-selector, aby zaktualizować tech-stack.md, a następnie wywołaj ponownie."
   multiSelect: false
 
-Jeśli "Popraw wartość": zapytaj, które pole, przechwyć nadpisanie, kontynuuj z nadpisaniem zastosowanym tylko dla tej sesji. Następnie uruchom strażnika zapełnionego cwd z `references/refusal-protocol.md` (ostrzeż i potwierdź, jeśli cwd już zawiera odcisk palca w kształcie szkieletu, taki jak `package.json`, `Cargo.toml`, `Gemfile`, `pyproject.toml` itp.).
+Jeśli "Popraw wartość": zapytaj, które pole, przechwyć nadpisanie, kontynuuj z nadpisaniem zastosowanym tylko dla tej sesji. Następnie uruchom strażnika zapełnionego cwd z `references/refusal-protocol.md` (ostrzeż i potwierdź, jeśli cwd już zawiera odcisk palca w kształcie szablonu, taki jak `package.json`, `Cargo.toml`, `Gemfile`, `pyproject.toml` itp.).
 
-### Krok 1 — Weryfikacja przed utworzeniem szkieletu
+### Krok 1 — Weryfikacja przed utworzeniem szablonu
 
 Przed uruchomieniem CLI startera, wykonaj lekkie sprawdzenie aktualności opisane w `references/pre-scaffold-verification.md`. Przeczytaj teraz to odniesienie. Slot jest tylko do odczytu — bez klonowania, bez instalacji, bez zmian w systemie plików — i ma charakter edukacyjny, a nie blokujący: każde znalezisko to OSTRZEŻENIE-I-KONTYNUUJ.
 
@@ -131,15 +131,15 @@ Sekwencja:
 1. Z wybranej karty, wywnioskuj nazwę pakietu npm z `cmd_template`, jeśli `hints.language_family == js` i szablon wywołuje CLI `create-*` (np. `npm create next-app` → `create-next-app`, `npm create astro` → `create-astro`, `npm create vite` → `create-vite`). Jeśli szablon zaczyna się od `git clone`, pomiń krok npm.
 2. Jeśli nazwa pakietu została wywnioskowana, uruchom `npm view <package> version` i `npm view <package> time.modified`.
 3. Z wybranej karty, przeanalizuj `docs_url`. Jeśli wskazuje na `github.com/<owner>/<repo>`, uruchom `gh api repos/<owner>/<repo> --jq '.pushed_at'`.
-4. Oblicz ważność zgodnie z progami w `pre-scaffold-verification.md` (świeże / stare / bardzo stare).
-5. Wydrukuj jedną linię podsumowania w rozmowie. Poprzedź jednowierszowym ostrzeżeniem "Heads-up", jeśli jakikolwiek sygnał jest bardzo stary. Nigdy nie blokuj — przejdź do Kroku 2 niezależnie.
-6. Umieść rozwiązaną nazwę pakietu (jeśli istnieje), adres URL repozytorium GitHub (jeśli istnieje), oba znaczniki czasu i obie ważności w rekordzie weryfikacji w pamięci. Krok 4 zapisuje ten rekord na dysku.
+4. Oblicz ważność zgodnie z progami w `pre-scaffold-verification.md` (świeży / stary / przestarzały).
+5. Wydrukuj jedną linię podsumowania w rozmowie. Poprzedź jednowierszowym ostrzeżeniem "Heads-up", jeśli jakikolwiek sygnał jest przestarzały. Nigdy nie blokuj — przejdź do Kroku 2 niezależnie.
+6. Przygotuj rozwiązaną nazwę pakietu (jeśli istnieje), adres URL repozytorium GitHub (jeśli istnieje), oba znaczniki czasu i obie ważności do rekordu weryfikacji w pamięci. Krok 4 zapisuje ten rekord na dysku.
 
-Jeśli wywołanie sieciowe się nie powiedzie, zarejestruj błąd i kontynuuj z częściowym rekordem — patrz "Failure mode" w odniesieniu.
+Jeśli wywołanie sieciowe się nie powiedzie, zaloguj błąd i kontynuuj z częściowym rekordem — patrz "Failure mode" w odniesieniu.
 
 Wyszukaj `cwd_strategy` dla wybranego `starter_id` z `references/bootstrapper-config.yaml` teraz (domyślnie `subdir-then-move`, jeśli id nie jest wymienione). Krok 2 tego potrzebuje. Wyszukaj `audit_commands[<hints.language_family>]` z tego samego pliku w tym samym czasie i przygotuj go do Kroku 3 (wartość `null` oznacza, że Krok 3 pominie audyt i zanotuje pominięcie w dzienniku).
 
-### Krok 2 — Utworzenie szkieletu i scalenie
+### Krok 2 — Utwórz szablon i scal
 
 Przeczytaj teraz `references/scaffold-merge.md`. Zawiera on pełną mechanikę dla trzech strategii cwd, macierz konfliktów, reguły podstawiania i ścieżkę TWARDEGO ZATRZYMANIA w przypadku awarii CLI.
 
@@ -148,28 +148,28 @@ Sekwencja:
 1. Rozwiąż `cmd_template` z wybranej karty. Podstaw `{name}` i `{pm}` zgodnie z obowiązującą strategią (patrz `scaffold-merge.md` § Reguły podstawiania). Awaryjnym rozwiązaniem dla `{pm}` jest `toolchain.package_manager` karty, jeśli przekazanie pomija to pole.
 2. Wyślij do `cwd_strategy` (rozwiązane w Kroku 1 z `bootstrapper-config.yaml`, domyślnie `subdir-then-move`):
    - **`subdir-then-move`** — uruchom rozwiązane polecenie z `{name}=.bootstrap-scaffold`. Po kodzie wyjścia 0, zastosuj macierz konfliktów przenosząc pliki do cwd, a następnie usuń `.bootstrap-scaffold/`.
-   - **`native-cwd`** — uruchom rozwiązane polecenie z `{name}=.` bezpośrednio w cwd. Brak kroku scalania. Przed lotem: wyświetl pliki, które CLI ma zamiar dotknąć, pokaż je w rozmowie przed wykonaniem.
+   - **`native-cwd`** — uruchom rozwiązane polecenie z `{name}=.` bezpośrednio w cwd. Brak kroku scalania. Przed lotem: wyświetl pliki, które CLI ma zamiar dotknąć, wyświetl je w rozmowie przed wykonaniem.
    - **`git-clone`** — uruchom rozwiązane polecenie z `{name}=.bootstrap-scaffold`. Po kodzie wyjścia 0, usuń `.bootstrap-scaffold/.git/` przed zastosowaniem macierzy konfliktów i przeniesieniem plików. Następnie usuń `.bootstrap-scaffold/`.
 3. Przechwyć stdout, stderr i kod wyjścia do rekordu weryfikacji w pamięci, niezależnie od wyniku.
 4. **Awaria CLI to TWARDE ZATRZYMANIE.** Jeśli kod wyjścia jest różny od zera, uruchom ścieżkę obsługi awarii CLI w `scaffold-merge.md` § Obsługa awarii CLI: pozostaw `.bootstrap-scaffold/` na miejscu, nie stosuj macierzy konfliktów, zapisz częściowy `verification.md` z `phase_3_status: failed`, ustaw schowek na `/10x-bootstrapper`, wydrukuj podsumowanie awarii i ZATRZYMAJ. Nie przechodź do Kroku 3.
-5. Po kodzie wyjścia 0, wydrukuj jedną linię podsumowania zgodnie z formatem w `scaffold-merge.md` § Wyświetlanie wyniku. Umieść dziennik przenoszenia plików w rekordzie weryfikacji w pamięci. Przejdź do Kroku 3.
+5. Po kodzie wyjścia 0, wydrukuj jedną linię podsumowania zgodnie z formatem w `scaffold-merge.md` § Wyświetlanie wyniku. Przygotuj dziennik przenoszenia plików do rekordu weryfikacji w pamięci. Przejdź do Kroku 3.
 
-Strażnik zapełnionego cwd z Kroku 0 (`refusal-protocol.md` § (d)) już działał przed tym krokiem. Macierz konfliktów jest siatką bezpieczeństwa: istniejące pliki stają się rodzeństwem `.scaffold`, `context/` jest zawsze zachowywane, `.gitignore` jest scalane przez dołączanie.
+Strażnik zapełnionego cwd z Kroku 0 (`refusal-protocol.md` § (d)) został już uruchomiony przed tym krokiem. Macierz konfliktów jest siatką bezpieczeństwa: istniejące pliki stają się rodzeństwem `.scaffold`, `context/` jest zawsze zachowywany, `.gitignore` jest scalany przez dołączanie.
 
-Rozmawiając z użytkownikiem, przetłumacz nazwy strategii na język naturalny ("utwórz szkielet w tymczasowym katalogu, a następnie przenieś pliki", "utwórz szkielet bezpośrednio w bieżącym katalogu", "sklonuj repozytorium startera bez zachowywania jego historii git") zamiast dosłownie powtarzać wewnętrzne etykiety.
+Mówiąc do użytkownika, przetłumacz nazwy strategii na język naturalny ("utwórz szablon w katalogu tymczasowym, a następnie przenieś pliki", "utwórz szablon bezpośrednio w bieżącym katalogu", "sklonuj repozytorium startera bez zachowywania jego historii git") zamiast dosłownie powtarzać wewnętrzne etykiety.
 
-### Krok 3 — Weryfikacja po utworzeniu szkieletu
+### Krok 3 — Weryfikacja po utworzeniu szablonu
 
 Przeczytaj teraz `references/post-scaffold-verification.md`. Slot wysyła do polecenia audytu rozwiązanego w Kroku 1 (`audit_commands[<hints.language_family>]` z `bootstrapper-config.yaml`) i klasyfikuje wyniki według ważności.
 
 Sekwencja:
 
-1. Jeśli rozwiązane polecenie audytu to `null`, pomiń audyt i umieść ustrukturyzowaną notatkę "brak wbudowanego narzędzia audytu dla <language_family>" w rekordzie weryfikacji. Wydrukuj linię pominięcia zgodnie z formatem wyjściowym odniesienia. Przejdź do Kroku 4.
-2. W przeciwnym razie, uruchom rozwiązane polecenie z cwd (lub odpowiedniego katalogu instalacji zależności, jeśli szkielet tak ustrukturyzował projekt). Przechwyć stdout, stderr i kod wyjścia. Kod wyjścia narzędzia audytu ma charakter wyłącznie informacyjny — bootstrapper NIE zatrzymuje się w przypadku niezerowego wyjścia audytu.
+1. Jeśli rozwiązane polecenie audytu to `null`, pomiń audyt i przygotuj ustrukturyzowaną notatkę "brak wbudowanego narzędzia audytu dla <language_family>" w rekordzie weryfikacji. Wydrukuj linię pominięcia zgodnie z formatem wyjściowym odniesienia. Przejdź do Kroku 4.
+2. W przeciwnym razie, uruchom rozwiązane polecenie z cwd (lub odpowiedniego katalogu instalacji zależności, jeśli szablon tak ustrukturyzował projekt). Przechwyć stdout, stderr i kod wyjścia. Kod wyjścia narzędzia audytu ma charakter wyłącznie informacyjny — bootstrapper NIE zatrzymuje się w przypadku niezerowego wyjścia audytu.
 3. Przeanalizuj dane wyjściowe zgodnie z blokiem wywołania dla każdego ekosystemu w odniesieniu. Podziel wyniki na KRYTYCZNE / WYSOKIE / UMIARKOWANE / NISKIE.
-4. Jeśli narzędzie obsługuje rozróżnienie między bezpośrednimi a przechodnimi, oblicz ten podział.
+4. Jeśli narzędzie obsługuje rozróżnienie bezpośrednie vs. przechodnie, oblicz ten podział.
 5. Wydrukuj jedną linię podsumowania w rozmowie zgodnie z formatem wyjściowym odniesienia. Liczby KRYTYCZNYCH i WYSOKICH są wyświetlane w tekście; UMIARKOWANE i NISKIE są tylko w dzienniku.
-6. Umieść pełny podział (surowe dane wyjściowe, przeanalizowane liczby, szczegóły dla każdego znaleziska, podział bezpośredni/przechodni) w rekordzie weryfikacji w pamięci.
+6. Przygotuj pełny podział (surowe dane wyjściowe, przeanalizowane liczby, szczegóły dla każdego znaleziska, podział bezpośredni/przechodni) do rekordu weryfikacji w pamięci.
 
 Narzędzie niedostępne, awaria sieci lub błąd parsowania: OSTRZEŻ-I-KONTYNUUJ zgodnie z blokiem Failure mode w odniesieniu. Obecne znaleziska KRYTYCZNE: OSTRZEŻ-I-KONTYNUUJ — bootstrapper informuje, użytkownik decyduje.
 
@@ -182,20 +182,20 @@ Sekwencja:
 1. Upewnij się, że `context/changes/bootstrap-verification/` istnieje. Utwórz katalog, jeśli go brakuje (bez `change.md` — folder hostuje tylko dziennik).
 2. Jeśli `context/changes/bootstrap-verification/verification.md` już istnieje, uruchom strażnika OSTRZEŻ-I-POTWIERDŹ z `references/refusal-protocol.md` § (e). W przypadku "Nadpisz", kontynuuj. W przypadku "Zapisz jako verification-v2.md", zwiększ do następnego dostępnego slotu `verification-vN.md`. W przypadku "Przerwij", zatrzymaj bez zapisywania.
 3. Skomponuj treść pliku zgodnie z `references/verification-log-schema.md`: frontmatter (z `phase_3_status: ok` dla normalnych uruchomień, `failed` dla przypadku częściowego dziennika TWARDEGO ZATRZYMANIA), a następnie `## Hand-off`, `## Pre-scaffold verification`, `## Scaffold log`, `## Post-scaffold audit`, `## Hints recorded but not acted on`, `## Next steps`. Sekcja `Hints recorded but not acted on` pobiera wszystkie wskazówki z flag `handoff-consumer.md` przekazania jako "wyświetla, ale nie działa w v1".
-4. Zapisz plik. Jeśli zapis się nie powiedzie (błąd systemu plików, brak uprawnień), wróć do drukowania całej treści na czacie zgodnie z blokiem trybu awaryjnego schematu.
+4. Zapisz plik. Jeśli zapis się nie powiedzie (błąd systemu plików, brak uprawnień), wróć do drukowania całej treści na czacie zgodnie z blokiem failure-mode schematu.
 5. Wydrukuj podsumowanie końcowe w rozmowie:
 
    ```
-   Utworzono szkielet <starter_id> w bieżącym katalogu. Dziennik weryfikacji: context/changes/bootstrap-verification/verification.md.
+   Utworzono szablon <starter_id> w bieżącym katalogu. Dziennik weryfikacji: context/changes/bootstrap-verification/verification.md.
 
-   Przed utworzeniem szkieletu: <jednowierszowe podsumowanie aktualności>.
-   Szkielet:    <jednowierszowe podsumowanie szkieletu>.
+   Przed utworzeniem szablonu: <jednowierszowe podsumowanie aktualności>.
+   Szablon:    <jednowierszowe podsumowanie szablonu>.
    Audyt:       <jednowierszowe podsumowanie audytu>.
 
-   Następnie: przyszła umiejętność skonfiguruje kontekst agenta (CLAUDE.md, AGENTS.md). Na razie Twój projekt jest szkieletowy i zweryfikowany — miłego kodowania.
+   Następnie: przyszła umiejętność skonfiguruje kontekst agenta (CLAUDE.md, AGENTS.md). Na razie Twój projekt jest utworzony i zweryfikowany — miłego kodowania.
    ```
 
-6. Zatrzymaj. Nie ustawiaj schowka do ponownej próby w przypadku pomyślnego uruchomienia; łańcuch jest zakończony dla v1.
+6. Zatrzymaj. Nie ustawiaj schowka do ponownej próby w przypadku udanego uruchomienia; łańcuch jest kompletny dla v1.
 
 W przypadku częściowego dziennika TWARDEGO ZATRZYMANIA (awaria CLI w Kroku 2), Krok 4 nadal działa, ale ze skróconą formą treści w schemacie (sekcja `Audit not run`, `phase_3_status: failed`). Schowek jest ustawiony na `/10x-bootstrapper` do ponownej próby przez ścieżkę awarii Kroku 2, a nie przez ten krok.
 
@@ -203,10 +203,10 @@ W przypadku częściowego dziennika TWARDEGO ZATRZYMANIA (awaria CLI w Kroku 2),
 
 Co umiejętność produkuje zewnętrznie:
 
-- **Pliki projektu szkieletowego w cwd** — zapisane przez CLI startera, z rodzeństwem `.scaffold` tam, gdzie polityka konfliktów wykryła kolizję. `context/` w cwd jest zachowywane dosłownie.
+- **Pliki projektu z szablonu w cwd** — zapisane przez CLI startera, z rodzeństwem `.scaffold` tam, gdzie polityka konfliktów wykryła kolizję. `context/` w cwd jest zachowywany dosłownie.
 - **`context/changes/bootstrap-verification/verification.md`** — ścieżka audytu uruchomienia. Schemat w `references/verification-log-schema.md`. Jeden plik na uruchomienie; ponowne uruchomienia nadpisują (z strażnikiem OSTRZEŻ-I-POTWIERDŹ).
-- **Podsumowania rozmów na każdym kroku** — Krok 0 echo potwierdzenia/poprawienia, Krok 1 podsumowanie aktualności, Krok 2 podsumowanie szkieletu (z notatkami o rodzeństwie `.scaffold` i obsłudze `.gitignore`), Krok 3 podsumowanie audytu, Krok 4 podsumowanie końcowe ze wskaźnikiem następnych kroków.
-- **Wskaźnik schowka tylko w przypadku ścieżek awarii** — `/10x-tech-stack-selector` dla odmów braku przekazania i dryfu rejestru, `/10x-bootstrapper` dla ponownej próby TWARDEGO ZATRZYMANIA w przypadku awarii CLI w Kroku 2. Brak ustawienia schowka w przypadku pomyślnego uruchomienia.
+- **Podsumowania rozmów na każdym kroku** — Krok 0 echo potwierdzenia lub poprawienia, Krok 1 podsumowanie aktualności, Krok 2 podsumowanie szablonu (z notatkami o rodzeństwie `.scaffold` i obsłudze `.gitignore`), Krok 3 podsumowanie audytu, Krok 4 podsumowanie końcowe ze wskaźnikiem następnych kroków.
+- **Wskaźnik schowka tylko w przypadku ścieżek awarii** — `/10x-tech-stack-selector` dla odmów braku przekazania i dryfu rejestru, `/10x-bootstrapper` dla ponownej próby TWARDEGO ZATRZYMANIA w przypadku awarii CLI w Kroku 2. Brak ustawienia schowka w przypadku udanego uruchomienia.
 
 Czego umiejętność NIE produkuje w v1:
 
@@ -217,8 +217,8 @@ Czego umiejętność NIE produkuje w v1:
 
 ## Odniesienia
 
-- `references/handoff-consumer.md` — które klucze frontmatter przekazania bootstrapper zużywa, wyświetla lub ignoruje.
-- `references/refusal-protocol.md` — warunki odmowy, kopiowanie i ciągi schowka.
+- `references/handoff-consumer.md` — które klucze frontmatter przekazania bootstrapper konsumuje, wyświetla lub ignoruje.
+- `references/refusal-protocol.md` — warunki odmowy, kopia i ciągi schowka.
 - `references/bootstrapper-config.yaml` — nadpisania `cwd_strategy` dla każdego startera + mapa `language_family → audit_command`.
 - `references/pre-scaffold-verification.md` — lekkie sprawdzenie aktualności.
 - `references/scaffold-merge.md` — mechanika `.bootstrap-scaffold/`, trzy strategie cwd, macierz konfliktów.
@@ -229,12 +229,12 @@ Czego umiejętność NIE produkuje w v1:
 
 1. **Przekazanie jest warunkiem wstępnym, a nie awaryjnym rozwiązaniem.** Brak wbudowanego mini-przekazania, brak czytania historii rozmów w poszukiwaniu zastępczych pól. Plik na dysku jest umową.
 
-2. **Bootstrapper zużywa rejestr; nie jest jego właścicielem.** Kanoniczny rejestr starterów znajduje się w `/10x-tech-stack-selector`. Dryf między `starter_id` odwoływanymi przez bootstrapper a rejestrem jest awarią CI (`scripts/validate-starter-registry-sync.mjs`).
+2. **Bootstrapper konsumuje rejestr; nie jest jego właścicielem.** Kanoniczny rejestr starterów znajduje się w `/10x-tech-stack-selector`. Dryf między `starter_id` odwoływanymi przez bootstrapper a rejestrem jest awarią CI (`scripts/validate-starter-registry-sync.mjs`).
 
-3. **`context/` jest zawsze zachowywane.** Polityka konfliktów jest ścisła: nic pod `context/` w cwd nigdy nie jest nadpisywane przez szkielet. Pełna macierz konfliktów (Faza 3) znajduje się w `references/scaffold-merge.md`.
+3. **`context/` jest zawsze zachowywany.** Polityka konfliktów jest ścisła: nic pod `context/` w cwd nigdy nie jest nadpisywane przez szablon. Zobacz `references/scaffold-merge.md` dla pełnej macierzy konfliktów (Faza 3).
 
 4. **Awaria CLI to TWARDE ZATRZYMANIE.** Niezerowy kod wyjścia w Kroku 2 zatrzymuje umiejętność, pozostawia `.bootstrap-scaffold/` na miejscu do inspekcji i zapisuje częściowy dziennik weryfikacji. Wszystkie inne fazy używają OSTRZEŻ-I-KONTYNUUJ — wyniki weryfikacji mają charakter edukacyjny, a nie blokujący.
 
 5. **v1 nie generuje `AGENTS.md` / `CLAUDE.md`.** Ta praca zostaje przeniesiona do przyszłej umiejętności M1L4 ("Architektura pamięci"). v1 wyświetla wartości wskazówek, takie jak `bootstrapper_confidence: best-effort` i `quality_override: true` w podsumowaniu rozmowy, ale nie podejmuje żadnych działań kompensacyjnych.
 
-6. **Wewnętrzne etykiety umiejętności pozostają wewnętrzne.** Rozmawiając z użytkownikiem, nigdy nie odwołuj się do numerów kroków (`Krok 0`, `Krok 2`), dosłownych nazw strategii (`subdir-then-move`, `native-cwd`, `git-clone`) bez kontekstu, ani wewnętrznych ścieżek pól (`hints.deployment_target`). Tłumacz na język naturalny: "krok tworzenia szkieletu", "Twój cel wdrożenia", "jak CLI tworzy szkielet w Twoim bieżącym katalogu", "przez klonowanie repozytorium startera".
+6. **Wewnętrzne etykiety umiejętności pozostają wewnętrzne.** Mówiąc do użytkownika, nigdy nie odwołuj się do numerów kroków (`Krok 0`, `Krok 2`), dosłownych nazw strategii (`subdir-then-move`, `native-cwd`, `git-clone`) bez kontekstu, ani wewnętrznych ścieżek pól (`hints.deployment_target`). Tłumacz na język naturalny: "krok tworzenia szablonu", "Twój cel wdrożenia", "jak CLI tworzy szablon w Twoim bieżącym katalogu", "przez klonowanie repozytorium startera".
