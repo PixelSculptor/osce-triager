@@ -1,0 +1,4 @@
+npx lint-staged
+npx vitest run
+# NOTE: Add this version when there will be lots of tests
+# STAGED=$(git diff --cached --name-only | tr '\n' ' '); npx vitest related $STAGED --run
