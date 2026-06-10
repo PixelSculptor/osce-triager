@@ -38,6 +38,11 @@
             "type": "command",
             "command": "npx tsc --noEmit",
             "timeout": 30000
+          },
+          {
+            "type": "command",
+            "command": "AI_AGENT=1 bash -c 'FILE=$(jq -r .tool_input.file_path); if echo \"$FILE\" | grep -qE \"src/shared/lib/validator\\.ts|src/modules/session/actions\\.ts\"; then npx vitest related \"$FILE\" --run || exit 2; fi'",
+            "timeout": 30000
           }
         ]
       }
