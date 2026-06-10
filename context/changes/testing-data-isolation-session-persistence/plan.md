@@ -269,5 +269,5 @@ Po przejściu Fazy 2: `npx stryker run --mutate "src/modules/session/queries.ts"
 
 #### Ręczne
 
-- [ ] 3.4 Mock hermetyczny poprawnie modeluje sekwencję Zapis-1-udany / Zapis-2-nieudany
-- [ ] 3.5 Wpis w §6 instrukcji jest dokładny i spójny z faktycznie użytymi wzorcami testów
+- [x] 3.4 Mock hermetyczny poprawnie modeluje sekwencję Zapis-1-udany / Zapis-2-nieudany
+- [x] 3.5 Wpis w §6 instrukcji jest dokładny i spójny z faktycznie użytymi wzorcami testów
