@@ -14,11 +14,11 @@ export async function getScenarios() {
   return db.select().from(scenarios).orderBy(scenarios.createdAt)
 }
 
-export async function getSessionById(sessionId: string) {
+export async function getSessionById(sessionId: string, userId: string) {
   const [row] = await db
     .select()
     .from(sessionResults)
-    .where(eq(sessionResults.id, sessionId))
+    .where(and(eq(sessionResults.id, sessionId), eq(sessionResults.userId, userId)))
     .limit(1)
   return row ?? null
 }
@@ -43,11 +43,18 @@ export async function getTestClassificationsByScenario(scenarioId: string) {
     .where(eq(testClassifications.scenarioId, scenarioId))
 }
 
-export async function getSessionEvents(sessionId: string) {
+export async function getSessionEvents(sessionId: string, userId: string) {
   return db
-    .select()
+    .select({
+      id: sessionEvents.id,
+      sessionId: sessionEvents.sessionId,
+      testId: sessionEvents.testId,
+      validatorResult: sessionEvents.validatorResult,
+      selectedAt: sessionEvents.selectedAt,
+    })
     .from(sessionEvents)
-    .where(eq(sessionEvents.sessionId, sessionId))
+    .innerJoin(sessionResults, eq(sessionEvents.sessionId, sessionResults.id))
+    .where(and(eq(sessionEvents.sessionId, sessionId), eq(sessionResults.userId, userId)))
     .orderBy(sessionEvents.selectedAt)
 }
 

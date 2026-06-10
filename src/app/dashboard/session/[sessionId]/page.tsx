@@ -20,14 +20,14 @@ export default async function SessionPage({
   const session = await auth()
   if (!session?.user?.id) redirect("/login")
 
-  const sessionResult = await getSessionById(sessionId)
-  if (!sessionResult || sessionResult.userId !== session.user.id) notFound()
+  const sessionResult = await getSessionById(sessionId, session.user.id)
+  if (!sessionResult) notFound()
 
   const [scenario, tests, classificationRows, events] = await Promise.all([
     getScenarioById(sessionResult.scenarioId),
     getDiagnosticTests(),
     getTestClassificationsByScenario(sessionResult.scenarioId),
-    getSessionEvents(sessionId),
+    getSessionEvents(sessionId, session.user.id),
   ])
 
   if (!scenario) notFound()

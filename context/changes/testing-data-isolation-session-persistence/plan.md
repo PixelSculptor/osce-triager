@@ -238,14 +238,14 @@ Po przejściu Fazy 2: `npx stryker run --mutate "src/modules/session/queries.ts"
 
 #### Automatyczne
 
-- [ ] 1.1 TypeScript kompiluje się bez błędów: `npx tsc --noEmit`
-- [ ] 1.2 Istniejący zestaw testów vitest przechodzi: `npx vitest run`
-- [ ] 1.3 Lint przechodzi: `npx eslint src/`
+- [x] 1.1 TypeScript kompiluje się bez błędów: `npx tsc --noEmit`
+- [x] 1.2 Istniejący zestaw testów vitest przechodzi: `npx vitest run`
+- [x] 1.3 Lint przechodzi: `npx eslint src/`
 
 #### Ręczne
 
-- [ ] 1.4 Strona szczegółów sesji ładuje się poprawnie dla właściciela sesji
-- [ ] 1.5 URL sesji innego użytkownika zwraca 404
+- [x] 1.4 Strona szczegółów sesji ładuje się poprawnie dla właściciela sesji
+- [x] 1.5 URL sesji innego użytkownika zwraca 404
 
 ### Faza 2: Test integracyjny IDOR
 
