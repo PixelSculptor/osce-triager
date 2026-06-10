@@ -125,9 +125,92 @@ the relevant rollout phase ships.
 
 **Anti-pattern**: Testing only the happy path (`validateTestSelection` with a known classification) without covering the silent-default case (`validateTestSelection('id', {})` returns `"unnecessary"` with no error — protection relies on the `actions.ts:92` guard in the caller).
 
-### 6.2 Adding an integration test (DB query with userId scoping)
+### 6.2 Two-layer testing strategy: integration vs hermetic
 
-TBD — see §3 Phase 2 for the userId-scoped query pattern and cross-account denial baseline.
+Phase 2 established a two-layer pattern. Choose the layer by asking: *would a mock lie about what I'm testing?*
+
+#### Integration layer (real DB)
+
+**When to use**: the risk involves DB-level enforcement — foreign-key constraints, unique constraints, real SQL filters. A mock would return whatever you told it; the DB enforces rules the mock cannot simulate.
+
+**Example**: `getSessionById(sessionId, userId)` must return `null` for a mismatched userId. This is a WHERE-clause rule. Only a real DB proves the clause is actually in the query.
+
+**Pattern**:
+
+```ts
+const runIntegration = !!process.env.DATABASE_URL_TEST
+
+describe.skipIf(!runIntegration)('describe name', () => {
+  beforeAll(async () => {
+    // Insert in FK order: users → scenarios → sessionResults → sessionEvents
+    await db.insert(users).values({ id: 'fixture-user-a', email: 'a@test.local' })
+    // ...
+  })
+
+  afterAll(async () => {
+    // Delete in reverse FK order
+    await db.delete(sessionResults).where(eq(sessionResults.id, 'fixture-session'))
+    // ...
+  })
+
+  it('returns null for cross-account access', async () => {
+    expect(await getSessionById('fixture-session', 'fixture-user-b')).toBeNull()
+  })
+})
+```
+
+**Oracle source**: DB schema constraints + Risk #2 in §2 (userId isolation is a business rule, not an implementation detail).
+
+**CI gate**: integration tests are NOT a mandatory CI gate (running local Supabase in CI is costly). Run locally when `DATABASE_URL_TEST` is set. Mark as ad-hoc in §4.
+
+#### Hermetic layer (stubbed DB client)
+
+**When to use**: the risk is a partial-failure branch that real infrastructure cannot reliably trigger — e.g., "Write 1 succeeds, Write 2 fails". A real DB either fails both or succeeds both; the hermetic stub forces the exact failure point.
+
+**Example**: `endSessionAction` — the second DB write (inserting `session_event` rows for skipped critical tests) can fail after the first write (updating `session_result`) already committed. This state is unreachable on a healthy local DB.
+
+**Pattern** — use `vi.spyOn` on the `db` object within `beforeEach`/`afterEach` (not `vi.mock` at file level, which would break integration tests in the same file):
+
+```ts
+describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
+  // build a thenable chain that resolves to `value` when awaited
+  function makeSelectChain(value: unknown[]): any { /* ... */ }
+
+  beforeEach(() => {
+    vi.spyOn(db as any, 'select')
+      .mockImplementationOnce(() => makeSelectChain([sessionRow]))     // Select 1
+      .mockImplementationOnce(() => makeSelectChain([]))               // Select 2
+      .mockImplementationOnce(() => makeSelectChain([classificationRow])) // Select 3
+
+    vi.spyOn(db as any, 'update').mockImplementation(() => ({
+      set: () => chain, where: () => chain,
+      returning: vi.fn().mockResolvedValue([claimedRow]),
+    }))
+
+    vi.spyOn(db as any, 'insert').mockImplementation(() => ({
+      values: vi.fn().mockRejectedValue(new Error('DB timeout')),
+    }))
+  })
+
+  afterEach(() => { vi.restoreAllMocks() })
+
+  it('returns { error: "Internal error" } and logs when Write 2 fails', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const result = await endSessionAction('test-session-id')
+    expect(result).toEqual({ error: 'Internal error' })
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[endSessionAction] DB error:'),
+      expect.any(Error)
+    )
+  })
+})
+```
+
+**Mock depth rule**: `endSessionAction` calls `db.select()` three times before the failing insert. Use `mockImplementationOnce` in call order — the first `mockImplementationOnce` answers Select 1, the second answers Select 2, etc. A flat mock that throws on every call fails at Select 1 and never reaches the insert branch.
+
+**Oracle source**: Risk #3 failure mode in §2 — "DB write silently fails, no error shown to student". The contract is: caller gets `{ error: 'Internal error' }` AND a `console.error` is emitted with `[endSessionAction] DB error:`. Both must be asserted.
+
+**Hermetic tests run in all environments** — no `describe.skipIf` guard. They do not need a database connection.
 
 ### 6.3 Adding a middleware / auth boundary test
 

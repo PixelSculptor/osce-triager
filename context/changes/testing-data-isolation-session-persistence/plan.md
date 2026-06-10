@@ -257,15 +257,15 @@ Po przejściu Fazy 2: `npx stryker run --mutate "src/modules/session/queries.ts"
 
 #### Ręczne
 
-- [ ] 2.4 Wynik testu pokazuje 4 przechodzące asercje (kontrole pozytywne i negatywne dla obu funkcji)
+- [x] 2.4 Wynik testu pokazuje 4 przechodzące asercje (kontrole pozytywne i negatywne dla obu funkcji)
 
 ### Faza 3: Test hermetyczny Ryzyka #3 + logowanie
 
 #### Automatyczne
 
-- [ ] 3.1 Wszystkie testy przechodzą, w tym nowy test hermetyczny: `npx vitest run`
-- [ ] 3.2 Test hermetyczny przechodzi bez ustawionej `DATABASE_URL_TEST`
-- [ ] 3.3 TypeScript kompiluje się: `npx tsc --noEmit`
+- [x] 3.1 Wszystkie testy przechodzą, w tym nowy test hermetyczny: `npx vitest run`
+- [x] 3.2 Test hermetyczny przechodzi bez ustawionej `DATABASE_URL_TEST`
+- [x] 3.3 TypeScript kompiluje się: `npx tsc --noEmit`
 
 #### Ręczne
 
