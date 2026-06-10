@@ -251,9 +251,9 @@ Po przejściu Fazy 2: `npx stryker run --mutate "src/modules/session/queries.ts"
 
 #### Automatyczne
 
-- [ ] 2.1 Testy integracyjne przechodzą przy uruchomionym lokalnym Supabase: `npx vitest run src/modules/session/queries.test.ts`
-- [ ] 2.2 Zestaw jest pomijany (nie nieudany) gdy `DATABASE_URL_TEST` nie jest ustawiona
-- [ ] 2.3 Pełny zestaw testów przechodzi: `npx vitest run`
+- [x] 2.1 Testy integracyjne przechodzą przy uruchomionym lokalnym Supabase: `npx vitest run src/modules/session/queries.test.ts`
+- [x] 2.2 Zestaw jest pomijany (nie nieudany) gdy `DATABASE_URL_TEST` nie jest ustawiona
+- [x] 2.3 Pełny zestaw testów przechodzi: `npx vitest run`
 
 #### Ręczne
 
