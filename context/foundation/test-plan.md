@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-06-08
+> Last updated: 2026-06-10
 
 ## 1. Strategy
 
@@ -66,7 +66,7 @@ orchestrator updates Status as artifacts appear on disk.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|------------|-----------------|---------------|------------|--------|---------------|
 | 1 | Runner bootstrap + validator unit tests | Install vitest; prove first test passes; unit-test validator classification logic with fixture data | #1 | unit, integration | complete | context/changes/testing-runner-bootstrap |
-| 2 | Data isolation + session persistence | Integration tests for userId-scoped queries + session write round-trip against real DB | #2, #3 | integration (DB) | planned | context/changes/testing-data-isolation-session-persistence |
+| 2 | Data isolation + session persistence | Integration tests for userId-scoped queries + session write round-trip against real DB | #2, #3 | integration (DB) | complete | context/changes/testing-data-isolation-session-persistence |
 | 3 | Auth boundary gate | Prove middleware blocks unauthenticated access to all protected routes | #6 | integration, lightweight e2e | not started | — |
 | 4 | Session UI regression baseline | Component interaction test for DnD drag on first/last item; validator feedback display in SessionView | #4 | component interaction | not started | — |
 | 5 | RODO retention gate | Unit test on cleanup logic at 30-day boundary (activate once S-05 ships) | #5 | unit | not started | — |
@@ -236,7 +236,7 @@ should respect these unless the underlying assumption changes.
 ## 8. Freshness Ledger
 
 - Strategy (§1–§5) last reviewed: 2026-06-08
-- Stack versions last verified: 2026-06-08
+- Stack versions last verified: 2026-06-10
 - AI-native tool references last verified: n/a — no AI-native tools in current plan
 
 Refresh (`/10x-test-plan --refresh`) when:

@@ -1,7 +1,7 @@
 ---
 change_id: testing-data-isolation-session-persistence
 title: Testing data isolation session persistence
-status: planned
+status: complete
 created: 2026-06-09
 updated: 2026-06-10
 archived_at: null
