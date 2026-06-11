@@ -313,7 +313,7 @@ zawierać:
 
 #### Automatyczne
 
-- [x] 1.1 `npx playwright test --project=setup` przechodzi
+- [x] 1.1 `npx playwright test --project=setup` przechodzi — e7a4c97
 
 #### Ręczne
 
@@ -324,7 +324,7 @@ zawierać:
 
 #### Automatyczne
 
-- [ ] 2.1 `npx playwright test auth-boundary` — wszystkie 3 testy przechodzą
+- [x] 2.1 `npx playwright test auth-boundary` — wszystkie 3 testy przechodzą
 
 #### Ręczne
 
