@@ -1,161 +1,168 @@
-# Test Plan
+# Plan testów
 
-> Phased test rollout for this project. Strategy is frozen at the top (§1–§5);
-> cookbook patterns at the bottom (§6) fill in as phases ship. Read before
-> writing any new test.
+> Stopniowe wdrażanie testów dla tego projektu. Strategia jest zamrożona na
+> górze (§1–§5); wzorce podręcznika na dole (§6) uzupełniane są w miarę
+> realizacji faz. Przeczytaj przed napisaniem jakiegokolwiek nowego testu.
 >
-> Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
+> Odświeżanie: uruchom ponownie `/10x-test-plan --refresh` gdy nieaktualne
+> (patrz §8).
 >
-> Last updated: 2026-06-10
+> Ostatnia aktualizacja: 2026-06-11
 
-## 1. Strategy
+## 1. Strategia
 
-Tests follow three non-negotiable principles for this project:
+Testy kierują się trzema nienaruszalnymi zasadami dla tego projektu:
 
-1. **Cost × signal.** The cheapest test that gives a real signal for the risk
-   wins. Do not promote to e2e because e2e "feels safer." Do not put a vision
-   model on top of a deterministic visual diff that already catches the
-   regression.
-2. **User concerns are first-class evidence.** Risks anchored in "the team is
-   worried about X, and the failure would surface somewhere in <area>" carry the
-   same weight as PRD lines or hot-spot data.
-3. **Risks are scenarios, not code locations.** This plan documents _what could
-   fail_ and _why we believe it's likely_ — drawn from documents, interview, and
-   codebase _signal_ (churn, structure, test base). It does NOT claim to know
-   which line owns the failure. That knowledge is produced by `/10x-research`
-   during each rollout phase. If the plan and research disagree about where the
-   failure lives, research is the ground truth.
+1. **Koszt × sygnał.** Najtańszy test, który daje prawdziwy sygnał dla danego
+   ryzyka, wygrywa. Nie promuj do e2e, bo e2e „czuje się bezpieczniej". Nie
+   nakładaj modelu wizyjnego na deterministyczny diff, który już wykrywa
+   regresję.
+2. **Obawy użytkownika są dowodem klasy pierwszej.** Ryzyka zakorzenione w
+   „zespół boi się X, a awaria pojawiłaby się gdzieś w <obszarze>" mają taką
+   samą wagę jak linie PRD lub dane hot-spotów.
+3. **Ryzyka to scenariusze, nie lokalizacje kodu.** Ten plan dokumentuje _co
+   mogłoby się zepsuć_ i _dlaczego uważamy, że jest to prawdopodobne_ — czerpiąc
+   z dokumentów, wywiadu i _sygnału_ kodu (churn, struktura, baza testów). NIE
+   twierdzi, że wie, który wiersz jest odpowiedzialny za awarię. Ta wiedza
+   pochodzi z `/10x-research` podczas każdej fazy wdrażania. Jeżeli plan i
+   badanie różnią się w kwestii lokalizacji awarii, badanie jest źródłem prawdy.
 
-Hot-spot scope used for likelihood weighting: `src/app`, `src/shared`,
+Zakres hot-spotów użyty do ważenia prawdopodobieństwa: `src/app`, `src/shared`,
 `src/modules`, `src/hooks`.
 
-## 2. Risk Map
+## 2. Mapa ryzyk
 
-The top failure scenarios this project must protect against, ordered by risk =
-impact × likelihood. Risks are failure scenarios in user / business terms, not
-test names. The Source column cites the _evidence that surfaced this risk_ —
-never a specific file as "where the failure lives" (that is research's job, see
-§1 principle #3).
+Główne scenariusze awarii, przed którymi projekt musi się chronić, uszeregowane
+według ryzyka = wpływ × prawdopodobieństwo. Ryzyka to scenariusze awarii w
+języku użytkownika / biznesu, a nie nazwy testów. Kolumna Źródło cytuje _dowody,
+które ujawniły ryzyko_ — nigdy konkretny plik jako „miejsce awarii" (to jest
+zadanie badania, patrz §1 zasada #3).
 
-| #   | Risk (failure scenario)                                                                                                                                                                                                         | Impact | Likelihood | Source (evidence — not anchor)                                                                                                                                                                                                                                                                                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Student selects the correct life-saving test; validator silently returns "unnecessary" instead of "correct" because classifications failed to load (empty DB result). Session outcome is wrong with no crash or visible signal. | High   | Medium     | PRD Business Logic (deterministic validator guardrail); interview Q1; interview Q3 (returns-proper-feedback = most-uncertain area); hot-spot dir `src/modules/session` — 7 changes/30 days; research: `selectTestAction` does not guard against empty classifications map — `?? "unnecessary"` default fires silently |
-| 2   | Student B's authenticated request to `/dashboard/session/[studentA_id]` returns a 200 with student A's data. Cross-account IDOR.                                                                                                | High   | Low        | PRD Access Control (data isolation guardrail); interview Q1; roadmap S-03 risk note (every query must filter userId); hot-spot dir `src/modules/session` — 7 changes/30 days                                                                                                                                          |
-| 3   | `endSessionAction` fires, DB write silently fails, completed session never appears in history. No error shown to student.                                                                                                       | Medium | Low        | PRD FR-008; roadmap S-03 depends on S-02 write being reliable; hot-spot dir `src/modules/session` — 7 changes/30 days                                                                                                                                                                                                 |
-| 4   | After a code change, the first or last test in the session list can no longer be dragged — only the click-button workaround remains. No error, just broken DnD.                                                                 | Medium | High       | Interview Q2 (burned by this exact bug); interview Q3 (DnD = most-uncertain area); hot-spot dir `src/modules/session/components` — 32 changes/30 days (hottest directory)                                                                                                                                             |
-| 5   | Soft-deleted account's data survives past the 30-day retention window. Cleanup job never runs or runs with wrong boundary condition. RODO violation.                                                                            | High   | Low        | Roadmap S-05 risk note; archive `account-deletion` plan (soft-delete + scheduled cleanup)                                                                                                                                                                                                                             |
-| 6   | Unauthenticated (or expired-session) request reaches `/dashboard/*` and receives content instead of a redirect to `/login`. Auth middleware silently passes.                                                                    | High   | Low        | PRD Access Control; roadmap F-01 risk (AUTH_URL misconfiguration); roadmap F-03 discovery (auth.config.ts Edge split pattern); roadmap S-01 risk (middleware redirect gap)                                                                                                                                            |
+| #   | Ryzyko (scenariusz awarii)                                                                                                                                                                                                           | Wpływ  | Prawdopod. | Źródło (dowód — nie kotwica)                                                                                                                                                                                                                                                                                          |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Student wybiera właściwe badanie ratujące życie; walidator cicho zwraca „unnecessary" zamiast „correct", bo klasyfikacje nie zostały załadowane (pusty wynik DB). Wynik sesji jest błędny bez żadnego crasha ani widocznego sygnału. | Wysoki | Średnie    | PRD Logika biznesowa (deterministyczna reguła walidatora); wywiad Q1; wywiad Q3 (returns-proper-feedback = obszar największej niepewności); hot-spot `src/modules/session` — 7 zmian/30 dni; badanie: `selectTestAction` nie zabezpiecza przed pustą mapą klasyfikacji — domyślne `?? "unnecessary"` odpala się cicho |
+| 2   | Uwierzytelnione żądanie Studenta B do `/dashboard/session/[id_studenta_A]` zwraca 200 z danymi Studenta A. Cross-account IDOR.                                                                                                       | Wysoki | Niskie     | PRD Kontrola dostępu (reguła izolacji danych); wywiad Q1; roadmap S-03 (każde zapytanie musi filtrować po userId); hot-spot `src/modules/session` — 7 zmian/30 dni                                                                                                                                                    |
+| 3   | `endSessionAction` odpala się, zapis do DB cicho się nie powodzi, zakończona sesja nigdy nie pojawia się w historii. Student nie widzi żadnego błędu.                                                                                | Średni | Niskie     | PRD FR-008; roadmap S-03 zależy od niezawodnego zapisu S-02; hot-spot `src/modules/session` — 7 zmian/30 dni                                                                                                                                                                                                          |
+| 4   | Po zmianie w kodzie pierwszego lub ostatniego badania na liście nie można przeciągać — pozostaje tylko obejście przez kliknięcie przycisku. Brak błędu, tylko zepsute DnD.                                                           | Średni | Wysokie    | Wywiad Q2 (poprzedni incydent z tym dokładnie błędem); wywiad Q3 (DnD = obszar największej niepewności); hot-spot `src/modules/session/components` — 32 zmiany/30 dni (najgorętszy katalog)                                                                                                                           |
+| 5   | Dane miękkousunięte konto przeżywają 30-dniowe okno retencji. Zadanie czyszczące nigdy nie działa lub działa z błędnym warunkiem brzegowym. Naruszenie RODO.                                                                         | Wysoki | Niskie     | Ryzyko roadmap S-05; archiwum planu `account-deletion` (soft-delete + zaplanowane czyszczenie)                                                                                                                                                                                                                        |
+| 6   | Nieuwierzytelnione (lub wygasłe) żądanie dociera do `/dashboard/*` i otrzymuje treść zamiast przekierowania do `/login`. Middleware auth cicho przepuszcza.                                                                          | Wysoki | Niskie     | PRD Kontrola dostępu; roadmap F-01 (ryzyko błędnej konfiguracji AUTH_URL); roadmap F-03 (wzorzec podziału auth.config.ts na Edge); roadmap S-01 (luka w przekierowaniu middleware)                                                                                                                                    |
+| 7   | Student otwiera scenariusz kliniczny, wybiera badania i dostaje feedback walidatora — cały flow przeglądarkowy nie ma żadnego pokrycia E2E. Regresja w głównej ścieżce produktu (S-02, gwiazda przewodnia) jest wykrywana ręcznie.   | Wysoki | Średnie    | PRD US-01/FR-003–007; roadmap S-02 (gwiazda przewodnia, done); hot-spot `src/modules/session/components` — 35 zmian/30 dni; odświeżenie wywiadu Q1, Q3, Q4                                                                                                                                                            |
+| 8   | `auth.setup.ts` ładuje gotowy plik `playwright/.auth/user.json` zamiast wypełniać formularz logowania. Każda zmiana w login route, Auth.js credentials provider lub konfiguracji cookie jest niewidoczna dla testów.                 | Wysoki | Niskie     | Hot-spot `src/modules/auth/components` — 11 zmian/30 dni; `auth.setup.ts:8–14` ładuje zapisany stan sesji, nie wywołuje `page.fill()`                                                                                                                                                                                 |
 
-### Risk Response Guidance
+### Wskazówki dotyczące reagowania na ryzyko
 
-| Risk | What would prove protection                                                                                                                                                                                                                                                       | Must challenge                                                                                                                                                                                                                                                                 | Context `/10x-research` must ground                                                                                                                                                                                                                                                                      | Likely cheapest layer                                                                                                                                                                          | Anti-pattern to avoid                                                                                                                                                                                                                                                                                    |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1   | Given scenario X + test Y (known classification), validator returns the exact expected status — not just non-null, but the correct value. Session outcome matches. Also: given an empty classifications map, the caller must not silently accept "unnecessary" as a valid result. | "Validator returned non-null, therefore correct" — it can return a wrong non-null value silently. "Classifications loaded, therefore non-empty" — the DB query can return an empty result with no error; `?? "unnecessary"` default fires silently in `validateTestSelection`. | `validateTestSelection` is pure (takes a plain Record). `selectTestAction` loads classifications per-request from `testClassifications` table keyed by `scenarioId`; it has no empty-map guard. The unit test oracle must come from the classification table data, never from the validator code itself. | Unit on `validateTestSelection` with fixture Record (no DB). Separate integration on `selectTestAction` against a real test schema (do not mock Drizzle — mocking hides the empty-result gap). | Testing only happy-path (correct test → positive); skipping the empty-map silent-default case. Mirror-implementation oracle: never derive expected `validatorResult` from `CATEGORY_TO_RESULT` in the test — use the plain English classification ("critical test must return 'correct'") as the oracle. |
-| #2   | Student B's authenticated request with student A's sessionId returns null / 404 / redirect — never a 200 with data.                                                                                                                                                               | "Page shows session data, therefore it must be filtered" — RSC page can serve data if `WHERE userId` is absent from the query.                                                                                                                                                 | How does the session detail page fetch data? Does userId come from Auth.js `session.user.id`? What happens when sessionId doesn't belong to requester?                                                                                                                                                   | Integration test on query function: `getSessionById(userId, wrongOwnerSessionId)` → null                                                                                                       | Testing only "authenticated user sees own data"; never testing cross-account denial.                                                                                                                                                                                                                     |
-| #3   | After `endSessionAction` fires, `getUserSessions(userId)` returns the completed session with correct `outcome` and `completedAt`.                                                                                                                                                 | "Action didn't throw, therefore write succeeded" — swallowed exceptions, missing await, silent rollback.                                                                                                                                                                       | Does `endSessionAction` use a transaction? Does it handle DB errors? What is the return shape?                                                                                                                                                                                                           | Integration: `endSessionAction` + query round-trip against a real test schema                                                                                                                  | Mocking the DB write — hides the actual persistence guarantee.                                                                                                                                                                                                                                           |
-| #4   | After a code change to SessionView or `@dnd-kit` config, dragging the **first** test to a different position reorders it correctly in UI state.                                                                                                                                   | "Handler fires, therefore drag works" — `over` being null at list edges is the documented past bug.                                                                                                                                                                            | What is the `handleDragEnd` branching logic? What activation constraint is set? What happens when `over` is null for source=available?                                                                                                                                                                   | Component interaction test: simulate pointer drag on first item, assert state reorder                                                                                                          | Testing only that `handleSelectTest` is callable; not simulating the actual drag sequence including edge positions.                                                                                                                                                                                      |
-| #5   | Given rows with `deleted_at` = (now − 31 days), cleanup function deletes them. Rows with `deleted_at` = (now − 29 days) remain.                                                                                                                                                   | "Soft-delete flag is set, therefore data will be cleaned up" — cron job might not run; query might skip the edge boundary.                                                                                                                                                     | What mechanism triggers cleanup (Workers cron vs scheduled function)? Which tables have `deleted_at`? What is the boundary condition logic?                                                                                                                                                              | Unit test on cleanup function with fixture rows at day 29 and day 31                                                                                                                           | Testing only that the soft-delete flag is set on deletion; never verifying the cleanup boundary.                                                                                                                                                                                                         |
-| #6   | Unauthenticated request to `/dashboard` and `/dashboard/session/[id]` returns redirect to / (root), never serves content.                                                                                                                                                         | "middleware.ts exists, therefore all protected routes are covered" — Edge runtime config issues on Cloudflare Workers can cause middleware to silently pass requests.                                                                                                          | Which routes are in the middleware matcher? How is JWT verified on Edge? What does the auth.config.ts split mean for the verification path?                                                                                                                                                              | Integration/e2e: unauthenticated HTTP request to `/dashboard` → assert redirect                                                                                                                | Testing only login/logout flows; not directly testing that an unauthenticated request to the protected path is blocked.                                                                                                                                                                                  |
+| Ryzyko | Co udowodniłoby ochronę                                                                                                                                                                                                                                                               | Musi kwestionować                                                                                                                                                                                                                                         | Kontekst do zweryfikowania przez `/10x-research`                                                                                                                                                                                                                                                                      | Prawdopodobnie najtańsza warstwa                                                                                                                                                                                     | Anty-wzorzec do uniknięcia                                                                                                                                                                                                                                                                               |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Dla scenariusza X i badania Y (znana klasyfikacja) walidator zwraca dokładnie oczekiwany status — nie tylko non-null, ale poprawną wartość. Wynik sesji się zgadza. Ponadto: przy pustej mapie klasyfikacji wywołujący NIE może cicho zaakceptować „unnecessary" jako poprawny wynik. | „Walidator zwrócił non-null, więc jest poprawny" — może zwrócić błędną non-null wartość cicho. „Klasyfikacje załadowane, więc niepuste" — zapytanie DB może zwrócić pusty wynik bez błędu; `?? "unnecessary"` odpala się cicho w `validateTestSelection`. | `validateTestSelection` jest czyste (przyjmuje zwykły Record). `selectTestAction` ładuje klasyfikacje per-request z tabeli `testClassifications` kluczowanej po `scenarioId`; brak zabezpieczenia przed pustą mapą. Wyrocznia testu jednostkowego musi pochodzić z danych tabeli klasyfikacji, nie z kodu walidatora. | Jednostkowy na `validateTestSelection` z fixture Record (bez DB). Oddzielny integracyjny na `selectTestAction` względem prawdziwego schematu testowego (nie mockuj Drizzle — mockowanie ukrywa lukę pustego wyniku). | Testowanie tylko happy-path (poprawne badanie → pozytywny); pomijanie cichego domyślnego przypadku pustej mapy. Wyrocznia z lustrzaną implementacją: nigdy nie wyprowadzaj oczekiwanego `validatorResult` z `CATEGORY_TO_RESULT` w teście — użyj zwykłego angielskiego opisu klasyfikacji jako wyroczni. |
+| #2     | Uwierzytelnione żądanie Studenta B z sessionId Studenta A zwraca null / 404 / przekierowanie — nigdy 200 z danymi.                                                                                                                                                                    | „Strona pokazuje dane sesji, więc muszą być odfiltrowane" — strona RSC może serwować dane, jeśli klauzula `WHERE userId` jest nieobecna w zapytaniu.                                                                                                      | Jak strona szczegółów sesji pobiera dane? Czy userId pochodzi z `session.user.id` Auth.js? Co się dzieje, gdy sessionId nie należy do wnioskującego?                                                                                                                                                                  | Test integracyjny na funkcji zapytania: `getSessionById(userId, wrongOwnerSessionId)` → null                                                                                                                         | Testowanie tylko „uwierzytelniony użytkownik widzi swoje dane"; nigdy nie testowanie odmowy dostępu między kontami.                                                                                                                                                                                      |
+| #3     | Po odpaleniu `endSessionAction` funkcja `getUserSessions(userId)` zwraca zakończoną sesję z poprawnym `outcome` i `completedAt`.                                                                                                                                                      | „Akcja nie rzuciła wyjątku, więc zapis się powiódł" — połknięte wyjątki, brakujące await, cichy rollback.                                                                                                                                                 | Czy `endSessionAction` używa transakcji? Czy obsługuje błędy DB? Jaki jest kształt zwracanej wartości?                                                                                                                                                                                                                | Integracyjny: `endSessionAction` + round-trip zapytania względem prawdziwego schematu testowego                                                                                                                      | Mockowanie zapisu do DB — ukrywa faktyczną gwarancję trwałości danych.                                                                                                                                                                                                                                   |
+| #4     | Po zmianie kodu SessionView lub konfiguracji `@dnd-kit` przeciągnięcie **pierwszego** badania na inną pozycję poprawnie zmienia kolejność w stanie UI.                                                                                                                                | „Handler odpala się, więc drag działa" — `over` będące null na krawędziach listy to udokumentowany poprzedni błąd.                                                                                                                                        | Jaka jest logika rozgałęzień `handleDragEnd`? Jakie ograniczenie aktywacji jest ustawione? Co się dzieje gdy `over` jest null dla source=available?                                                                                                                                                                   | Test interakcji z komponentem: symuluj przeciągnięcie wskaźnikiem na pierwszym elemencie, asercja zmiany kolejności stanu                                                                                            | Testowanie tylko tego, że `handleSelectTest` jest wywoływalne; bez symulacji faktycznej sekwencji przeciągania z pozycjami krawędziowymi.                                                                                                                                                                |
+| #5     | Dla wierszy z `deleted_at` = (teraz − 31 dni) funkcja czyszcząca je usuwa. Wiersze z `deleted_at` = (teraz − 29 dni) pozostają.                                                                                                                                                       | „Flaga soft-delete jest ustawiona, więc dane zostaną wyczyszczone" — zadanie cron może nie uruchamiać się; zapytanie może pominąć warunek brzegowy.                                                                                                       | Jaki mechanizm wyzwala czyszczenie (Workers cron vs zaplanowana funkcja)? Które tabele mają `deleted_at`? Jaka jest logika warunku brzegowego?                                                                                                                                                                        | Test jednostkowy na funkcji czyszczącej z fixture wierszami w dniach 29 i 31                                                                                                                                         | Testowanie tylko ustawiania flagi soft-delete przy usuwaniu; nigdy nie weryfikowanie granicy czyszczenia.                                                                                                                                                                                                |
+| #6     | Nieuwierzytelnione żądanie do `/dashboard` i `/dashboard/session/[id]` zwraca przekierowanie do / (root), nigdy nie serwuje treści.                                                                                                                                                   | „middleware.ts istnieje, więc wszystkie chronione trasy są pokryte" — problemy z konfiguracją Edge runtime na Cloudflare Workers mogą sprawić, że middleware cicho przepuści żądania.                                                                     | Które trasy są w matcherze middleware? Jak JWT jest weryfikowane na Edge? Co oznacza podział auth.config.ts dla ścieżki weryfikacji?                                                                                                                                                                                  | Integracyjny/e2e: nieuwierzytelnione żądanie HTTP do `/dashboard` → asercja przekierowania                                                                                                                           | Testowanie tylko przepływów login/logout; bez bezpośredniego testowania, że nieuwierzytelnione żądanie do chronionej ścieżki jest blokowane.                                                                                                                                                             |
+| #7     | Zalogowany student: nawiguje do scenariusza → widzi listę badań → wybiera znane badanie krytyczne (znana klasyfikacja) → UI pokazuje feedback „Prawidłowy" → kończy sesję → sesja pojawia się w historii z poprawnym outcome.                                                         | „Server action przechodzi test jednostkowy, więc flow przeglądarkowy działa" — DnD + stan klienta + wiring server action ≠ pokrycie jednostkowe.                                                                                                          | Jak `selectTestAction` jest wywoływane z przeglądarki? Jaki stan klienta zarządza listą badań? Czy timer wchodzi w interakcję z zakończeniem sesji?                                                                                                                                                                   | E2E (Playwright) — flow przekracza cookie auth + server action + stan klienta + feedback UI; integracja tego nie zasymuluje.                                                                                         | Testowanie tylko przez przycisk-klik zamiast DnD; asercja tylko tego, że akcja odpalona, bez sprawdzenia, czy feedback w UI się wyrenderował.                                                                                                                                                            |
+| #8     | Wypełnienie e-mail + hasło w formularzu logowania → POST do `/api/auth/callback/credentials` → cookie sesji ustawiony → przekierowanie do `/dashboard` zakończone sukcesem.                                                                                                           | „auth.setup.ts sprawdza /dashboard, więc logowanie działa" — weryfikuje pre-zapisaną sesję, nie sam formularz.                                                                                                                                            | Który endpoint POST obsługuje formularz logowania? Jaka jest wartość `callbackUrl` po udanym logowaniu? Co się dzieje z ciasteczkiem sesji w środowisku testowym?                                                                                                                                                     | E2E (Playwright) — logowanie przekracza wypełnienie formularza + route API + ustawienie cookie; wymaga testowania na poziomie przeglądarki. W tej samej fazie co Ryzyko #7.                                          | Poleganie wyłącznie na zapisanym `storageState` w `auth.setup.ts` i nigdy niewywoływanie `page.fill()` na formularzu.                                                                                                                                                                                    |
 
-## 3. Phased Rollout
+## 3. Stopniowe wdrażanie
 
-Each row is a discrete rollout phase that will open its own change folder via
-`/10x-new`. Status moves left-to-right through the values below; the
-orchestrator updates Status as artifacts appear on disk.
+Każdy wiersz to oddzielna faza wdrażania, która otworzy własny folder zmiany
+przez `/10x-new`. Status przesuwa się od lewej do prawej przez poniższe
+wartości; orkiestrator aktualizuje Status w miarę pojawiania się artefaktów na
+dysku.
 
-| #   | Phase name                              | Goal (one line)                                                                                       | Risks covered | Test types                   | Status        | Change folder                                              |
-| --- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------- | ---------------------------- | ------------- | ---------------------------------------------------------- |
-| 1   | Runner bootstrap + validator unit tests | Install vitest; prove first test passes; unit-test validator classification logic with fixture data   | #1            | unit, integration            | complete      | context/changes/testing-runner-bootstrap                   |
-| 2   | Data isolation + session persistence    | Integration tests for userId-scoped queries + session write round-trip against real DB                | #2, #3        | integration (DB)             | complete      | context/changes/testing-data-isolation-session-persistence |
-| 3   | Auth boundary gate                      | Prove middleware blocks unauthenticated access to all protected routes                                | #6            | integration, lightweight e2e | change opened | context/changes/testing-auth-boundary-gate                 |
-| 4   | Session UI regression baseline          | Component interaction test for DnD drag on first/last item; validator feedback display in SessionView | #4            | component interaction        | not started   | —                                                          |
-| 5   | RODO retention gate                     | Unit test on cleanup logic at 30-day boundary (activate once S-05 ships)                              | #5            | unit                         | not started   | —                                                          |
+| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status        | Folder zmiany                                              |
+| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | ------------- | ---------------------------------------------------------- |
+| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete      | context/changes/testing-runner-bootstrap                   |
+| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete      | context/changes/testing-data-isolation-session-persistence |
+| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | change opened | context/changes/testing-auth-boundary-gate                 |
+| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | not started   | —                                                          |
+| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | not started   | —                                                          |
+| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit                         | not started   | —                                                          |
 
-## 4. Stack
+## 4. Stos
 
-The classic test base for this project. No test runner is installed yet — Phase
-1 establishes it. Tool choices below are the starting hypothesis;
-`/10x-research` for Phase 1 must verify compatibility with Next.js 16 + React
-19 + Cloudflare Workers runtime before committing.
+Klasyczna baza testowa dla tego projektu. Wybory narzędzi poniżej to
+potwierdzona hipoteza dla zainstalowanych narzędzi; `/10x-research` dla każdej
+następnej fazy musi zweryfikować kompatybilność z aktualnym środowiskiem przed
+zatwierdzeniem.
 
-| Layer                 | Tool                               | Version                   | Notes                                                                                                                               |
-| --------------------- | ---------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| unit + integration    | Vitest                             | ^3.2.6 (installed)        | ESM-native, TypeScript-first. Compatible with Next.js 16 + Cloudflare Workers for Node.js environment tests. See §6.1 for patterns. |
-| component interaction | @testing-library/react + jsdom     | none yet — see §3 Phase 4 | For SessionView/DnD interaction tests. Pointer event support for @dnd-kit must be verified.                                         |
-| integration (DB)      | Vitest + real Supabase test schema | none yet — see §3 Phase 2 | Do not mock Drizzle ORM — mocks hide the persistence guarantee (Risk #3 anti-pattern).                                              |
-| auth middleware       | Vitest + fetch mock or Playwright  | none yet — see §3 Phase 3 | Cloudflare Workers Edge runtime may require miniflare or Playwright for accurate middleware testing. Verify in Phase 3 research.    |
-| e2e                   | Playwright                         | none yet — see §3 Phase 3 | Reserve for flows that require the full deployed shape (auth + cookie + handler crossing).                                          |
+| Warstwa               | Narzędzie                           | Wersja                              | Uwagi                                                                                                                                 |
+| --------------------- | ----------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| unit + integration    | Vitest                              | ^3.2.6 (zainstalowany)              | ESM-native, TypeScript-first. Kompatybilny z Next.js 16 + Cloudflare Workers dla testów w środowisku Node.js. Patrz §6.1 dla wzorców. |
+| component interaction | @testing-library/react + jsdom      | nie zainstalowany — patrz §3 Faza 5 | Do testów interakcji SessionView/DnD. Wymagana weryfikacja wsparcia dla pointer events w @dnd-kit.                                    |
+| integration (DB)      | Vitest + prawdziwy schemat Supabase | zainstalowany — patrz §3 Faza 2     | Nie mockuj Drizzle ORM — mocki ukrywają gwarancję trwałości (anty-wzorzec Ryzyka #3).                                                 |
+| auth middleware       | Vitest + fetch mock lub Playwright  | Playwright ^1.60.0 (zainstalowany)  | Cloudflare Workers Edge runtime może wymagać miniflare lub Playwright do dokładnego testowania middleware. Zweryfikowano w Fazie 3.   |
+| e2e                   | Playwright                          | ^1.60.0 (zainstalowany)             | Dla przepływów wymagających pełnego kształtu wdrożenia (auth + cookie + crossing handlerów). Patrz §3 Faza 3 i Faza 4.                |
 
-**Stack grounding tools (current session):**
+**Narzędzia ugruntowujące stos (bieżąca sesja):**
 
-- Docs: none — Context7 / framework docs MCP not available in current session;
-  checked: 2026-06-08
-- Search: Exa.ai — available; not queried (local manifest evidence sufficient
-  for Phase 1 hypothesis); checked: 2026-06-08
-- Runtime/browser: Playwright MCP — not available in current session; checked:
+- Docs: brak — Context7 / docs MCP frameworków niedostępny w bieżącej sesji;
+  sprawdzono: 2026-06-08
+- Search: Exa.ai — dostępny; nie zapytano (lokalne dowody z manifestu
+  wystarczające dla hipotezy Fazy 1); sprawdzono: 2026-06-08
+- Runtime/browser: Playwright MCP — niedostępny w bieżącej sesji; sprawdzono:
   2026-06-08
-- Provider/platform: GitHub/Cloudflare/Supabase MCP — not available in current
-  session; checked: 2026-06-08
+- Provider/platform: GitHub/Cloudflare/Supabase MCP — niedostępny w bieżącej
+  sesji; sprawdzono: 2026-06-08
 
-## 5. Quality Gates
+## 5. Bramki jakości
 
-The full set of gates that must pass before a change reaches production.
+Pełny zestaw bramek, które muszą przejść, zanim zmiana trafi na produkcję.
 
-| Gate                  | Where      | Required?                 | Catches                                     |
-| --------------------- | ---------- | ------------------------- | ------------------------------------------- |
-| lint + typecheck      | local + CI | required                  | syntactic / type drift                      |
-| unit + integration    | local + CI | required after §3 Phase 1 | validator logic regressions, isolation bugs |
-| auth middleware check | CI on PR   | required after §3 Phase 3 | unauthenticated route access                |
-| component interaction | local + CI | required after §3 Phase 4 | DnD interaction regressions                 |
-| e2e on critical flows | CI on PR   | required after §3 Phase 3 | broken auth + session paths end-to-end      |
+| Bramka                      | Gdzie      | Wymagane?              | Wykrywa                                    |
+| --------------------------- | ---------- | ---------------------- | ------------------------------------------ |
+| lint + typecheck            | local + CI | wymagane               | dryf składniowy / typowy                   |
+| unit + integration          | local + CI | wymagane po §3 Fazie 1 | regresje logiki walidatora, błędy izolacji |
+| sprawdzenie middleware auth | CI na PR   | wymagane po §3 Fazie 3 | nieuwierzytelniony dostęp do tras          |
+| component interaction       | local + CI | wymagane po §3 Fazie 5 | regresje interakcji DnD                    |
+| e2e dla głównych przepływów | CI na PR   | wymagane po §3 Fazie 3 | zepsute ścieżki auth + sesji end-to-end    |
 
-## 6. Cookbook Patterns
+## 6. Wzorce podręcznika
 
-How to add new tests in this project. Each sub-section is filled in once the
-relevant rollout phase ships.
+Jak dodawać nowe testy w tym projekcie. Każda podsekcja jest uzupełniana po
+wysłaniu odpowiedniej fazy wdrażania.
 
-### 6.1 Adding a unit test (validator logic)
+### 6.1 Dodawanie testu jednostkowego (logika walidatora)
 
-**Locations**
+**Lokalizacje**
 
-- Unit tests: `src/shared/lib/validator.test.ts`
-- Integration tests: `src/modules/session/actions.test.ts`
+- Testy jednostkowe: `src/shared/lib/validator.test.ts`
+- Testy integracyjne: `src/modules/session/actions.test.ts`
 
-**Naming convention**: Test descriptions in sentence form —
-`'critical test returns correct'` not `'validates critical category'`.
+**Konwencja nazewnictwa**: Opisy testów w formie zdania —
+`'critical test returns correct'` nie `'validates critical category'`.
 
-**Oracle rule**: Expected `validatorResult` comes from plain English
-classification semantics ("critical test must return 'correct'"). Never derive
-expected values from `CATEGORY_TO_RESULT` in the test — that is a
-mirror-implementation oracle.
+**Reguła wyroczni**: Oczekiwany `validatorResult` pochodzi z semantyki
+klasyfikacji w zwykłym języku („test krytyczny musi zwracać 'correct'"). Nigdy
+nie wyprowadzaj oczekiwanych wartości z `CATEGORY_TO_RESULT` w teście — to jest
+wyrocznia z lustrzaną implementacją.
 
-**Run command**: `npm run test`
+**Polecenie uruchamiania**: `npm run test`
 
-**Integration test prerequisite**: Set `DATABASE_URL_TEST` in `.env.test` (see
-`.env.test.example`). Apply schema once:
+**Wymaganie wstępne testu integracyjnego**: Ustaw `DATABASE_URL_TEST` w
+`.env.test` (patrz `.env.test.example`). Zastosuj schemat raz:
 `DATABASE_URL=<test-url> npx drizzle-kit push`.
 
-**Anti-pattern**: Testing only the happy path (`validateTestSelection` with a
-known classification) without covering the silent-default case
-(`validateTestSelection('id', {})` returns `"unnecessary"` with no error —
-protection relies on the `actions.ts:92` guard in the caller).
+**Anty-wzorzec**: Testowanie tylko happy-path (`validateTestSelection` ze znana
+klasyfikacją) bez pokrycia cichego domyślnego przypadku
+(`validateTestSelection('id', {})` zwraca `"unnecessary"` bez błędu — ochrona
+polega na zabezpieczeniu `actions.ts:92` w wywołującym).
 
-### 6.2 Two-layer testing strategy: integration vs hermetic
+### 6.2 Dwuwarstwowa strategia testowania: integracyjna vs hermetyczna
 
-Phase 2 established a two-layer pattern. Choose the layer by asking: _would a
-mock lie about what I'm testing?_
+Faza 2 ustanowiła dwuwarstwowy wzorzec. Wybierz warstwę pytając: _czy mock
+skłamałby w tym, co testuję?_
 
-#### Integration layer (real DB)
+#### Warstwa integracyjna (prawdziwy DB)
 
-**When to use**: the risk involves DB-level enforcement — foreign-key
-constraints, unique constraints, real SQL filters. A mock would return whatever
-you told it; the DB enforces rules the mock cannot simulate.
+**Kiedy używać**: ryzyko dotyczy egzekwowania na poziomie DB — ograniczeń klucza
+obcego, ograniczeń unikalności, prawdziwych filtrów SQL. Mock zwróci to, co mu
+powiedziano; DB egzekwuje reguły, których mock nie może zasymulować.
 
-**Example**: `getSessionById(sessionId, userId)` must return `null` for a
-mismatched userId. This is a WHERE-clause rule. Only a real DB proves the clause
-is actually in the query.
+**Przykład**: `getSessionById(sessionId, userId)` musi zwracać `null` dla
+niezgodnego userId. To reguła klauzuli WHERE. Tylko prawdziwy DB udowadnia, że
+klauzula faktycznie jest w zapytaniu.
 
-**Pattern**:
+**Wzorzec**:
 
 ```ts
 const runIntegration = !!process.env.DATABASE_URL_TEST;
@@ -185,28 +192,28 @@ describe.skipIf(!runIntegration)('describe name', () => {
 });
 ```
 
-**Oracle source**: DB schema constraints + Risk #2 in §2 (userId isolation is a
-business rule, not an implementation detail).
+**Źródło wyroczni**: Ograniczenia schematu DB + Ryzyko #2 w §2 (izolacja userId
+to reguła biznesowa, nie szczegół implementacyjny).
 
-**CI gate**: integration tests are NOT a mandatory CI gate (running local
-Supabase in CI is costly). Run locally when `DATABASE_URL_TEST` is set. Mark as
-ad-hoc in §4.
+**Bramka CI**: testy integracyjne NIE są obowiązkową bramką CI (uruchamianie
+lokalnego Supabase w CI jest kosztowne). Uruchamiaj lokalnie gdy
+`DATABASE_URL_TEST` jest ustawiony. Oznacz jako ad-hoc w §4.
 
-#### Hermetic layer (stubbed DB client)
+#### Warstwa hermetyczna (zaślepiony klient DB)
 
-**When to use**: the risk is a partial-failure branch that real infrastructure
-cannot reliably trigger — e.g., "Write 1 succeeds, Write 2 fails". A real DB
-either fails both or succeeds both; the hermetic stub forces the exact failure
-point.
+**Kiedy używać**: ryzyko to gałąź częściowej awarii, której prawdziwa
+infrastruktura nie może niezawodnie wyzwolić — np. „Zapis 1 się powiódł, Zapis 2
+się nie powiódł". Prawdziwy DB albo nie powiedzie się przy obu, albo powiedzie
+się przy obu; hermetyczna zaślepka wymusza dokładny punkt awarii.
 
-**Example**: `endSessionAction` — the second DB write (inserting `session_event`
-rows for skipped critical tests) can fail after the first write (updating
-`session_result`) already committed. This state is unreachable on a healthy
-local DB.
+**Przykład**: `endSessionAction` — drugi zapis do DB (wstawianie wierszy
+`session_event` dla pominiętych badań krytycznych) może nie powieść się po tym,
+jak pierwszy zapis (aktualizacja `session_result`) już się zacommitował. Ten
+stan jest nieosiągalny na zdrowym lokalnym DB.
 
-**Pattern** — use `vi.spyOn` on the `db` object within `beforeEach`/`afterEach`
-(not `vi.mock` at file level, which would break integration tests in the same
-file):
+**Wzorzec** — użyj `vi.spyOn` na obiekcie `db` wewnątrz `beforeEach`/`afterEach`
+(nie `vi.mock` na poziomie pliku, co by zepsuło testy integracyjne w tym samym
+pliku):
 
 ```ts
 describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
@@ -248,27 +255,27 @@ describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
 });
 ```
 
-**Mock depth rule**: `endSessionAction` calls `db.select()` three times before
-the failing insert. Use `mockImplementationOnce` in call order — the first
-`mockImplementationOnce` answers Select 1, the second answers Select 2, etc. A
-flat mock that throws on every call fails at Select 1 and never reaches the
-insert branch.
+**Reguła głębokości mocka**: `endSessionAction` wywołuje `db.select()` trzy razy
+przed nieudanym insertem. Użyj `mockImplementationOnce` w kolejności wywołań —
+pierwsze `mockImplementationOnce` odpowiada na Select 1, drugie na Select 2 itd.
+Płaski mock rzucający wyjątek przy każdym wywołaniu nie powiedzie się już przy
+Select 1 i nigdy nie dotrze do gałęzi insertu.
 
-**Oracle source**: Risk #3 failure mode in §2 — "DB write silently fails, no
-error shown to student". The contract is: caller gets
-`{ error: 'Internal error' }` AND a `console.error` is emitted with
-`[endSessionAction] DB error:`. Both must be asserted.
+**Źródło wyroczni**: Tryb awarii Ryzyka #3 w §2 — „Zapis DB nie powodzi się
+cicho, brak błędu pokazanego studentowi". Kontrakt: wywołujący dostaje
+`{ error: 'Internal error' }` ORAZ emitowany jest `console.error` z
+`[endSessionAction] DB error:`. Obie asercje muszą być obecne.
 
-**Hermetic tests run in all environments** — no `describe.skipIf` guard. They do
-not need a database connection.
+**Testy hermetyczne działają we wszystkich środowiskach** — bez zabezpieczenia
+`describe.skipIf`. Nie potrzebują połączenia z bazą danych.
 
-### 6.3 Adding a middleware / auth boundary test
+### 6.3 Dodawanie testu middleware / granicy auth
 
-**Location**: `src/__tests__/e2e/auth-boundary.spec.ts`
+**Lokalizacja**: `src/__tests__/e2e/auth-boundary.spec.ts`
 
-**Isolation pattern** — unauthenticated describe block must clear cookies and
-origins so the test never inherits a session from the `chromium` project's
-`storageState`:
+**Wzorzec izolacji** — blok describe dla nieuwierzytelnionych musi wyczyścić
+cookies i origins, żeby test nigdy nie odziedziczył sesji z `storageState`
+projektu `chromium`:
 
 ```ts
 test.describe('auth boundary — unauthenticated access is blocked', () => {
@@ -277,13 +284,13 @@ test.describe('auth boundary — unauthenticated access is blocked', () => {
 });
 ```
 
-**Negative assertion pattern** — after navigating to the protected route, wait
-for the middleware redirect and assert that: (a) the login link in the nav is
-visible, and (b) the dashboard heading is absent:
+**Wzorzec negatywnej asercji** — po nawigacji do chronionej trasy, poczekaj na
+przekierowanie middleware i sprawdź, że: (a) link logowania w nawigacji jest
+widoczny oraz (b) nagłówek dashboardu jest nieobecny:
 
 ```ts
 await page.goto('/dashboard');
-await page.waitForURL('/'); // middleware redirects to root, NOT /login
+await page.waitForURL('/'); // middleware przekierowuje do root, NIE do /login
 
 await expect(
   page
@@ -296,52 +303,68 @@ await expect(
 ).not.toBeVisible();
 ```
 
-**Locator rule**: use only `getByRole` (or nested `getByRole`). These tests do
-not fill forms, so `getByLabel` is not needed.
+**Reguła lokatorów**: używaj wyłącznie `getByRole` (lub zagnieżdżonego
+`getByRole`). Te testy nie wypełniają formularzy, więc `getByLabel` nie jest
+potrzebny.
 
-**Anti-patterns to avoid**:
+**Anty-wzorce do uniknięcia**:
 
-- `waitForTimeout` — wait for URL/state, never for time
-- CSS selectors or XPath — locators must survive DOM restructuring
-- `waitForURL('/login')` — middleware redirects to `"/"`, not `"/login"`;
-  asserting `/login` would silently pass when Auth.js falls back to its own
-  redirect
+- `waitForTimeout` — czekaj na stan URL/widoczność, nigdy na czas
+- Selektory CSS lub XPath — lokatory muszą przeżyć restrukturyzację DOM
+- `waitForURL('/login')` — middleware przekierowuje do `"/"`, nie do `"/login"`;
+  asercja `/login` cicho przeszłaby gdy Auth.js wraca do własnego przekierowania
 
-### 6.4 Adding a component interaction test (session UI / DnD)
+### 6.4 Dodawanie testu E2E głównego przepływu sesji + logowania
 
-TBD — see §3 Phase 4 for the DnD drag sequence pattern and first/last-item edge
-case fixture.
+DO UZUPEŁNIENIA — patrz §3 Faza 4 dla wzorca pełnego przepływu diagnostycznego w
+przeglądarce (otwarcie scenariusza → DnD wybór badania → feedback walidatora →
+zakończenie sesji) oraz wzorca testu formularza logowania zastępującego
+`auth.setup.ts`.
 
-### 6.5 Adding a retention / cleanup test
+### 6.5 Dodawanie testu interakcji z komponentem (UI sesji / DnD)
 
-TBD — see §3 Phase 5 for the soft-delete boundary logic pattern (activate when
-S-05 ships).
+DO UZUPEŁNIENIA — patrz §3 Faza 5 dla wzorca sekwencji przeciągania DnD oraz
+fixture przypadku brzegowego dla pierwszego/ostatniego elementu.
 
-## 7. What We Deliberately Don't Test
+### 6.6 Dodawanie testu retencji / czyszczenia
 
-Exclusions agreed during the Phase 2 interview (Q5). Future contributors should
-respect these unless the underlying assumption changes.
+DO UZUPEŁNIENIA — patrz §3 Faza 6 dla wzorca logiki granicy soft-delete (aktywuj
+po wysłaniu S-05).
 
-- **CSS animation layer** — visual styling changes have no failure mode that
-  matters to product correctness. Re-evaluate if a CSS token directly gates a
-  business-logic state. (Source: Phase 2 interview Q5.)
-- **Seed data in `seed.ts`** — the hardcoded scenario + test classification
-  data; the generator script is the test. Re-evaluate if scenarios become
-  dynamic or user-generated. (Source: Phase 2 interview Q5.)
-- **Pure presentational frontend components** — UI components with no business
-  logic (layout, typography, static display). Re-evaluate if a component begins
-  to own validation or access-control rendering. (Source: Phase 2 interview Q5.)
+## 7. Czego celowo nie testujemy
 
-## 8. Freshness Ledger
+Wykluczenia uzgodnione podczas wywiadów Fazy 2 i Fazy odświeżenia (Q5). Przyszli
+współtwórcy powinni je respektować, chyba że zmieni się leżące u podstaw
+założenie.
 
-- Strategy (§1–§5) last reviewed: 2026-06-08
-- Stack versions last verified: 2026-06-10
-- AI-native tool references last verified: n/a — no AI-native tools in current
-  plan
+- **Warstwa animacji CSS** — zmiany stylizacji wizualnej nie mają trybu awarii
+  istotnego dla poprawności produktu. Zrewiduj jeśli token CSS bezpośrednio
+  kontroluje stan logiki biznesowej. (Źródło: wywiad Fazy 2, Q5.)
+- **Dane seed w `seed.ts`** — zakodowane na stałe dane scenariuszy i
+  klasyfikacji badań; skrypt generatora jest testem. Zrewiduj jeśli scenariusze
+  staną się dynamiczne lub generowane przez użytkownika. (Źródło: wywiad Fazy 2,
+  Q5.)
+- **Czysto prezentacyjne komponenty frontend** — komponenty UI bez logiki
+  biznesowej (układ, typografia, statyczny wyświetlacz). Zrewiduj jeśli
+  komponent zacznie posiadać walidację lub renderowanie kontroli dostępu.
+  (Źródło: wywiad Fazy 2, Q5.)
+- **E2E strony ustawień konta (`/account/settings`)** — rzadko używana w MVP,
+  mały promień rażenia; ochrona middleware jest weryfikowana przez Ryzyko #6.
+  (Źródło: wywiad odświeżenia, Q5.)
+- **E2E formularza rejestracji** — jednorazowy onboarding; awaria jest
+  natychmiast widoczna dla użytkownika; poza zakresem aktualnego budżetu
+  testowego. (Źródło: wywiad odświeżenia, Q5.)
 
-Refresh (`/10x-test-plan --refresh`) when:
+## 8. Rejestr świeżości
 
-- a new top-3 risk surfaces from the roadmap or archive,
-- a recommended tool's `checked:` date is older than three months,
-- the project's tech stack changes (new framework, new test runner),
-- §7 negative-space no longer matches what the team believes.
+- Strategia (§1–§5) ostatnio przeglądana: 2026-06-11
+- Wersje stosu ostatnio zweryfikowane: 2026-06-11
+- Referencje do narzędzi AI-natywnych ostatnio zweryfikowane: n/d — brak
+  narzędzi AI-natywnych w bieżącym planie
+
+Odśwież (`/10x-test-plan --refresh`) gdy:
+
+- nowe ryzyko z top-3 pojawi się z roadmapy lub archiwum,
+- data `checked:` rekomendowanego narzędzia jest starsza niż trzy miesiące,
+- stos technologiczny projektu zmieni się (nowy framework, nowy runner testów),
+- §7 przestrzeń negatywna nie odzwierciedla już przekonań zespołu.
