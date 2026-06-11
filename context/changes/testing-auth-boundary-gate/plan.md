@@ -324,7 +324,8 @@ zawierać:
 
 #### Automatyczne
 
-- [x] 2.1 `npx playwright test auth-boundary` — wszystkie 3 testy przechodzą
+- [x] 2.1 `npx playwright test auth-boundary` — wszystkie 3 testy przechodzą —
+      dc88252
 
 #### Ręczne
 
@@ -337,5 +338,5 @@ zawierać:
 
 #### Ręczne
 
-- [ ] 3.1 §2 Risk #6 nie zawiera `"/login"` jako redirect target
-- [ ] 3.2 §6.3 zawiera wzorzec auth boundary (nie TBD)
+- [x] 3.1 §2 Risk #6 nie zawiera `"/login"` jako redirect target
+- [x] 3.2 §6.3 zawiera wzorzec auth boundary (nie TBD)

@@ -55,7 +55,7 @@ never a specific file as "where the failure lives" (that is research's job, see
 | #3   | After `endSessionAction` fires, `getUserSessions(userId)` returns the completed session with correct `outcome` and `completedAt`.                                                                                                                                                 | "Action didn't throw, therefore write succeeded" — swallowed exceptions, missing await, silent rollback.                                                                                                                                                                       | Does `endSessionAction` use a transaction? Does it handle DB errors? What is the return shape?                                                                                                                                                                                                           | Integration: `endSessionAction` + query round-trip against a real test schema                                                                                                                  | Mocking the DB write — hides the actual persistence guarantee.                                                                                                                                                                                                                                           |
 | #4   | After a code change to SessionView or `@dnd-kit` config, dragging the **first** test to a different position reorders it correctly in UI state.                                                                                                                                   | "Handler fires, therefore drag works" — `over` being null at list edges is the documented past bug.                                                                                                                                                                            | What is the `handleDragEnd` branching logic? What activation constraint is set? What happens when `over` is null for source=available?                                                                                                                                                                   | Component interaction test: simulate pointer drag on first item, assert state reorder                                                                                                          | Testing only that `handleSelectTest` is callable; not simulating the actual drag sequence including edge positions.                                                                                                                                                                                      |
 | #5   | Given rows with `deleted_at` = (now − 31 days), cleanup function deletes them. Rows with `deleted_at` = (now − 29 days) remain.                                                                                                                                                   | "Soft-delete flag is set, therefore data will be cleaned up" — cron job might not run; query might skip the edge boundary.                                                                                                                                                     | What mechanism triggers cleanup (Workers cron vs scheduled function)? Which tables have `deleted_at`? What is the boundary condition logic?                                                                                                                                                              | Unit test on cleanup function with fixture rows at day 29 and day 31                                                                                                                           | Testing only that the soft-delete flag is set on deletion; never verifying the cleanup boundary.                                                                                                                                                                                                         |
-| #6   | Unauthenticated request to `/dashboard` and `/dashboard/session/[id]` returns HTTP 302 to `/login`, never serves content.                                                                                                                                                         | "middleware.ts exists, therefore all protected routes are covered" — Edge runtime config issues on Cloudflare Workers can cause middleware to silently pass requests.                                                                                                          | Which routes are in the middleware matcher? How is JWT verified on Edge? What does the auth.config.ts split mean for the verification path?                                                                                                                                                              | Integration/e2e: unauthenticated HTTP request to `/dashboard` → assert redirect                                                                                                                | Testing only login/logout flows; not directly testing that an unauthenticated request to the protected path is blocked.                                                                                                                                                                                  |
+| #6   | Unauthenticated request to `/dashboard` and `/dashboard/session/[id]` returns redirect to / (root), never serves content.                                                                                                                                                         | "middleware.ts exists, therefore all protected routes are covered" — Edge runtime config issues on Cloudflare Workers can cause middleware to silently pass requests.                                                                                                          | Which routes are in the middleware matcher? How is JWT verified on Edge? What does the auth.config.ts split mean for the verification path?                                                                                                                                                              | Integration/e2e: unauthenticated HTTP request to `/dashboard` → assert redirect                                                                                                                | Testing only login/logout flows; not directly testing that an unauthenticated request to the protected path is blocked.                                                                                                                                                                                  |
 
 ## 3. Phased Rollout
 
@@ -264,7 +264,48 @@ not need a database connection.
 
 ### 6.3 Adding a middleware / auth boundary test
 
-TBD — see §3 Phase 3 for the unauthenticated-route protection pattern.
+**Location**: `src/__tests__/e2e/auth-boundary.spec.ts`
+
+**Isolation pattern** — unauthenticated describe block must clear cookies and
+origins so the test never inherits a session from the `chromium` project's
+`storageState`:
+
+```ts
+test.describe('auth boundary — unauthenticated access is blocked', () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+  // tests here run without any session
+});
+```
+
+**Negative assertion pattern** — after navigating to the protected route, wait
+for the middleware redirect and assert that: (a) the login link in the nav is
+visible, and (b) the dashboard heading is absent:
+
+```ts
+await page.goto('/dashboard');
+await page.waitForURL('/'); // middleware redirects to root, NOT /login
+
+await expect(
+  page
+    .getByRole('navigation', { name: 'Nawigacja główna' })
+    .getByRole('link', { name: 'Zaloguj się' }),
+).toBeVisible();
+
+await expect(
+  page.getByRole('heading', { name: 'Panel studenta' }),
+).not.toBeVisible();
+```
+
+**Locator rule**: use only `getByRole` (or nested `getByRole`). These tests do
+not fill forms, so `getByLabel` is not needed.
+
+**Anti-patterns to avoid**:
+
+- `waitForTimeout` — wait for URL/state, never for time
+- CSS selectors or XPath — locators must survive DOM restructuring
+- `waitForURL('/login')` — middleware redirects to `"/"`, not `"/login"`;
+  asserting `/login` would silently pass when Auth.js falls back to its own
+  redirect
 
 ### 6.4 Adding a component interaction test (session UI / DnD)
 
