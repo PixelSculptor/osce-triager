@@ -313,7 +313,7 @@ zawierać:
 
 #### Automatyczne
 
-- [ ] 1.1 `npx playwright test --project=setup` przechodzi
+- [x] 1.1 `npx playwright test --project=setup` przechodzi
 
 #### Ręczne
 
