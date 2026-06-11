@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.19.11",
+    "@playwright/test": "^1.60.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
