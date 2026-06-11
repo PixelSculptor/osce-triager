@@ -1,7 +1,7 @@
 ---
 change_id: testing-auth-boundary-gate
 title: Auth boundary gate — prove middleware blocks unauthenticated access
-status: implementing
+status: implemented
 created: 2026-06-11
 updated: 2026-06-11
 archived_at: null

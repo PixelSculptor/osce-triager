@@ -317,7 +317,7 @@ zawierać:
 
 #### Ręczne
 
-- [ ] 1.2 Tymczasowe usunięcie `playwright/.auth/user.json` powoduje failowanie
+- [x] 1.2 Tymczasowe usunięcie `playwright/.auth/user.json` powoduje failowanie
       z czytelnym komunikatem
 
 ### Faza 2: auth-boundary.spec.ts
@@ -329,14 +329,14 @@ zawierać:
 
 #### Ręczne
 
-- [ ] 2.2 Test 1: nawigacja incognito do `/dashboard` → redirect do `/`
-- [ ] 2.3 Test 2: nawigacja incognito do `/dashboard/session/fake-id` → redirect
+- [x] 2.2 Test 1: nawigacja incognito do `/dashboard` → redirect do `/`
+- [x] 2.3 Test 2: nawigacja incognito do `/dashboard/session/fake-id` → redirect
       do `/`
-- [ ] 2.4 Test 3: zalogowany użytkownik widzi "Panel studenta"
+- [x] 2.4 Test 3: zalogowany użytkownik widzi "Panel studenta"
 
 ### Faza 3: Backport test-plan
 
 #### Ręczne
 
-- [x] 3.1 §2 Risk #6 nie zawiera `"/login"` jako redirect target
-- [x] 3.2 §6.3 zawiera wzorzec auth boundary (nie TBD)
+- [x] 3.1 §2 Risk #6 nie zawiera `"/login"` jako redirect target — 8a91050
+- [x] 3.2 §6.3 zawiera wzorzec auth boundary (nie TBD) — 8a91050
