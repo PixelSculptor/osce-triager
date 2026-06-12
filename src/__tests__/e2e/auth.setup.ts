@@ -1,28 +1,12 @@
-import { test as setup, expect } from '@playwright/test';
-import { existsSync } from 'node:fs';
+import { test as setup } from '@playwright/test';
 
 const AUTH_FILE = 'playwright/.auth/user.json';
 
-setup('auth state is valid', async ({ browser }) => {
-  if (!existsSync(AUTH_FILE)) {
-    throw new Error(
-      `Auth file not found: ${AUTH_FILE}\n` +
-        `Regenerate with:\n` +
-        `  npx playwright codegen http://localhost:3000 --save-storage=${AUTH_FILE}`,
-    );
-  }
-
-  const context = await browser.newContext({ storageState: AUTH_FILE });
-  const page = await context.newPage();
-  try {
-    await page.goto('/dashboard');
-    expect(
-      page.url(),
-      `Session expired — redirected away from /dashboard.\n` +
-        `Regenerate with:\n` +
-        `  npx playwright codegen http://localhost:3000 --save-storage=${AUTH_FILE}`,
-    ).toMatch(/\/dashboard$/);
-  } finally {
-    await context.close();
-  }
+setup('authenticate via login form', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Adres email').fill(process.env.TEST_USER_EMAIL!);
+  await page.getByLabel('Hasło').fill(process.env.TEST_USER_PASSWORD!);
+  await page.getByRole('button', { name: 'Zaloguj się' }).click();
+  await page.waitForURL('/dashboard');
+  await page.context().storageState({ path: AUTH_FILE });
 });

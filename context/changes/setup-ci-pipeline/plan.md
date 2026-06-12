@@ -414,26 +414,26 @@ GitHub vars.
 
 #### Automatyczne
 
-- [ ] 1.1 `npm run test:e2e` z `TEST_USER_EMAIL` i `TEST_USER_PASSWORD`
+- [x] 1.1 `npm run test:e2e` z `TEST_USER_EMAIL` i `TEST_USER_PASSWORD`
       ustawionymi — setup projekt przechodzi
 
 #### Ręczne
 
-- [ ] 1.2 Form fill loguje się na seeded usera i tworzy
+- [x] 1.2 Form fill loguje się na seeded usera i tworzy
       `playwright/.auth/user.json`
-- [ ] 1.3 Brak istniejącego `user.json` nie blokuje startu testów
+- [x] 1.3 Brak istniejącego `user.json` nie blokuje startu testów
 
 ### Faza 2: Seed testowego użytkownika
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run seed:test` z `DATABASE_URL`, `TEST_USER_EMAIL`,
+- [x] 2.1 `npm run seed:test` z `DATABASE_URL`, `TEST_USER_EMAIL`,
       `TEST_USER_PASSWORD` — exit 0, "Seed test user: ..."
-- [ ] 2.2 Ponowne uruchomienie `seed:test` nie zwraca błędu (idempotentność)
+- [x] 2.2 Ponowne uruchomienie `seed:test` nie zwraca błędu (idempotentność)
 
 #### Ręczne
 
-- [ ] 2.3 `npm run test:e2e` end-to-end po seeding — auth setup + testy boundary
+- [x] 2.3 `npm run test:e2e` end-to-end po seeding — auth setup + testy boundary
       przechodzą
 
 ### Faza 3: CI PR workflow
