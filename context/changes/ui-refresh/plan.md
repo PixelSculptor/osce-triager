@@ -657,11 +657,11 @@ zmianę.
 
 #### Ręczne
 
-- [ ] 2.5 Wszystkie przyciski mają gładki hover w obu motywach; „Wyloguj"
+- [x] 2.5 Wszystkie przyciski mają gładki hover w obu motywach; „Wyloguj"
       widoczny w dark
-- [ ] 2.6 Brak regresji w stanach loading (spinner)
-- [ ] 2.7 `prefers-reduced-motion` wyłącza lift
-- [ ] 2.8 Teksty przycisków niezmienione (kontrola kotwic E2E)
+- [x] 2.6 Brak regresji w stanach loading (spinner)
+- [x] 2.7 `prefers-reduced-motion` wyłącza lift
+- [x] 2.8 Teksty przycisków niezmienione (kontrola kotwic E2E)
 
 ### Faza 3: Karty, badge i responsywne siatki
 
