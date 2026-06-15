@@ -650,10 +650,10 @@ zmianę.
 
 #### Automatyczne
 
-- [ ] 2.1 Typecheck: `npm run typecheck`
-- [ ] 2.2 Build: `npm run build`
-- [ ] 2.3 Lint: `npm run lint`
-- [ ] 2.4 Testy: `npm run test`
+- [x] 2.1 Typecheck: `npm run typecheck` — 5195804
+- [x] 2.2 Build: `npm run build` — 5195804
+- [x] 2.3 Lint: `npm run lint` — 5195804
+- [x] 2.4 Testy: `npm run test` — 5195804
 
 #### Ręczne
 
