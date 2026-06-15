@@ -674,9 +674,9 @@ zmianę.
 
 #### Ręczne
 
-- [ ] 3.5 Siatka 1/2/3 kol. na `/dashboard` i `/dashboard/history`
-- [ ] 3.6 Badge czytelne i spójne; `critical_miss` = „Krytyczny brak"
-- [ ] 3.7 HistoryCard ma hover; semantyka `<ul>`/`<li>` zachowana
+- [x] 3.5 Siatka 1/2/3 kol. na `/dashboard` i `/dashboard/history`
+- [x] 3.6 Badge czytelne i spójne; `critical_miss` = „Krytyczny brak"
+- [x] 3.7 HistoryCard ma hover; semantyka `<ul>`/`<li>` zachowana
 
 ### Faza 4: Filtr historii + stepper szczegółów sesji
 
