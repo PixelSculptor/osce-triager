@@ -812,8 +812,8 @@ wizualne.
 
 #### Automatyczne
 
-- [ ] 3.1 `npm run typecheck` przechodzi
-- [ ] 3.2 `npm run build` przechodzi
+- [x] 3.1 `npm run typecheck` przechodzi
+- [x] 3.2 `npm run build` przechodzi
 
 #### Ręczne
 

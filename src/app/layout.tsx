@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, IBM_Plex_Mono } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
 import { Nav } from '@/shared/components/Nav';
 import './globals.css';
 
@@ -33,8 +34,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <Nav />
-        {children}
+        <ThemeProvider
+          attribute='data-theme'
+          defaultTheme='system'
+          enableSystem
+        >
+          <Nav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
