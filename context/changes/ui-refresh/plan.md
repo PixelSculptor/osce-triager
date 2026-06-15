@@ -635,9 +635,9 @@ zmianę.
 
 #### Automatyczne
 
-- [ ] 1.1 Build przechodzi: `npm run build`
-- [ ] 1.2 Lint przechodzi: `npm run lint`
-- [ ] 1.3 Format zgodny: `npm run format:check`
+- [x] 1.1 Build przechodzi: `npm run build` — 74b1985
+- [x] 1.2 Lint przechodzi: `npm run lint` — 74b1985
+- [x] 1.3 Format zgodny: `npm run format:check` — 74b1985
 
 #### Ręczne
 
