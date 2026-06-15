@@ -306,7 +306,8 @@ html {
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  /* clip nie tworzy scroll container — sticky działa; hidden go tworzy i łamie sticky */
+  overflow-x: clip;
 }
 
 body {
