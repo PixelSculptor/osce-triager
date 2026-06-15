@@ -13,7 +13,7 @@ archived_at: null
 
 - **Zaimplementowane 2026-06-15** na branchu `ui-design-system`, commity
   `a2af3eb` (faza 1: token foundation) → `a518714` (faza 4: migracja CSS modules
-  - refinements). GitHub issue #38.
+  oraz refinementy). GitHub issue #38.
 - Wszystkie 4 fazy: token foundation (`globals.css`), typografia + tooling
   (`next/font` Inter + IBM Plex Mono, `lucide-react`), theme infrastructure
   (`next-themes` + `ThemeToggle`), migracja 11 modułów CSS + 4 nowe companion
