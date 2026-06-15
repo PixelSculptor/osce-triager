@@ -9,6 +9,11 @@
   gap: var(--space-1);
   margin-bottom: var(--space-6);
   font-size: var(--font-size-sm);
+  transition: color var(--transition-hover);
+}
+
+.back:hover {
+  color: var(--color-text-link);
 }
 
 .heading {

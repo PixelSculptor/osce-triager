@@ -1,28 +1,32 @@
-"use client"
+'use client';
 
-import { useFormStatus } from "react-dom"
-import { Spinner } from "@/shared/components/Spinner/Spinner"
+import { useFormStatus } from 'react-dom';
+import { Button, type ButtonVariant } from '@/shared/components/Button/Button';
+import { Spinner } from '@/shared/components/Spinner/Spinner';
 
 interface SubmitButtonProps {
-  children: React.ReactNode
-  loadingLabel?: string
+  children: React.ReactNode;
+  loadingLabel?: string;
+  variant?: ButtonVariant;
 }
 
-export function SubmitButton({ children, loadingLabel }: SubmitButtonProps) {
-  const { pending } = useFormStatus()
+export function SubmitButton({
+  children,
+  loadingLabel,
+  variant = 'primary',
+}: SubmitButtonProps) {
+  const { pending } = useFormStatus();
 
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      style={pending ? { display: "inline-flex", alignItems: "center", gap: "0.375rem" } : undefined}
-    >
+    <Button type='submit' variant={variant} disabled={pending}>
       {pending ? (
         <>
-          <Spinner size="sm" />
-          {loadingLabel ?? "Proszę czekać…"}
+          <Spinner size='sm' />
+          {loadingLabel ?? 'Proszę czekać…'}
         </>
-      ) : children}
-    </button>
-  )
+      ) : (
+        children
+      )}
+    </Button>
+  );
 }

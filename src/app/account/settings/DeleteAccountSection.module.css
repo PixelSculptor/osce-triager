@@ -38,21 +38,3 @@
   margin-bottom: var(--space-2);
   font-size: var(--font-size-sm);
 }
-
-.submitButton {
-  padding: var(--space-2) var(--space-4);
-  border: none;
-  border-radius: var(--radius-sm);
-}
-
-.submitButtonActive {
-  background: var(--color-danger-fg);
-  color: var(--color-text-on-interactive);
-  cursor: pointer;
-}
-
-.submitButtonDisabled {
-  background: var(--color-bg-subtle);
-  color: var(--color-text-muted);
-  cursor: not-allowed;
-}

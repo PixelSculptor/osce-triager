@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { auth } from '@/modules/auth/auth';
 import { logoutAction } from '@/modules/auth/actions';
+import { Button } from '@/shared/components/Button/Button';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import styles from './Nav.module.css';
 
@@ -24,9 +25,9 @@ export async function Nav() {
               Ustawienia
             </Link>
             <form>
-              <button className={styles.logoutButton} formAction={logoutAction}>
+              <Button variant='ghost' size='sm' formAction={logoutAction}>
                 Wyloguj
-              </button>
+              </Button>
             </form>
           </>
         ) : (

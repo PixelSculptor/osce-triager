@@ -1,6 +1,7 @@
 'use client';
 
 import { cancelDeletionAction } from '@/modules/account/actions';
+import { Button } from '@/shared/components/Button/Button';
 import styles from './CancelDeletionSection.module.css';
 
 export function CancelDeletionSection({
@@ -22,12 +23,9 @@ export function CancelDeletionSection({
         </p>
       </div>
       <form>
-        <button
-          formAction={cancelDeletionAction}
-          className={styles.cancelButton}
-        >
+        <Button variant='ghost' formAction={cancelDeletionAction}>
           Anuluj usunięcie
-        </button>
+        </Button>
       </form>
     </section>
   );

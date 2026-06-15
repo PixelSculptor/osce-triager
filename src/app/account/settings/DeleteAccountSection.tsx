@@ -5,6 +5,7 @@ import {
   requestDeletionAction,
   type AccountActionState,
 } from '@/modules/account/actions';
+import { Button } from '@/shared/components/Button/Button';
 import styles from './DeleteAccountSection.module.css';
 
 export function DeleteAccountSection() {
@@ -43,17 +44,9 @@ export function DeleteAccountSection() {
             Żądanie usunięcia zostało zgłoszone.
           </p>
         )}
-        <button
-          type='submit'
-          disabled={!isConfirmed}
-          className={`${styles.submitButton} ${
-            isConfirmed
-              ? styles.submitButtonActive
-              : styles.submitButtonDisabled
-          }`}
-        >
+        <Button type='submit' variant='danger' disabled={!isConfirmed}>
           Usuń konto
-        </button>
+        </Button>
       </form>
     </section>
   );
