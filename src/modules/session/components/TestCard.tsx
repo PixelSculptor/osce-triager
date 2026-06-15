@@ -16,6 +16,7 @@ const BADGE_LABELS: Partial<Record<ValidatorResult, string>> = {
   correct: 'Poprawne',
   suboptimal: 'Akceptowalne',
   unnecessary: 'Zbędne',
+  critical_miss: 'Krytyczny brak',
 };
 
 export function TestCard({

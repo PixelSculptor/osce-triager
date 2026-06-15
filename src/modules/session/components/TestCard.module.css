@@ -31,7 +31,7 @@
 .badge {
   flex-shrink: 0;
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
 }
@@ -39,14 +39,23 @@
 .badge[data-result='correct'] {
   background: var(--color-badge-correct-bg);
   color: var(--color-badge-correct-text);
+  border: 1px solid var(--color-success-border);
 }
 
 .badge[data-result='suboptimal'] {
   background: var(--color-badge-suboptimal-bg);
   color: var(--color-badge-suboptimal-text);
+  border: 1px solid var(--color-warning-border);
 }
 
 .badge[data-result='unnecessary'] {
   background: var(--color-badge-unnecessary-bg);
   color: var(--color-badge-unnecessary-text);
+  border: 1px solid var(--color-danger-border);
+}
+
+.badge[data-result='critical_miss'] {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-fg);
+  border: 1px solid var(--color-danger-border);
 }
