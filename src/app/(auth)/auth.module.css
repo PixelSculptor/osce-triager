@@ -3,15 +3,15 @@
   flex: 1;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
+  padding: var(--space-8) var(--space-4);
 }
 
 .card {
   width: 100%;
   max-width: 400px;
-  padding: 2rem;
+  padding: var(--space-8);
   background: var(--background);
-  border: 1px solid rgba(128, 128, 128, 0.2);
-  border-radius: 8px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
 }

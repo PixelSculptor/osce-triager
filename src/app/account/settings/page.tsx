@@ -1,17 +1,18 @@
-import { redirect } from "next/navigation"
-import { auth } from "@/modules/auth/auth"
-import { getAccountSettings } from "@/modules/account/queries"
-import { DeleteAccountSection } from "./DeleteAccountSection"
-import { CancelDeletionSection } from "./CancelDeletionSection"
+import { redirect } from 'next/navigation';
+import { auth } from '@/modules/auth/auth';
+import { getAccountSettings } from '@/modules/account/queries';
+import { DeleteAccountSection } from './DeleteAccountSection';
+import { CancelDeletionSection } from './CancelDeletionSection';
+import styles from './page.module.css';
 
 export default async function SettingsPage() {
-  const session = await auth()
-  if (!session) redirect("/login")
+  const session = await auth();
+  if (!session) redirect('/login');
 
-  const user = await getAccountSettings(session.user!.id!)
+  const user = await getAccountSettings(session.user!.id!);
 
   return (
-    <main style={{ padding: "2rem", maxWidth: "600px" }}>
+    <main className={styles.main}>
       <h1>Ustawienia konta</h1>
       {user?.deletionRequestedAt ? (
         <CancelDeletionSection deletionDate={user.deletionRequestedAt} />
@@ -19,5 +20,5 @@ export default async function SettingsPage() {
         <DeleteAccountSection />
       )}
     </main>
-  )
+  );
 }

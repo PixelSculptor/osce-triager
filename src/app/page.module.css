@@ -3,7 +3,7 @@
   flex: 1;
   justify-content: center;
   align-items: center;
-  padding: 3rem 1rem;
+  padding: var(--space-12) var(--space-4);
 }
 
 .content {
@@ -11,34 +11,34 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-6);
 }
 
 .heading {
-  font-size: 2rem;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
   line-height: 1.2;
 }
 
 .description {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   opacity: 0.75;
   line-height: 1.6;
 }
 
 .ctas {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
 .primaryBtn {
-  padding: 0.625rem 1.25rem;
+  padding: var(--space-2) var(--space-5);
   background: var(--foreground);
   color: var(--background);
   border: none;
-  border-radius: 4px;
-  font-size: 0.9375rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -46,12 +46,12 @@
 }
 
 .secondaryBtn {
-  padding: 0.625rem 1.25rem;
+  padding: var(--space-2) var(--space-5);
   background: none;
   color: var(--foreground);
-  border: 1px solid rgba(128, 128, 128, 0.4);
-  border-radius: 4px;
-  font-size: 0.9375rem;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -59,6 +59,6 @@
 }
 
 .welcome {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   opacity: 0.8;
 }

@@ -2,41 +2,45 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.625rem 0.875rem;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   background: var(--background);
-  border: 1px solid rgba(128, 128, 128, 0.3);
-  border-radius: 4px;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-card);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.card:not([data-selected="true"]):hover {
+.card:not([data-selected='true']):hover {
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-1px);
 }
 
-.card[data-selected="true"] {
-  border-color: rgba(128, 128, 128, 0.15);
-  background: rgba(128, 128, 128, 0.04);
+.card[data-selected='true'] {
+  border-color: var(--color-border-subtle);
+  background: var(--color-bg-subtle);
 }
 
 .name {
-  font-size: 0.9375rem;
+  font-size: var(--font-size-base);
   flex: 1;
 }
 
 .button {
   flex-shrink: 0;
-  padding: 0.3125rem 0.75rem;
+  padding: var(--space-1) var(--space-3);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-text-on-interactive);
   border: none;
-  border-radius: 3px;
-  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: opacity var(--transition-fast), background var(--transition-fast);
+  transition:
+    opacity var(--transition-fast),
+    background var(--transition-fast);
 }
 
 .button:hover:not(:disabled) {
@@ -50,23 +54,23 @@
 
 .badge {
   flex-shrink: 0;
-  padding: 0.25rem 0.625rem;
-  border-radius: 3px;
-  font-size: 0.8125rem;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
   font-weight: 600;
 }
 
-.badge[data-result="correct"] {
+.badge[data-result='correct'] {
   background: var(--color-badge-correct-bg);
   color: var(--color-badge-correct-text);
 }
 
-.badge[data-result="suboptimal"] {
+.badge[data-result='suboptimal'] {
   background: var(--color-badge-suboptimal-bg);
   color: var(--color-badge-suboptimal-text);
 }
 
-.badge[data-result="unnecessary"] {
+.badge[data-result='unnecessary'] {
   background: var(--color-badge-unnecessary-bg);
   color: var(--color-badge-unnecessary-text);
 }

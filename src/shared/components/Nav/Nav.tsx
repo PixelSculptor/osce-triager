@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { auth } from '@/modules/auth/auth';
 import { logoutAction } from '@/modules/auth/actions';
+import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import styles from './Nav.module.css';
 
 export async function Nav() {
@@ -34,6 +35,7 @@ export async function Nav() {
             <Link href='/register'>Zarejestruj się</Link>
           </>
         )}
+        <ThemeToggle />
       </div>
     </nav>
   );

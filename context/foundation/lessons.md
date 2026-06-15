@@ -55,3 +55,17 @@
   (gitignorowany przez `.env*`); w CI te same zmienne bierz z GitHub Secrets —
   żadna zmiana w configu CI nie jest potrzebna.
 - **Dotyczy**: implement
+
+## Nigdy nie używaj glifów Unicode/emoji jako ikon UI — używaj lucide-react
+
+- **Kontekst**: Każdy komponent/strona w warstwie prezentacji (`*.tsx`)
+  renderująca afordancje UI — linki nawigacyjne, podpowiedzi, przyciski.
+- **Problem**: Glify Unicode (← → ↑ ↓) renderują się niespójnie między
+  fontami/platformami, nie skalują się z tokenami designu, nie dają kontroli
+  stroke/rozmiaru i są problematyczne dla czytników ekranu. Wykryto w
+  details/page.tsx (← ↓) i HistoryCard.tsx (→) podczas migracji
+  ui-design-system.
+- **Reguła**: Nigdy nie używaj znaków Unicode/emoji jako ikon UI. Używaj
+  komponentów z `lucide-react` z `aria-hidden="true"` i rozmiarem z tokenów
+  (`--icon-*` / `size={16}`).
+- **Dotyczy**: plan, implement, impl-review
