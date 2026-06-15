@@ -1,9 +1,9 @@
 ---
 change_id: ui-design-system
 title: UI design system
-status: new
+status: preparing
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-15
 archived_at: null
 ---
 
