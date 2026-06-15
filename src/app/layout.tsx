@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { Nav } from '@/shared/components/Nav';
+import { SceneBg } from '@/shared/components/SceneBg';
 import './globals.css';
 
 const inter = Inter({
@@ -39,6 +40,7 @@ export default function RootLayout({
           defaultTheme='system'
           enableSystem
         >
+          <SceneBg />
           <Nav />
           {children}
         </ThemeProvider>

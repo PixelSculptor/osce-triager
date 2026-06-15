@@ -717,10 +717,10 @@ zmianę.
 
 #### Automatyczne
 
-- [ ] 6.1 Typecheck: `npm run typecheck`
-- [ ] 6.2 Build: `npm run build`
-- [ ] 6.3 Lint: `npm run lint`
-- [ ] 6.4 Testy E2E: `npm run test:e2e`
+- [x] 6.1 Typecheck: `npm run typecheck` — HEAD
+- [x] 6.2 Build: `npm run build` — HEAD
+- [x] 6.3 Lint: `npm run lint` — HEAD
+- [x] 6.4 Testy E2E: `npm run test:e2e` — HEAD
 
 #### Ręczne
 
