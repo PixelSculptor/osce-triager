@@ -1,4 +1,8 @@
 .main {
   padding: var(--space-8);
-  max-width: 600px;
+  max-width: 640px;
+}
+
+.main h1 {
+  margin-bottom: var(--space-2);
 }

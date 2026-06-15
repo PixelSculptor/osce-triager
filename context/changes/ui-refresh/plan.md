@@ -682,10 +682,10 @@ zmianę.
 
 #### Automatyczne
 
-- [ ] 4.1 Typecheck: `npm run typecheck`
-- [ ] 4.2 Build: `npm run build`
-- [ ] 4.3 Lint: `npm run lint`
-- [ ] 4.4 Testy: `npm run test`
+- [x] 4.1 Typecheck: `npm run typecheck` — a85bdac
+- [x] 4.2 Build: `npm run build` — a85bdac
+- [x] 4.3 Lint: `npm run lint` — a85bdac
+- [x] 4.4 Testy: `npm run test` — a85bdac
 
 #### Ręczne
 
@@ -698,11 +698,11 @@ zmianę.
 
 #### Automatyczne
 
-- [ ] 5.1 Typecheck: `npm run typecheck`
-- [ ] 5.2 Build: `npm run build`
-- [ ] 5.3 Lint: `npm run lint`
-- [ ] 5.4 Testy jednostkowe: `npm run test`
-- [ ] 5.5 Testy E2E: `npm run test:e2e`
+- [x] 5.1 Typecheck: `npm run typecheck` — HEAD
+- [x] 5.2 Build: `npm run build` — HEAD
+- [x] 5.3 Lint: `npm run lint` — HEAD
+- [x] 5.4 Testy jednostkowe: `npm run test` — HEAD
+- [x] 5.5 Testy E2E: `npm run test:e2e` — HEAD
 
 #### Ręczne
 
