@@ -828,9 +828,9 @@ wizualne.
 #### Automatyczne
 
 - [x] 4.1 `npm run typecheck` przechodzi (import styles w
-      page.tsx/DeleteAccountSection)
-- [x] 4.2 `npm run lint` przechodzi
-- [x] 4.3 `npm run build` kończy się bez błędów
+      page.tsx/DeleteAccountSection) — a518714
+- [x] 4.2 `npm run lint` przechodzi — a518714
+- [x] 4.3 `npm run build` kończy się bez błędów — a518714
 
 #### Ręczne
 

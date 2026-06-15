@@ -40,23 +40,23 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 
 ## W skrócie
 
-| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                                                           | Wymagania wstępne | Odniesienia do PRD                            | Status    |
-| ---- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | --------- |
-| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                                                       | —                 | FR-001, FR-002                                | done      |
-| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                                                              | —                 | NFR: Chrome/Firefox/Safari                    | done      |
-| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań                                       | F-01              | FR-003, FR-004, FR-008                        | done      |
-| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                                                     | F-01              | FR-001, FR-002                                | done      |
-| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                                                        | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done      |
-| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                                                     | S-02              | FR-008, US-01                                 | done      |
-| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done      |
-| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned   |
-| S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | preparing |
-| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done      |
-| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                         | T-01              | test-plan.md §3 Faza 2                        | done      |
-| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                | T-01              | test-plan.md §3 Faza 3                        | done      |
-| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                 | T-03              | test-plan.md §3 Faza 4                        | done      |
-| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                              | T-04              | test-plan.md §3 Faza 5                        | planned   |
-| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                                               | T-04, S-05        | test-plan.md §3 Faza 6                        | planned   |
+| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                                                           | Wymagania wstępne | Odniesienia do PRD                            | Status  |
+| ---- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | ------- |
+| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                                                       | —                 | FR-001, FR-002                                | done    |
+| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                                                              | —                 | NFR: Chrome/Firefox/Safari                    | done    |
+| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań                                       | F-01              | FR-003, FR-004, FR-008                        | done    |
+| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                                                     | F-01              | FR-001, FR-002                                | done    |
+| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                                                        | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done    |
+| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                                                     | S-02              | FR-008, US-01                                 | done    |
+| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done    |
+| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned |
+| S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
+| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done    |
+| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                         | T-01              | test-plan.md §3 Faza 2                        | done    |
+| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                | T-01              | test-plan.md §3 Faza 3                        | done    |
+| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                 | T-03              | test-plan.md §3 Faza 4                        | done    |
+| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                              | T-04              | test-plan.md §3 Faza 5                        | planned |
+| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                                               | T-04, S-05        | test-plan.md §3 Faza 6                        | planned |
 
 ## Strumienie
 
@@ -325,8 +325,17 @@ tworzą ich ponownie.
   (`context/changes/ui-design-system/research.md`) — gotowe tokeny do wdrożenia
   (skale hex/rem/ms, mapowanie semantyczne light+dark, snippet next/font,
   focus-ring WCAG, wzorce @dnd-kit i `prefers-reduced-motion`).
-- **Status:** preparing — research done 2026-06-15 (commit `13af2fe`); GitHub
-  issue #38 otwarte; gotowe do `/10x-plan`.
+- **Status:** done — zaimplementowane 2026-06-15 (branch `ui-design-system`,
+  commity `a2af3eb`–`a518714`; GitHub issue #38 zamknięte). Cztery fazy: token
+  foundation (`globals.css`), typografia + tooling (`next/font` Inter + IBM Plex
+  Mono, `lucide-react`), theme infrastructure (`next-themes` + `ThemeToggle`),
+  migracja 11 modułów CSS + 4 companion moduły (usunięcie inline styles).
+  Decyzje z „Niewiadomych": (1) dwa fonty Inter + IBM Plex Mono, (2) skala typu
+  1.2, (3) `next-themes`, (4) szeroki zakres PR (tokeny + theme infra + refaktor
+  modułów + inline styles). Refinementy: mono dla danych/opisów, ThemeToggle dla
+  zalog./niezalog., ujednolicone status badge, focus ring teal, glify strzałek →
+  ikony Chevron (lekcja w `lessons.md`). Weryfikacja wizualna WCAG w obu
+  motywach do potwierdzenia ręcznie.
 
 ---
 
