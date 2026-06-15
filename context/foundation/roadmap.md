@@ -51,7 +51,7 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 | S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done    |
 | S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned |
 | S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu                                 | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
-| S-07 | ui-refresh                                 | korzystać z dopracowanego UI: dostępne badge w dark mode, spójne przyciski z gładkim hover, responsywne siatki, filtr historii, stepper, nowoczesny navbar/homepage | S-06              | NFR: UI/UX (estetyka, dostępność, czytelność) | planned |
+| S-07 | ui-refresh                                 | korzystać z dopracowanego UI: dostępne badge w dark mode, spójne przyciski z gładkim hover, responsywne siatki, filtr historii, stepper, nowoczesny navbar/homepage | S-06              | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
 | T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done    |
 | T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                                         | T-01              | test-plan.md §3 Faza 2                        | done    |
 | T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                                | T-01              | test-plan.md §3 Faza 3                        | done    |
@@ -368,8 +368,13 @@ tworzą ich ponownie.
   (`context/changes/ui-refresh/research.md`, `plan.md`, `plan-brief.md`) — 6
   faz: tokeny → przyciski → karty/siatki → filtr/stepper → navbar/settings+E2E →
   hero.
-- **Status:** planned — research + plan 2026-06-15 (branch `ui-refresh`); GitHub
-  issue #40 otwarte. Następny krok: `/10x-implement ui-refresh phase 1`.
+- **Status:** done — zaimplementowane 2026-06-15 (branch `ui-refresh`, commity
+  `74b1985`–`fbdd30b`; GitHub issue #40 zamknięte). 6 faz: tokeny dark mode +
+  motion → system przycisków `Button` → karty/siatki/badge → filtr historii +
+  stepper → navbar/settings + sprzężona aktualizacja E2E → homepage hero (global
+  gradient `background-attachment: fixed` + SVG medical icons: EKG, pigułka,
+  strzykawka; frosted glass card na homepage). Wszystkie testy E2E (9/9)
+  zielone.
 
 ---
 
@@ -480,7 +485,7 @@ własny folder zmiany przez `/10x-new`.
 | S-04             | ux-improvements        | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop        | done                  | Zaimplementowane 2026-06-02; GitHub issue #22 zamknięte                                                                                                   |
 | S-05             | account-deletion       | [S-05] Usunięcie konta z 30-dniową retencją danych (RODO)               | no                    | Uruchom `/10x-research account-deletion`, następnie `/10x-plan account-deletion`                                                                          |
 | S-06             | ui-design-system       | [S-06] Design system: tożsamość wizualna, dual theme, tokeny            | yes                   | Research done 2026-06-15 (`research.md`); uruchom `/10x-plan ui-design-system` — rozstrzygnij 4 otwarte decyzje (font, ratio, toggle, zakres 1. PR)       |
-| S-07             | ui-refresh             | [S-07] Odświeżenie UI: dark mode badge, przyciski, siatki, navbar, hero | yes                   | Research + plan done 2026-06-15 (`research.md`, `plan.md`); uruchom `/10x-implement ui-refresh phase 1`                                                   |
+| S-07             | ui-refresh             | [S-07] Odświeżenie UI: dark mode badge, przyciski, siatki, navbar, hero | done                  | Zaimplementowane 2026-06-15; GitHub issue #40 zamknięte                                                                                                   |
 
 ## Otwarte pytania dotyczące mapy drogowej
 
@@ -528,3 +533,4 @@ własny folder zmiany przez `/10x-new`.
 | T-01 | testing-runner-bootstrap                   | Vitest zainstalowany; 9 testów (unit + integration) dla walidatora i selectTestAction; §6.1 wypełniony                  | 2026-06-08 | —                   |
 | T-02 | testing-data-isolation-session-persistence | Integracyjne: IDOR zablokowany (queries.test.ts); hermetyczny: częściowy błąd zapisu (actions.test.ts); §6.2 wypełniony | 2026-06-09 | —                   |
 | T-03 | testing-auth-boundary-gate                 | E2E Playwright: middleware blokuje `/dashboard` i `/dashboard/session/[id]` bez sesji; §6.3 wypełniony                  | 2026-06-11 | —                   |
+| S-07 | ui-refresh                                 | 6 faz: tokeny dark mode, Button system, siatki/badge, filtr/stepper, navbar+E2E, homepage hero (gradient + SVG medical) | 2026-06-15 | `74b1985`–`fbdd30b` |

@@ -641,10 +641,10 @@ zmianę.
 
 #### Ręczne
 
-- [ ] 1.4 Badge „Pozytywny"/„Negatywny" czytelne w dark mode
-- [ ] 1.5 Podpisy muted czytelne na ciemnym tle
-- [ ] 1.6 Brak regresji w light mode
-- [ ] 1.7 Kontrast zweryfikowany (≥4.5:1 tekst, ≥3:1 obwódka) w obu motywach
+- [x] 1.4 Badge „Pozytywny"/„Negatywny" czytelne w dark mode
+- [x] 1.5 Podpisy muted czytelne na ciemnym tle
+- [x] 1.6 Brak regresji w light mode
+- [x] 1.7 Kontrast zweryfikowany (≥4.5:1 tekst, ≥3:1 obwódka) w obu motywach
 
 ### Faza 2: Wspólny system przycisków + polish hover
 
@@ -689,10 +689,10 @@ zmianę.
 
 #### Ręczne
 
-- [ ] 4.5 Filtr przełącza listę; domyślnie wszystkie; sortowanie od najnowszych
-- [ ] 4.6 Stepper z linią-kropką; węzły kolorowane wg wyniku; czytelne w obu
+- [x] 4.5 Filtr przełącza listę; domyślnie wszystkie; sortowanie od najnowszych
+- [x] 4.6 Stepper z linią-kropką; węzły kolorowane wg wyniku; czytelne w obu
       motywach
-- [ ] 4.7 Czytnik ekranu ogłasza listę (role=list)
+- [x] 4.7 Czytnik ekranu ogłasza listę (role=list)
 
 ### Faza 5: Navbar + settings + sprzężona aktualizacja E2E
 
@@ -706,25 +706,25 @@ zmianę.
 
 #### Ręczne
 
-- [ ] 5.6 Navbar zalogowany: „Pulpit", aktywny link, ThemeToggle między
+- [x] 5.6 Navbar zalogowany: „Pulpit", aktywny link, ThemeToggle między
       Ustawieniami a Wyloguj
-- [ ] 5.7 Navbar gość: brak linków auth, jest logo + ThemeToggle; `<nav>`
+- [x] 5.7 Navbar gość: brak linków auth, jest logo + ThemeToggle; `<nav>`
       zachowany
-- [ ] 5.8 `/account/settings` nowoczesny w obu motywach
-- [ ] 5.9 E2E `auth-boundary` i `seed` zielone (brak strict-mode)
+- [x] 5.8 `/account/settings` nowoczesny w obu motywach
+- [x] 5.9 E2E `auth-boundary` i `seed` zielone (brak strict-mode)
 
 ### Faza 6: Homepage hero
 
 #### Automatyczne
 
-- [x] 6.1 Typecheck: `npm run typecheck` — HEAD
-- [x] 6.2 Build: `npm run build` — HEAD
-- [x] 6.3 Lint: `npm run lint` — HEAD
-- [x] 6.4 Testy E2E: `npm run test:e2e` — HEAD
+- [x] 6.1 Typecheck: `npm run typecheck` — c41f5d4
+- [x] 6.2 Build: `npm run build` — c41f5d4
+- [x] 6.3 Lint: `npm run lint` — c41f5d4
+- [x] 6.4 Testy E2E: `npm run test:e2e` — c41f5d4
 
 #### Ręczne
 
-- [ ] 6.5 Homepage gość: hero z animowanym tłem, CTA wyraziste, kontrast OK
-- [ ] 6.6 Homepage zalogowany: „Przejdź do Pulpitu"
-- [ ] 6.7 `prefers-reduced-motion` zatrzymuje animację tła
-- [ ] 6.8 Brak janku; tło nie blokuje interakcji
+- [x] 6.5 Homepage gość: hero z animowanym tłem, CTA wyraziste, kontrast OK
+- [x] 6.6 Homepage zalogowany: „Przejdź do Pulpitu"
+- [x] 6.7 `prefers-reduced-motion` zatrzymuje animację tła
+- [x] 6.8 Brak janku; tło nie blokuje interakcji
