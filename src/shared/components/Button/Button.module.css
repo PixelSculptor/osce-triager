@@ -16,18 +16,17 @@
     transform var(--transition-hover);
 }
 
-.btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-
 .btn:focus-visible {
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-lg);
 }
 
+/* disabled: clearly grey, independent of variant */
 .btn:disabled {
-  opacity: 0.6;
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border-default);
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
@@ -40,6 +39,7 @@
 .primary:hover:not(:disabled) {
   background: var(--color-interactive-primary-hover);
   border-color: var(--color-interactive-primary-hover);
+  transform: translateY(-1px);
 }
 
 .secondary {
@@ -50,8 +50,10 @@
 
 .secondary:hover:not(:disabled) {
   background: var(--color-bg-subtle);
+  transform: translateY(-1px);
 }
 
+/* ghost: no lift — only background highlight */
 .ghost {
   background: transparent;
   color: var(--color-text-primary);
@@ -70,6 +72,7 @@
 
 .danger:hover:not(:disabled) {
   filter: brightness(0.88);
+  transform: translateY(-1px);
 }
 
 .sm {
@@ -82,7 +85,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn:hover:not(:disabled) {
+  .primary:hover:not(:disabled),
+  .secondary:hover:not(:disabled),
+  .danger:hover:not(:disabled) {
     transform: none;
   }
 }

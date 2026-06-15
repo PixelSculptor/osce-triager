@@ -43,3 +43,7 @@
   color: var(--color-error);
   margin: 0;
 }
+
+.startButton {
+  align-self: flex-start;
+}

@@ -44,7 +44,12 @@ export function ScenarioCard({
       <p className={styles.description}>{description}</p>
       <p className={styles.meta}>Czas: {minutes} min</p>
       {error && <p className={styles.error}>{error}</p>}
-      <Button variant='primary' onClick={handleStart} disabled={loading}>
+      <Button
+        variant='primary'
+        className={styles.startButton}
+        onClick={handleStart}
+        disabled={loading}
+      >
         {loading ? <Spinner size='sm' /> : 'Rozpocznij sesję'}
       </Button>
     </li>
