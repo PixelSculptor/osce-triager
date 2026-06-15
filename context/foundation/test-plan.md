@@ -69,14 +69,14 @@ przez `/10x-new`. Status przesuwa się od lewej do prawej przez poniższe
 wartości; orkiestrator aktualizuje Status w miarę pojawiania się artefaktów na
 dysku.
 
-| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status        | Folder zmiany                                              |
-| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | ------------- | ---------------------------------------------------------- |
-| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete      | context/changes/testing-runner-bootstrap                   |
-| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete      | context/changes/testing-data-isolation-session-persistence |
-| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | change opened | context/changes/testing-auth-boundary-gate                 |
-| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | not started   | —                                                          |
-| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | not started   | —                                                          |
-| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit                         | not started   | —                                                          |
+| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status       | Folder zmiany                                              |
+| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | ------------ | ---------------------------------------------------------- |
+| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete     | context/changes/testing-runner-bootstrap                   |
+| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete     | context/changes/testing-data-isolation-session-persistence |
+| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | complete     | context/changes/testing-auth-boundary-gate                 |
+| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | implementing | context/changes/testing-e2e-session-flow                   |
+| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | not started  | —                                                          |
+| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit                         | not started  | —                                                          |
 
 ## 4. Stos
 
@@ -316,10 +316,101 @@ potrzebny.
 
 ### 6.4 Dodawanie testu E2E głównego przepływu sesji + logowania
 
-DO UZUPEŁNIENIA — patrz §3 Faza 4 dla wzorca pełnego przepływu diagnostycznego w
-przeglądarce (otwarcie scenariusza → DnD wybór badania → feedback walidatora →
-zakończenie sesji) oraz wzorca testu formularza logowania zastępującego
-`auth.setup.ts`.
+Wzorce udowodnione w zmianie `testing-e2e-session-flow` (Faza 4).
+
+**Lokalizacje plików spec**
+
+- `src/__tests__/e2e/session-flow.spec.ts` — Ryzyko #7 (pełny flow
+  diagnostyczny)
+- `src/__tests__/e2e/login-form.spec.ts` — Ryzyko #8 (formularz logowania)
+
+**Wzorzec testu nieuwierzytelnionego**
+
+Użyj `test.use({ storageState: { cookies: [], origins: [] } })` wewnątrz
+`test.describe()` aby nadpisać storageState projektu chromium. Wymagane gdy test
+sam weryfikuje logowanie i nie może startować z aktywną sesją.
+
+```typescript
+test.describe('...', () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test('...', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByLabel('Adres email').fill(process.env.TEST_USER_EMAIL!);
+    await page.getByLabel('Hasło').fill(process.env.TEST_USER_PASSWORD!);
+    await page.getByRole('button', { name: 'Zaloguj się' }).click();
+    await page.waitForURL('/dashboard');
+  });
+});
+```
+
+**Wzorzec zlecenia badania (przycisk "Zleć")**
+
+Scope do `getByLabel('Przeciągnij: {name}')` — aria-label z `DraggableTestCard`
+— aby uniknąć pomyłki gdy lista ma wiele kart z przyciskiem "Zleć":
+
+```typescript
+const availableCard = page.getByLabel('Przeciągnij: EKG 12-odprowadzeniowe');
+await availableCard.getByRole('button', { name: 'Zleć' }).click();
+```
+
+**Wzorzec asercji badge walidatora**
+
+Scope przez aria-label `SortableTestCard` (`'Zmień kolejność: {name}'`).
+`toBeVisible()` auto-czeka na async `selectTestAction` — bez `waitFor`:
+
+```typescript
+await expect(
+  page
+    .getByLabel('Zmień kolejność: EKG 12-odprowadzeniowe')
+    .getByText('Poprawne'),
+).toBeVisible();
+```
+
+Mapowanie wartości walidatora → tekst badge: `correct → "Poprawne"`,
+`suboptimal → "Akceptowalne"`, `unnecessary → "Zbędne"`.
+
+**Wzorzec asercji historii po nazwie scenariusza**
+
+Scope do `listitem` filtrowanego po tytule scenariusza i wyniku, a następnie
+`.first()` — zapobiega naruszeniu strict mode gdy wcześniejsze uruchomienia
+testu zostawiły poprzednie wpisy:
+
+```typescript
+await expect(
+  page
+    .getByRole('listitem')
+    .filter({ hasText: 'Ostry ból w klatce piersiowej' })
+    .filter({ hasText: 'Pozytywny' })
+    .first(),
+).toBeVisible();
+```
+
+**Ładowanie kredentiali lokalnie**
+
+`playwright.config.ts` ładuje `.env.local` przez dotenv. Zmienne
+`TEST_USER_EMAIL` i `TEST_USER_PASSWORD` trzymaj w `.env.local` (gitignorowany).
+W CI te same zmienne przychodzą z GitHub Secrets. Patrz lekcja w
+`context/foundation/lessons.md`.
+
+**Polecenie uruchamiania**
+
+```bash
+npx playwright test src/__tests__/e2e/session-flow.spec.ts  # Risk #7
+npx playwright test src/__tests__/e2e/login-form.spec.ts    # Risk #8
+npx playwright test src/__tests__/e2e/                      # wszystkie razem
+```
+
+**Antywzorce do uniknięcia**
+
+- `waitForTimeout` — czekaj na stan: `toBeVisible()`, `waitForURL()`, nigdy na
+  czas
+- Selektory CSS lub XPath — lokatory muszą przeżyć restrukturyzację DOM; używaj
+  `getByRole` / `getByLabel` / `getByText`
+- `waitForURL('/dashboard/session/...')` ze statycznym UUID — URL sesji jest
+  dynamiczny; używaj regex: `waitForURL(/\/dashboard\/session\//)`
+- Pominięcie `test.use({ storageState: { cookies: [], origins: [] } })` w teście
+  logowania — bez tego test startuje z aktywną sesją i pomija formularz
 
 ### 6.5 Dodawanie testu interakcji z komponentem (UI sesji / DnD)
 

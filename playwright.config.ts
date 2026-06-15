@@ -1,6 +1,12 @@
 // import { defineConfig, devices } from '@playwright/test';
 
 import { defineConfig } from '@playwright/test';
+import { config } from 'dotenv';
+import path from 'path';
+
+// Load .env.local so TEST_USER_EMAIL / TEST_USER_PASSWORD are available to
+// auth.setup.ts when running tests locally. In CI these come from GitHub Secrets.
+config({ path: path.resolve(__dirname, '.env.local') });
 
 // /**
 //  * Read environment variables from file.
