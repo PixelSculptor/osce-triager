@@ -1,48 +1,271 @@
+/* ================================================================
+   PRIMITIVES — color ramp (reference values; components never use these directly)
+   ================================================================ */
 :root {
-  --background: #ffffff;
-  --background-page: #f0f2f5;
-  --foreground: #171717;
+  /* Teal (primary) */
+  --teal-50: #f0fdfa;
+  --teal-100: #cbfbf1;
+  --teal-300: #46ecd5;
+  --teal-400: #00d5be;
+  --teal-500: #00bba7;
+  --teal-600: #009689;
+  --teal-700: #00786f;
+  --teal-800: #005f5a;
+  --teal-900: #0b4f4a;
+  --teal-950: #022f2e;
 
-  /* S-04 palette tokens */
-  --color-primary: #6366f1;
-  --color-primary-hover: #4f46e5;
-  --color-primary-muted: rgba(99, 102, 241, 0.08);
-  --color-error: #dc2626;
-  --color-error-hover: #b91c1c;
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-card-hover: 0 4px 8px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
-  --transition-fast: 120ms ease;
-  --transition-base: 200ms ease;
-  /* Badge tokens */
-  --color-badge-correct-bg: #dcfce7;
-  --color-badge-correct-text: #166534;
-  --color-badge-suboptimal-bg: #fef9c3;
-  --color-badge-suboptimal-text: #854d0e;
-  --color-badge-unnecessary-bg: #ffedd5;
-  --color-badge-unnecessary-text: #9a3412;
-  /* Outcome tokens */
-  --color-outcome-positive: #166534;
-  --color-outcome-negative: #991b1b;
+  /* Sky (accent / info) */
+  --sky-50: #f0f9ff;
+  --sky-100: #e0f2fe;
+  --sky-600: #0084d1;
+  --sky-700: #0069a8;
+
+  /* Slate (neutral) */
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cad5e2;
+  --slate-400: #90a1b9;
+  --slate-500: #62748e;
+  --slate-600: #45556c;
+  --slate-700: #314158;
+  --slate-800: #1d293d;
+  --slate-900: #0f172b;
+  --slate-950: #020618;
+
+  /* Emerald (success) */
+  --emerald-50: #ecfdf5;
+  --emerald-600: #009966;
+  --emerald-700: #007a55;
+
+  /* Amber (warning) */
+  --amber-100: #fef3c6;
+  --amber-600: #e17100;
+  --amber-700: #bb4d00;
+
+  /* Red (danger) */
+  --red-100: #ffe2e2;
+  --red-600: #e7000b;
+  --red-700: #c10007;
+
+  /* Spacing (4px grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Radius */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Border width */
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+
+  /* Motion — duration */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-moderate: 300ms;
+  --duration-slow: 400ms;
+
+  /* Motion — easing (M3) */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0, 1);
+  --ease-in: cubic-bezier(0.3, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-linear: linear;
+
+  /* Icon sizes */
+  --icon-xs: 14px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+
+  /* Typography — font size (1.2 modular scale, base 16px) */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.2rem;
+  --font-size-lg: 1.44rem;
+  --font-size-xl: 1.728rem;
+  --font-size-2xl: 2.074rem;
+  --font-size-3xl: 2.488rem;
+
+  /* Typography — line height */
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  /* Typography — font weight */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Typography — letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+
+  /* Typography — font family (placeholders; replaced in Phase 2) */
+  --font-family-sans: system-ui, sans-serif;
+  --font-family-mono: ui-monospace, monospace;
+
+  /* Typography — measure */
+  --measure: 70ch;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1c1c1e;
-    --background-page: #0a0a0a;
-    --foreground: #ededed;
-    --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-    --shadow-card-hover: 0 4px 8px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.25);
-    --color-badge-correct-bg: rgba(20, 83, 45, 0.4);
-    --color-badge-correct-text: #86efac;
-    --color-badge-suboptimal-bg: rgba(133, 77, 14, 0.4);
-    --color-badge-suboptimal-text: #fde68a;
-    --color-badge-unnecessary-bg: rgba(154, 52, 18, 0.4);
-    --color-badge-unnecessary-text: #fdba74;
-    --color-outcome-positive: #86efac;
-    --color-outcome-negative: #fca5a5;
-  }
+/* ================================================================
+   SEMANTIC ALIASES — light theme defaults
+   ================================================================ */
+:root {
+  color-scheme: light;
+
+  /* Background */
+  --color-bg-page: var(--slate-50);
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-raised: var(--slate-50);
+  --color-bg-surface-overlay: #ffffff;
+  --color-bg-subtle: var(--slate-100);
+
+  /* Text */
+  --color-text-primary: var(--slate-900);
+  --color-text-secondary: var(--slate-600);
+  --color-text-muted: var(--slate-500);
+  --color-text-on-interactive: #ffffff;
+  --color-text-link: var(--teal-700);
+
+  /* Border */
+  --color-border-default: var(--slate-200);
+  --color-border-subtle: var(--slate-100);
+  --color-border-strong: var(--slate-300);
+  --color-border-focus: var(--teal-600);
+
+  /* Interactive */
+  --color-interactive-primary: var(--teal-600);
+  --color-interactive-primary-hover: var(--teal-700);
+  --color-interactive-primary-active: var(--teal-800);
+  --color-interactive-primary-muted: color-mix(
+    in srgb,
+    var(--color-interactive-primary) 10%,
+    transparent
+  );
+
+  /* Status — success */
+  --color-success-fg: var(--emerald-700);
+  --color-success-bg: var(--emerald-50);
+  --color-success-border: var(--emerald-600);
+
+  /* Status — warning */
+  --color-warning-fg: var(--amber-700);
+  --color-warning-bg: var(--amber-100);
+  --color-warning-border: var(--amber-600);
+
+  /* Status — danger */
+  --color-danger-fg: var(--red-700);
+  --color-danger-bg: var(--red-100);
+  --color-danger-border: var(--red-600);
+
+  /* Status — info */
+  --color-info-fg: var(--sky-700);
+  --color-info-bg: var(--sky-100);
+  --color-info-border: var(--sky-600);
+
+  /* Shadows (light) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.14);
+
+  /* Focus ring */
+  --focus-ring-width: 2px;
+  --focus-ring-color: var(--color-interactive-primary);
+  --focus-ring-offset: 2px;
 }
 
+/* ================================================================
+   DARK THEME OVERRIDES
+   ================================================================ */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Background */
+  --color-bg-page: var(--slate-950);
+  --color-bg-surface: var(--slate-900);
+  --color-bg-surface-raised: var(--slate-800);
+  --color-bg-surface-overlay: var(--slate-700);
+  --color-bg-subtle: var(--slate-800);
+
+  /* Text */
+  --color-text-primary: var(--slate-100);
+  --color-text-secondary: var(--slate-400);
+  --color-text-muted: var(--slate-500);
+  --color-text-on-interactive: var(--slate-950);
+  --color-text-link: var(--teal-400);
+
+  /* Border */
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+  --color-border-focus: var(--teal-400);
+
+  /* Interactive */
+  --color-interactive-primary: var(--teal-400);
+  --color-interactive-primary-hover: var(--teal-300);
+
+  /* Shadows (dark — higher alpha) */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ================================================================
+   MIGRATION ALIAS LAYER — old token names → semantic tokens
+   (existing *.module.css consumers work unchanged until Phase 4)
+   ================================================================ */
+:root {
+  --background: var(--color-bg-surface);
+  --background-page: var(--color-bg-page);
+  --foreground: var(--color-text-primary);
+  --color-primary: var(--color-interactive-primary);
+  --color-primary-hover: var(--color-interactive-primary-hover);
+  --color-primary-muted: var(--color-interactive-primary-muted);
+  --color-error: var(--color-danger-fg);
+  --color-error-hover: var(--color-danger-fg);
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-hover: var(--shadow-md);
+  --transition-fast: var(--duration-instant) var(--ease-standard);
+  --transition-base: var(--duration-base) var(--ease-standard);
+  --color-badge-correct-bg: var(--color-success-bg);
+  --color-badge-correct-text: var(--color-success-fg);
+  --color-badge-suboptimal-bg: var(--color-warning-bg);
+  --color-badge-suboptimal-text: var(--color-warning-fg);
+  --color-badge-unnecessary-bg: var(--color-danger-bg);
+  --color-badge-unnecessary-text: var(--color-danger-fg);
+  --color-outcome-positive: var(--color-success-fg);
+  --color-outcome-negative: var(--color-danger-fg);
+}
+
+/* ================================================================
+   GLOBAL STYLES
+   ================================================================ */
 html {
   height: 100%;
 }
@@ -59,7 +282,7 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background-page);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -75,8 +298,12 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

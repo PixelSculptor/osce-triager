@@ -784,9 +784,9 @@ wizualne.
 
 #### Automatyczne
 
-- [ ] 1.1 `npm run typecheck` przechodzi bez błędów
-- [ ] 1.2 `npm run lint` przechodzi bez błędów
-- [ ] 1.3 `npm run build` kończy się bez błędów
+- [x] 1.1 `npm run typecheck` przechodzi bez błędów
+- [x] 1.2 `npm run lint` przechodzi bez błędów
+- [x] 1.3 `npm run build` kończy się bez błędów
 
 #### Ręczne
 
