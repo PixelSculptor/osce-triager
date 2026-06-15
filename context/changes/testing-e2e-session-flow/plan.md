@@ -252,10 +252,10 @@ Faza 5).
 
 #### Automatyczne
 
-- [ ] 1.1 `npx playwright test src/__tests__/e2e/session-flow.spec.ts`
+- [x] 1.1 `npx playwright test src/__tests__/e2e/session-flow.spec.ts`
       przechodzi na zielono
-- [ ] 1.2 `npm run typecheck` przechodzi
-- [ ] 1.3 Intentional break: zepsuty validatorResult → test czerwony; cofnięcie
+- [x] 1.2 `npm run typecheck` przechodzi
+- [x] 1.3 Intentional break: zepsuty validatorResult → test czerwony; cofnięcie
       → zielony
 
 #### Ręczne
