@@ -13,11 +13,7 @@ test.describe('auth boundary — unauthenticated access is blocked', () => {
     await page.goto('/dashboard');
     await page.waitForURL('/');
 
-    await expect(
-      page
-        .getByRole('navigation', { name: 'Nawigacja główna' })
-        .getByRole('link', { name: 'Zaloguj się' }),
-    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Zaloguj się' })).toBeVisible();
 
     await expect(
       page.getByRole('heading', { name: 'Panel studenta' }),
@@ -30,11 +26,7 @@ test.describe('auth boundary — unauthenticated access is blocked', () => {
     await page.goto('/dashboard/session/nonexistent-session-id');
     await page.waitForURL('/');
 
-    await expect(
-      page
-        .getByRole('navigation', { name: 'Nawigacja główna' })
-        .getByRole('link', { name: 'Zaloguj się' }),
-    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Zaloguj się' })).toBeVisible();
 
     await expect(
       page.getByRole('heading', { name: 'Panel studenta' }),

@@ -1,16 +1,17 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { startSessionAction } from "@/modules/session/actions"
-import { Spinner } from "@/shared/components/Spinner/Spinner"
-import styles from "./ScenarioCard.module.css"
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { startSessionAction } from '@/modules/session/actions';
+import { Button } from '@/shared/components/Button/Button';
+import { Spinner } from '@/shared/components/Spinner/Spinner';
+import styles from './ScenarioCard.module.css';
 
 interface ScenarioCardProps {
-  id: string
-  title: string
-  description: string
-  timeLimitSeconds: number
+  id: string;
+  title: string;
+  description: string;
+  timeLimitSeconds: number;
 }
 
 export function ScenarioCard({
@@ -19,23 +20,23 @@ export function ScenarioCard({
   description,
   timeLimitSeconds,
 }: ScenarioCardProps) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleStart() {
-    setLoading(true)
-    setError(null)
-    const result = await startSessionAction(id)
+    setLoading(true);
+    setError(null);
+    const result = await startSessionAction(id);
     if (result.error || !result.sessionId) {
-      setError(result.error ?? "Wystąpił błąd. Spróbuj ponownie.")
-      setLoading(false)
-      return
+      setError(result.error ?? 'Wystąpił błąd. Spróbuj ponownie.');
+      setLoading(false);
+      return;
     }
-    router.push(`/dashboard/session/${result.sessionId}`)
+    router.push(`/dashboard/session/${result.sessionId}`);
   }
 
-  const minutes = Math.floor(timeLimitSeconds / 60)
+  const minutes = Math.floor(timeLimitSeconds / 60);
 
   return (
     <li className={styles.card}>
@@ -43,13 +44,9 @@ export function ScenarioCard({
       <p className={styles.description}>{description}</p>
       <p className={styles.meta}>Czas: {minutes} min</p>
       {error && <p className={styles.error}>{error}</p>}
-      <button
-        className={styles.button}
-        onClick={handleStart}
-        disabled={loading}
-      >
-        {loading ? <Spinner size="sm" /> : "Rozpocznij sesję"}
-      </button>
+      <Button variant='primary' onClick={handleStart} disabled={loading}>
+        {loading ? <Spinner size='sm' /> : 'Rozpocznij sesję'}
+      </Button>
     </li>
-  )
+  );
 }

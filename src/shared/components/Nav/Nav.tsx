@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { auth } from '@/modules/auth/auth';
-import { logoutAction } from '@/modules/auth/actions';
-import { ThemeToggle } from '@/shared/components/ThemeToggle';
+import { NavLinks } from './NavLinks';
 import styles from './Nav.module.css';
 
 export async function Nav() {
@@ -12,30 +11,8 @@ export async function Nav() {
       <Link href='/' className={styles.logo}>
         OSCE Triager
       </Link>
-
       <div className={styles.links}>
-        {session ? (
-          <>
-            <span className={styles.email}>{session.user?.email}</span>
-            <Link href='/dashboard/history' className={styles.settingsLink}>
-              Historia
-            </Link>
-            <Link href='/account/settings' className={styles.settingsLink}>
-              Ustawienia
-            </Link>
-            <form>
-              <button className={styles.logoutButton} formAction={logoutAction}>
-                Wyloguj
-              </button>
-            </form>
-          </>
-        ) : (
-          <>
-            <Link href='/login'>Zaloguj się</Link>
-            <Link href='/register'>Zarejestruj się</Link>
-          </>
-        )}
-        <ThemeToggle />
+        <NavLinks isLoggedIn={!!session} email={session?.user?.email} />
       </div>
     </nav>
   );

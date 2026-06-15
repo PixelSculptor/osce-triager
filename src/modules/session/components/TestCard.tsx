@@ -1,21 +1,23 @@
-"use client"
+'use client';
 
-import type { ValidatorResult } from "@/shared/lib/validator"
-import { Spinner } from "@/shared/components/Spinner/Spinner"
-import styles from "./TestCard.module.css"
+import type { ValidatorResult } from '@/shared/lib/validator';
+import { Button } from '@/shared/components/Button/Button';
+import { Spinner } from '@/shared/components/Spinner/Spinner';
+import styles from './TestCard.module.css';
 
 interface TestCardProps {
-  name: string
-  validatorResult?: ValidatorResult
-  onSelect?: () => void
-  isLoading?: boolean
+  name: string;
+  validatorResult?: ValidatorResult;
+  onSelect?: () => void;
+  isLoading?: boolean;
 }
 
 const BADGE_LABELS: Partial<Record<ValidatorResult, string>> = {
-  correct: "Poprawne",
-  suboptimal: "Akceptowalne",
-  unnecessary: "Zbędne",
-}
+  correct: 'Poprawne',
+  suboptimal: 'Akceptowalne',
+  unnecessary: 'Zbędne',
+  critical_miss: 'Krytyczny brak',
+};
 
 export function TestCard({
   name,
@@ -23,7 +25,7 @@ export function TestCard({
   onSelect,
   isLoading,
 }: TestCardProps) {
-  const isSelected = validatorResult !== undefined
+  const isSelected = validatorResult !== undefined;
 
   return (
     <div className={styles.card} data-selected={isSelected}>
@@ -33,14 +35,15 @@ export function TestCard({
           {BADGE_LABELS[validatorResult]}
         </span>
       ) : !isSelected ? (
-        <button
-          className={styles.button}
+        <Button
+          variant='primary'
+          size='sm'
           onClick={onSelect}
           disabled={isLoading || !onSelect}
         >
-          {isLoading ? <Spinner size="sm" /> : "Zleć"}
-        </button>
+          {isLoading ? <Spinner size='sm' /> : 'Zleć'}
+        </Button>
       ) : null}
     </div>
-  )
+  );
 }

@@ -48,14 +48,10 @@ test.describe('auth boundary — unauthenticated access is blocked', () => {
     // Selector priority: getByRole → getByLabel → getByText → getByTestId (last resort).
     // NEVER: page.locator('.some-class') or page.locator('#id').
     //
-    // There are two "Zaloguj się" links on this page (nav + CTA).
-    // Scope to the navigation landmark to avoid a strict-mode violation.
-    // The aria-label="Nawigacja główna" on <nav> makes this unambiguous.
-    await expect(
-      page
-        .getByRole('navigation', { name: 'Nawigacja główna' })
-        .getByRole('link', { name: 'Zaloguj się' }),
-    ).toBeVisible();
+    // Po usunięciu linków auth z navbara (ui-refresh, punkt 11) na stronie
+    // głównej jest dokładnie jeden link "Zaloguj się" — CTA homepage.
+    // Lokator page-level jest jednoznaczny; scope do landmarku nie jest już potrzebny.
+    await expect(page.getByRole('link', { name: 'Zaloguj się' })).toBeVisible();
 
     // Negative assertion: the dashboard heading must be absent.
     // This is the core Risk #6 protection — if middleware silently passes,

@@ -1,6 +1,5 @@
 .main {
   padding: var(--space-8);
-  max-width: 800px;
 }
 
 .back {
@@ -9,6 +8,11 @@
   gap: var(--space-1);
   margin-bottom: var(--space-6);
   font-size: var(--font-size-sm);
+  transition: color var(--transition-hover);
+}
+
+.back:hover {
+  color: var(--color-text-link);
 }
 
 .heading {
@@ -27,7 +31,7 @@
 .badge {
   display: inline-block;
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -36,11 +40,21 @@
 .badgePositive {
   background: var(--color-success-bg);
   color: var(--color-success-fg);
+  border: 1px solid var(--color-success-border);
 }
 
 .badgeNegative {
   background: var(--color-danger-bg);
   color: var(--color-danger-fg);
+  border: 1px solid var(--color-danger-border);
+}
+
+.eventsCard {
+  background: var(--background);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6);
 }
 
 .eventsHeading {
@@ -63,17 +77,42 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
 }
 
 .eventItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
+  padding: var(--space-4) 0;
+  position: relative;
   font-size: var(--font-size-sm);
+}
+
+.eventItem:last-child {
+  padding-bottom: 0;
+}
+
+/* Vertical dashed connector — extends from below current node into next item's top padding */
+.eventItem:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--space-6) / 2 - 1px);
+  top: calc(var(--space-4) + var(--space-6));
+  bottom: calc(-1 * var(--space-4));
+  border-left: var(--border-width-2) dashed var(--color-border-strong);
+}
+
+.eventItem[data-result='correct']:not(:last-child)::before {
+  border-color: var(--color-success-fg);
+}
+
+.eventItem[data-result='suboptimal']:not(:last-child)::before {
+  border-color: var(--color-warning-fg);
+}
+
+.eventItem[data-result='unnecessary']:not(:last-child)::before,
+.eventItem[data-result='critical_miss']:not(:last-child)::before {
+  border-color: var(--color-danger-fg);
 }
 
 .eventOrder {
@@ -84,11 +123,33 @@
   height: var(--space-6);
   border-radius: var(--radius-full);
   background: var(--color-bg-subtle);
+  border: var(--border-width-2) solid var(--color-border-strong);
   color: var(--color-text-secondary);
   font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
   font-weight: 700;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.eventItem[data-result='correct'] .eventOrder {
+  background: var(--color-success-bg);
+  border-color: var(--color-success-border);
+  color: var(--color-success-fg);
+}
+
+.eventItem[data-result='suboptimal'] .eventOrder {
+  background: var(--color-warning-bg);
+  border-color: var(--color-warning-border);
+  color: var(--color-warning-fg);
+}
+
+.eventItem[data-result='unnecessary'] .eventOrder,
+.eventItem[data-result='critical_miss'] .eventOrder {
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger-fg);
 }
 
 .eventName {

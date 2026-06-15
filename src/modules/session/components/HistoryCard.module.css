@@ -8,6 +8,20 @@
   border-radius: var(--radius-md);
   list-style: none;
   box-shadow: var(--shadow-card);
+  transition:
+    box-shadow var(--transition-card),
+    transform var(--transition-card);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
 }
 
 .title {
@@ -21,13 +35,13 @@
   align-items: center;
   gap: var(--space-3);
   font-size: var(--font-size-sm);
-  opacity: 0.8;
+  color: var(--color-text-muted);
 }
 
 .badge {
   display: inline-block;
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -36,11 +50,13 @@
 .positive {
   background: var(--color-success-bg);
   color: var(--color-success-fg);
+  border: 1px solid var(--color-success-border);
 }
 
 .negative {
   background: var(--color-danger-bg);
   color: var(--color-danger-fg);
+  border: 1px solid var(--color-danger-border);
 }
 
 .detailsLink {
@@ -50,9 +66,11 @@
   align-self: flex-start;
   font-size: var(--font-size-sm);
   font-weight: 500;
+  transition: color var(--transition-hover);
 }
 
 .detailsLink:hover {
+  color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 2px;
 }

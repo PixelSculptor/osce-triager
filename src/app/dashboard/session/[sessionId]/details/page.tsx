@@ -62,31 +62,34 @@ export default async function SessionDetailsPage({
         </span>
       </div>
 
-      <h2 className={styles.eventsHeading}>Wybrane badania</h2>
-      {details.events.length === 0 ? (
-        <p>Brak wybranych badań.</p>
-      ) : (
-        <>
-          <p className={styles.orderHint}>
-            <ChevronDown size={16} aria-hidden='true' />
-            kolejność zlecania (od pierwszego do ostatniego)
-          </p>
-          <ol className={styles.eventList}>
-            {details.events.map((event, index) => (
-              <li
-                key={`${event.testId}-${event.selectedAt.getTime()}`}
-                className={styles.eventItem}
-              >
-                <span className={styles.eventOrder}>{index + 1}</span>
-                <span className={styles.eventName}>{event.testName}</span>
-                <span className={VALIDATOR_CLASS[event.validatorResult]}>
-                  {VALIDATOR_LABELS[event.validatorResult]}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </>
-      )}
+      <div className={styles.eventsCard}>
+        <h2 className={styles.eventsHeading}>Wybrane badania</h2>
+        {details.events.length === 0 ? (
+          <p>Brak wybranych badań.</p>
+        ) : (
+          <>
+            <p className={styles.orderHint}>
+              <ChevronDown size={16} aria-hidden='true' />
+              kolejność zlecania (od pierwszego do ostatniego)
+            </p>
+            <ol className={styles.eventList} role='list'>
+              {details.events.map((event, index) => (
+                <li
+                  key={`${event.testId}-${event.selectedAt.getTime()}`}
+                  className={styles.eventItem}
+                  data-result={event.validatorResult}
+                >
+                  <span className={styles.eventOrder}>{index + 1}</span>
+                  <span className={styles.eventName}>{event.testName}</span>
+                  <span className={VALIDATOR_CLASS[event.validatorResult]}>
+                    {VALIDATOR_LABELS[event.validatorResult]}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+      </div>
     </main>
   );
 }

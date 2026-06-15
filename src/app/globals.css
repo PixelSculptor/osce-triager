@@ -17,6 +17,7 @@
   /* Sky (accent / info) */
   --sky-50: #f0f9ff;
   --sky-100: #e0f2fe;
+  --sky-300: #7dd3fc;
   --sky-600: #0084d1;
   --sky-700: #0069a8;
 
@@ -35,16 +36,19 @@
 
   /* Emerald (success) */
   --emerald-50: #ecfdf5;
+  --emerald-400: #4ade80;
   --emerald-600: #009966;
   --emerald-700: #007a55;
 
   /* Amber (warning) */
   --amber-100: #fef3c6;
+  --amber-400: #fbbf24;
   --amber-600: #e17100;
   --amber-700: #bb4d00;
 
   /* Red (danger) */
   --red-100: #ffe2e2;
+  --red-400: #f87171;
   --red-600: #e7000b;
   --red-700: #c10007;
 
@@ -216,8 +220,8 @@
 
   /* Text */
   --color-text-primary: var(--slate-100);
-  --color-text-secondary: var(--slate-400);
-  --color-text-muted: var(--slate-500);
+  --color-text-secondary: var(--slate-300);
+  --color-text-muted: var(--slate-400);
   --color-text-on-interactive: var(--slate-950);
   --color-text-link: var(--teal-400);
 
@@ -234,6 +238,30 @@
   /* Shadows (dark — higher alpha) */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.25);
+
+  /* Status — success  */
+  --color-success-fg: var(--emerald-400);
+  --color-success-bg: color-mix(in srgb, var(--emerald-400) 15%, transparent);
+  --color-success-border: color-mix(
+    in srgb,
+    var(--emerald-400) 35%,
+    transparent
+  );
+
+  /* Status — warning (tinted) */
+  --color-warning-fg: var(--amber-400);
+  --color-warning-bg: color-mix(in srgb, var(--amber-400) 15%, transparent);
+  --color-warning-border: color-mix(in srgb, var(--amber-400) 35%, transparent);
+
+  /* Status — danger (tinted) */
+  --color-danger-fg: var(--red-400);
+  --color-danger-bg: color-mix(in srgb, var(--red-400) 15%, transparent);
+  --color-danger-border: color-mix(in srgb, var(--red-400) 35%, transparent);
+
+  /* Status — info (tinted) */
+  --color-info-fg: var(--sky-300);
+  --color-info-bg: color-mix(in srgb, var(--sky-300) 15%, transparent);
+  --color-info-border: color-mix(in srgb, var(--sky-300) 35%, transparent);
 }
 
 /* ================================================================
@@ -253,6 +281,8 @@
   --shadow-card-hover: var(--shadow-md);
   --transition-fast: var(--duration-instant) var(--ease-standard);
   --transition-base: var(--duration-base) var(--ease-standard);
+  --transition-hover: var(--duration-base) var(--ease-out);
+  --transition-card: var(--duration-moderate) var(--ease-out);
   --color-badge-correct-bg: var(--color-success-bg);
   --color-badge-correct-text: var(--color-success-fg);
   --color-badge-suboptimal-bg: var(--color-warning-bg);
@@ -261,6 +291,13 @@
   --color-badge-unnecessary-text: var(--color-danger-fg);
   --color-outcome-positive: var(--color-success-fg);
   --color-outcome-negative: var(--color-danger-fg);
+
+  /* Scene background gradient origin (bottom-left of page) */
+  --color-scene-from: var(--teal-100);
+}
+
+[data-theme='dark'] {
+  --color-scene-from: var(--teal-900);
 }
 
 /* ================================================================
@@ -268,15 +305,24 @@
    ================================================================ */
 html {
   height: 100%;
-  transition:
-    background-color var(--duration-slow) var(--ease-standard),
-    color var(--duration-slow) var(--ease-standard);
+  /* Gradient goes from bottom-left (primary teal, extended 30vh below viewport)
+     toward top-right (page bg). background-attachment: fixed keeps it viewport-anchored. */
+  background-image: linear-gradient(
+    to top right,
+    var(--color-scene-from),
+    var(--color-bg-page) 62%
+  );
+  background-attachment: fixed;
+  background-size: 100vw 130vh;
+  background-position: left bottom;
+  transition: color var(--duration-slow) var(--ease-standard);
 }
 
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  /* clip nie tworzy scroll container — sticky działa; hidden go tworzy i łamie sticky */
+  overflow-x: clip;
 }
 
 body {
@@ -284,7 +330,12 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--foreground);
-  background: var(--background-page);
+  /* Transparent so html gradient shows through.
+     position + z-index establish a stacking context so .scene-bg z-index: -1
+     sits above html gradient but below all body content. */
+  background: transparent;
+  position: relative;
+  z-index: 0;
   font-family: var(--font-family-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -309,4 +360,16 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ================================================================
+   SCENE BACKGROUND — decorative geometric shapes (all pages)
+   ================================================================ */
+.scene-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  color: var(--color-interactive-primary);
 }
