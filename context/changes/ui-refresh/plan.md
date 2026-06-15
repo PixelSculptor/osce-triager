@@ -698,11 +698,11 @@ zmianę.
 
 #### Automatyczne
 
-- [x] 5.1 Typecheck: `npm run typecheck` — HEAD
-- [x] 5.2 Build: `npm run build` — HEAD
-- [x] 5.3 Lint: `npm run lint` — HEAD
-- [x] 5.4 Testy jednostkowe: `npm run test` — HEAD
-- [x] 5.5 Testy E2E: `npm run test:e2e` — HEAD
+- [x] 5.1 Typecheck: `npm run typecheck` — d20fd20
+- [x] 5.2 Build: `npm run build` — d20fd20
+- [x] 5.3 Lint: `npm run lint` — d20fd20
+- [x] 5.4 Testy jednostkowe: `npm run test` — d20fd20
+- [x] 5.5 Testy E2E: `npm run test:e2e` — d20fd20
 
 #### Ręczne
 
