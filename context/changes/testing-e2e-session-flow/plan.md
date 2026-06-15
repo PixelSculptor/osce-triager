@@ -269,12 +269,12 @@ Faza 5).
 
 #### Automatyczne
 
-- [ ] 2.1 `npx playwright test src/__tests__/e2e/login-form.spec.ts` przechodzi
+- [x] 2.1 `npx playwright test src/__tests__/e2e/login-form.spec.ts` przechodzi
       na zielono
-- [ ] 2.2 `npm run typecheck` przechodzi
-- [ ] 2.3 Intentional break: zmiana tekstu przycisku → test czerwony; cofnięcie
+- [x] 2.2 `npm run typecheck` przechodzi
+- [x] 2.3 Intentional break: zmiana tekstu przycisku → test czerwony; cofnięcie
       → zielony
-- [ ] 2.4 `npx playwright test src/__tests__/e2e/` — wszystkie cztery pliki spec
+- [x] 2.4 `npx playwright test src/__tests__/e2e/` — wszystkie cztery pliki spec
       zielone razem
 
 #### Ręczne
