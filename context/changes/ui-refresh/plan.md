@@ -667,10 +667,10 @@ zmianę.
 
 #### Automatyczne
 
-- [ ] 3.1 Typecheck: `npm run typecheck`
-- [ ] 3.2 Build: `npm run build`
-- [ ] 3.3 Lint: `npm run lint`
-- [ ] 3.4 Testy: `npm run test`
+- [x] 3.1 Typecheck: `npm run typecheck` — 228eef8
+- [x] 3.2 Build: `npm run build` — 228eef8
+- [x] 3.3 Lint: `npm run lint` — 228eef8
+- [x] 3.4 Testy: `npm run test` — 228eef8
 
 #### Ręczne
 
