@@ -40,22 +40,22 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 
 ## W skrócie
 
-| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                            | Wymagania wstępne | Odniesienia do PRD                            | Status      |
-| ---- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | ----------- |
-| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                        | —                 | FR-001, FR-002                                | done        |
-| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                               | —                 | NFR: Chrome/Firefox/Safari                    | done        |
-| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań        | F-01              | FR-003, FR-004, FR-008                        | done        |
-| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                      | F-01              | FR-001, FR-002                                | done        |
-| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                         | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done        |
-| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                      | S-02              | FR-008, US-01                                 | done        |
-| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop   | F-01, F-02, F-03  | NFR: UI/UX                                    | done        |
-| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)             | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned     |
-| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                  | F-01, F-02        | test-plan.md §3 Faza 1                        | done        |
-| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB          | T-01              | test-plan.md §3 Faza 2                        | done        |
-| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras | T-01              | test-plan.md §3 Faza 3                        | done        |
-| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania  | T-03              | test-plan.md §3 Faza 4                        | in progress |
-| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI               | T-04              | test-plan.md §3 Faza 5                        | planned     |
-| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                | T-04, S-05        | test-plan.md §3 Faza 6                        | planned     |
+| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                            | Wymagania wstępne | Odniesienia do PRD                            | Status  |
+| ---- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | ------- |
+| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                        | —                 | FR-001, FR-002                                | done    |
+| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                               | —                 | NFR: Chrome/Firefox/Safari                    | done    |
+| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań        | F-01              | FR-003, FR-004, FR-008                        | done    |
+| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                      | F-01              | FR-001, FR-002                                | done    |
+| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                         | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done    |
+| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                      | S-02              | FR-008, US-01                                 | done    |
+| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop   | F-01, F-02, F-03  | NFR: UI/UX                                    | done    |
+| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)             | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned |
+| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                  | F-01, F-02        | test-plan.md §3 Faza 1                        | done    |
+| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB          | T-01              | test-plan.md §3 Faza 2                        | done    |
+| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras | T-01              | test-plan.md §3 Faza 3                        | done    |
+| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania  | T-03              | test-plan.md §3 Faza 4                        | done    |
+| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI               | T-04              | test-plan.md §3 Faza 5                        | planned |
+| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                | T-04, S-05        | test-plan.md §3 Faza 6                        | planned |
 
 ## Strumienie
 
@@ -356,8 +356,9 @@ własny folder zmiany przez `/10x-new`.
   `src/__tests__/e2e/login-form.spec.ts`
 - **Ryzyko:** URL sesji dynamiczny — `waitForURL(/\/dashboard\/session\//)`
   wymagany; badge wymaga scopingu przez `getByLabel('Zmień kolejność: ...')`.
-- **Status:** in progress — branch `e2e-test-for-main-flow`, plan gotowy, GitHub
-  issue #36.
+- **Status:** done — commit `24df604`, issue #36 zamknięty. Faza 1:
+  `session-flow.spec.ts` (Risk #7); Faza 2: `login-form.spec.ts` (Risk #8) +
+  dotenv w playwright.config.ts + §6.4 uzupełnione wzorcami.
 
 ---
 
