@@ -63,14 +63,14 @@ reduced-motion). Semantyka `<ul>/<li>` i kotwice E2E zachowane; jedyna zmiana
 
 ## Fazy w skrócie
 
-| Faza               | Co dostarcza                                      | Kluczowe ryzyko                      |
-| ------------------ | ------------------------------------------------- | ------------------------------------ |
-| 1. Tokeny          | Dark mode statusy + muted + tokeny motion         | Kontrast WCAG w obu motywach         |
-| 2. Przyciski       | Wspólny Button + migracja ~8 miejsc + hovery      | Zachować teksty/role (kotwice E2E)   |
-| 3. Karty/siatki    | Siatki 1/2/3 kol., redesign badge, critical_miss  | Nie zamienić `<li>` na `<div>`       |
-| 4. Filtr/stepper   | Filtr historii (klient) + stepper linia-kropka    | Domyślny filtr = wszystkie           |
-| 5. Navbar/settings | Navbar refactor + usunięcie auth + **E2E update** | Sprzężenie: nav + specs w 1 commicie |
-| 6. Hero            | Homepage gradient mesh + animacja                 | Kontrast tekstu na gradiencie, jank  |
+| Faza               | Co dostarcza                                                                                                                       | Kluczowe ryzyko                      |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| 1. Tokeny          | Dark mode statusy + muted + tokeny motion                                                                                          | Kontrast WCAG w obu motywach         |
+| 2. Przyciski       | Wspólny Button + migracja ~8 miejsc + hovery                                                                                       | Zachować teksty/role (kotwice E2E)   |
+| 3. Karty/siatki    | Siatki 1/2/3 kol., redesign badge, critical_miss                                                                                   | Nie zamienić `<li>` na `<div>`       |
+| 4. Filtr/stepper   | Filtr historii (klient) + stepper linia-kropka                                                                                     | Domyślny filtr = wszystkie           |
+| 5. Navbar/settings | Navbar refactor: **link Pulpit→/dashboard**, ThemeToggle między Ustawieniami a Wyloguj, usunięcie auth dla gościa + **E2E update** | Sprzężenie: nav + specs w 1 commicie |
+| 6. Hero            | Homepage gradient mesh + animacja                                                                                                  | Kontrast tekstu na gradiencie, jank  |
 
 **Wymagania wstępne:** S-06 (`ui-design-system`) done — tokeny obecne.
 **Szacowany nakład pracy:** ~6 sesji (po fazie), z ręczną weryfikacją wizualną w
