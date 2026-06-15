@@ -3,7 +3,7 @@ project: 'OSCE Triager'
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-06-02
+updated: 2026-06-15
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -40,22 +40,23 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 
 ## W skrócie
 
-| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                            | Wymagania wstępne | Odniesienia do PRD                            | Status  |
-| ---- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | ------- |
-| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                        | —                 | FR-001, FR-002                                | done    |
-| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                               | —                 | NFR: Chrome/Firefox/Safari                    | done    |
-| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań        | F-01              | FR-003, FR-004, FR-008                        | done    |
-| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                      | F-01              | FR-001, FR-002                                | done    |
-| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                         | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done    |
-| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                      | S-02              | FR-008, US-01                                 | done    |
-| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop   | F-01, F-02, F-03  | NFR: UI/UX                                    | done    |
-| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)             | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned |
-| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                  | F-01, F-02        | test-plan.md §3 Faza 1                        | done    |
-| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB          | T-01              | test-plan.md §3 Faza 2                        | done    |
-| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras | T-01              | test-plan.md §3 Faza 3                        | done    |
-| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania  | T-03              | test-plan.md §3 Faza 4                        | done    |
-| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI               | T-04              | test-plan.md §3 Faza 5                        | planned |
-| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                | T-04, S-05        | test-plan.md §3 Faza 6                        | planned |
+| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                                                           | Wymagania wstępne | Odniesienia do PRD                            | Status    |
+| ---- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | --------- |
+| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                                                       | —                 | FR-001, FR-002                                | done      |
+| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                                                              | —                 | NFR: Chrome/Firefox/Safari                    | done      |
+| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań                                       | F-01              | FR-003, FR-004, FR-008                        | done      |
+| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                                                     | F-01              | FR-001, FR-002                                | done      |
+| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                                                        | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done      |
+| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                                                     | S-02              | FR-008, US-01                                 | done      |
+| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done      |
+| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned   |
+| S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | preparing |
+| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done      |
+| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                         | T-01              | test-plan.md §3 Faza 2                        | done      |
+| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                | T-01              | test-plan.md §3 Faza 3                        | done      |
+| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                 | T-03              | test-plan.md §3 Faza 4                        | done      |
+| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                              | T-04              | test-plan.md §3 Faza 5                        | planned   |
+| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                                               | T-04, S-05        | test-plan.md §3 Faza 6                        | planned   |
 
 ## Strumienie
 
@@ -295,6 +296,40 @@ tworzą ich ponownie.
 
 ---
 
+### S-06: Design system i tożsamość wizualna
+
+- **Wynik:** Student korzysta z interfejsu o spójnej tożsamości medycznej
+  (_clinical & trustworthy_, teal/blue + cool-gray neutrals) zamiast
+  generycznego indigo: czytelna typografia (Inter z pełnym wsparciem polskich
+  znaków), pełny dual light+dark theme sterowany jawnie (`[data-theme]`, nie
+  auto), ikony Lucide React oraz kompletny zestaw tokenów (kolory OKLCH,
+  typografia, spacing, radius, bordery, elevation, motion) — wszystko zmapowane
+  na obecną architekturę CSS Modules + CSS custom properties.
+- **ID zmiany:** ui-design-system
+- **Odniesienia do PRD:** NFR: UI/UX (estetyka, dostępność, czytelność)
+- **Wymagania wstępne:** S-04 (rozszerza/zastępuje zalążek tokenów „S-04"),
+  S-02, S-03 (powierzchnia UI — 13 plików `*.module.css` do tokenizacji)
+- **Równolegle z:** —
+- **Blokady:** —
+- **Niewiadome:** 4 otwarte decyzje z `research.md` — (1) jeden font
+  (Inter-only) vs dwa (Inter + IBM Plex Sans), (2) ratio skali typu 1.25 vs 1.2,
+  (3) mechanizm toggle motywu (`next-themes` +1 dep vs cookie-SSR zero dep), (4)
+  zakres 1. PR (sama warstwa tokenów + theme infra vs także refaktor 13
+  modułów + inline styles w `settings/`/`dashboard/`). Do rozstrzygnięcia w
+  `/10x-plan`.
+- **Ryzyko:** Migracja 13 plików `*.module.css` z hardcoded wartości na tokeny —
+  ryzyko regresji wizualnej; dual theme wymaga weryfikacji kontrastu WCAG 4.5:1
+  (tekst) / 3:1 (UI) w OBU motywach. Inline styles w `settings/`/`dashboard/`
+  naruszają lesson „page.tsx → CSS Modules".
+- **Podejście:** research kompletny
+  (`context/changes/ui-design-system/research.md`) — gotowe tokeny do wdrożenia
+  (skale hex/rem/ms, mapowanie semantyczne light+dark, snippet next/font,
+  focus-ring WCAG, wzorce @dnd-kit i `prefers-reduced-motion`).
+- **Status:** preparing — research done 2026-06-15 (commit `13af2fe`); GitHub
+  issue #38 otwarte; gotowe do `/10x-plan`.
+
+---
+
 ## Testy
 
 Fazy wdrażania testów z `context/foundation/test-plan.md`. Każda faza otwiera
@@ -401,6 +436,7 @@ własny folder zmiany przez `/10x-new`.
 | S-03             | session-history-save   | [S-03] Zapis i wyświetlenie historii sesji w koncie studenta      | done                  | Zaimplementowane 2026-06-09; GitHub issue #12 zamknięte                                                                                                   |
 | S-04             | ux-improvements        | [S-04] Usprawnienia UX: animacje, stany ładowania, drag-and-drop  | done                  | Zaimplementowane 2026-06-02; GitHub issue #22 zamknięte                                                                                                   |
 | S-05             | account-deletion       | [S-05] Usunięcie konta z 30-dniową retencją danych (RODO)         | no                    | Uruchom `/10x-research account-deletion`, następnie `/10x-plan account-deletion`                                                                          |
+| S-06             | ui-design-system       | [S-06] Design system: tożsamość wizualna, dual theme, tokeny      | yes                   | Research done 2026-06-15 (`research.md`); uruchom `/10x-plan ui-design-system` — rozstrzygnij 4 otwarte decyzje (font, ratio, toggle, zakres 1. PR)       |
 
 ## Otwarte pytania dotyczące mapy drogowej
 
