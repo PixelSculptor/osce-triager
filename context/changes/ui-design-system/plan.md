@@ -799,14 +799,14 @@ wizualne.
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run typecheck` przechodzi
-- [ ] 2.2 `npm run build` przechodzi (next/font pobiera fonty)
+- [x] 2.1 `npm run typecheck` przechodzi
+- [x] 2.2 `npm run build` przechodzi (next/font pobiera fonty)
 
 #### Ręczne
 
-- [ ] 2.3 Tekst renderowany Inter (nie Arial) — widoczna różnica kształtu liter
-- [ ] 2.4 DevTools Network: brak requestów do fonts.googleapis.com
-- [ ] 2.5 `<html class>` zawiera zmienne `--font-sans` i `--font-mono`
+- [x] 2.3 Tekst renderowany Inter (nie Arial) — widoczna różnica kształtu liter
+- [x] 2.4 DevTools Network: brak requestów do fonts.googleapis.com
+- [x] 2.5 `<html class>` zawiera zmienne `--font-sans` i `--font-mono`
 
 ### Faza 3: Theme infrastructure
 

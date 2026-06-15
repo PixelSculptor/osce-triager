@@ -125,8 +125,8 @@
   --tracking-wide: 0.02em;
 
   /* Typography — font family (placeholders; replaced in Phase 2) */
-  --font-family-sans: system-ui, sans-serif;
-  --font-family-mono: ui-monospace, monospace;
+  --font-family-sans: var(--font-sans), system-ui, sans-serif;
+  --font-family-mono: var(--font-mono), ui-monospace, monospace;
 
   /* Typography — measure */
   --measure: 70ch;
