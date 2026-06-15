@@ -1,8 +1,22 @@
-export function Syringe() {
+interface SyringeProps {
+  x?: number;
+  y?: number;
+  rotation?: number;
+  scale?: number;
+  opacity?: number;
+}
+
+export function Syringe({
+  x = 1310,
+  y = 460,
+  rotation = -40,
+  scale = 1,
+  opacity = 0.18,
+}: SyringeProps) {
   return (
     <g
-      transform='translate(1310 460) rotate(-40)'
-      opacity='0.18'
+      transform={`translate(${x} ${y}) rotate(${rotation}) scale(${scale})`}
+      opacity={opacity}
       stroke='currentColor'
       strokeWidth='2'
       fill='none'

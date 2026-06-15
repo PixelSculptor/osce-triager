@@ -1,9 +1,9 @@
-import Link from "next/link"
-import { auth } from "@/modules/auth/auth"
-import styles from "./page.module.css"
+import Link from 'next/link';
+import { auth } from '@/modules/auth/auth';
+import styles from './page.module.css';
 
 export default async function HomePage() {
-  const session = await auth()
+  const session = await auth();
 
   return (
     <div className={styles.page}>
@@ -16,26 +16,27 @@ export default async function HomePage() {
 
         {session ? (
           <>
-            <p className={styles.welcome}>
-              Witaj, {session.user?.email}
-            </p>
+            <p className={styles.welcome}>Witaj, {session.user?.email}</p>
             <div className={styles.ctas}>
-              <Link href="/dashboard" className={styles.primaryBtn}>
+              <Link
+                href='/dashboard'
+                className={`${styles.primaryBtn} ${styles.primaryBtnFull}`}
+              >
                 Przejdź do Pulpitu
               </Link>
             </div>
           </>
         ) : (
           <div className={styles.ctas}>
-            <Link href="/login" className={styles.primaryBtn}>
+            <Link href='/login' className={styles.primaryBtn}>
               Zaloguj się
             </Link>
-            <Link href="/register" className={styles.secondaryBtn}>
+            <Link href='/register' className={styles.secondaryBtn}>
               Zarejestruj się
             </Link>
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

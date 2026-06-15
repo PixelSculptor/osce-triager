@@ -1,8 +1,22 @@
-export function Pill() {
+interface PillProps {
+  x?: number;
+  y?: number;
+  rotation?: number;
+  scale?: number;
+  opacity?: number;
+}
+
+export function Pill({
+  x = 870,
+  y = 155,
+  rotation = 30,
+  scale = 1,
+  opacity = 0.2,
+}: PillProps) {
   return (
     <g
-      transform='translate(870 155) rotate(30)'
-      opacity='0.2'
+      transform={`translate(${x} ${y}) rotate(${rotation}) scale(${scale})`}
+      opacity={opacity}
       stroke='currentColor'
       strokeWidth='2.5'
       fill='none'
