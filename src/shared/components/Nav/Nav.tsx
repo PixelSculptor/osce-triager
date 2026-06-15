@@ -14,7 +14,6 @@ export async function Nav() {
       </Link>
 
       <div className={styles.links}>
-        <ThemeToggle />
         {session ? (
           <>
             <span className={styles.email}>{session.user?.email}</span>
@@ -24,6 +23,7 @@ export async function Nav() {
             <Link href='/account/settings' className={styles.settingsLink}>
               Ustawienia
             </Link>
+            <ThemeToggle />
             <form>
               <button className={styles.logoutButton} formAction={logoutAction}>
                 Wyloguj

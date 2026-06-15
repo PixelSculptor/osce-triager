@@ -1,37 +1,45 @@
 'use client';
 
+import { useEffect, useState, startTransition } from 'react';
 import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
 import styles from './ThemeToggle.module.css';
 
-const CYCLE: Record<string, string> = {
-  light: 'dark',
-  dark: 'system',
-  system: 'light',
-};
-
-const LABELS: Record<string, string> = {
-  light: 'Motyw: jasny — przełącz na ciemny',
-  dark: 'Motyw: ciemny — przełącz na systemowy',
-  system: 'Motyw: systemowy — przełącz na jasny',
-};
-
-const ICONS: Record<string, string> = {
-  light: '☀',
-  dark: '☾',
-  system: '⊙',
-};
-
 export function ThemeToggle() {
-  const { theme = 'system', setTheme } = useTheme();
-  const resolved = theme in CYCLE ? theme : 'system';
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    startTransition(() => setMounted(true));
+  }, []);
+
+  if (!mounted) {
+    return <div className={styles.skeleton} aria-hidden />;
+  }
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <button
-      className={styles.button}
-      aria-label={LABELS[resolved]}
-      onClick={() => setTheme(CYCLE[resolved])}
+      role='switch'
+      aria-checked={isDark}
+      aria-label={
+        isDark
+          ? 'Motyw ciemny — przełącz na jasny'
+          : 'Motyw jasny — przełącz na ciemny'
+      }
+      className={`${styles.track} ${isDark ? styles.trackDark : styles.trackLight}`}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
     >
-      {ICONS[resolved]}
+      <span
+        className={`${styles.thumb} ${isDark ? styles.thumbDark : styles.thumbLight}`}
+      >
+        {isDark ? (
+          <Moon size={12} strokeWidth={2.5} />
+        ) : (
+          <Sun size={12} strokeWidth={2.5} />
+        )}
+      </span>
     </button>
   );
 }
