@@ -1,8 +1,8 @@
 .session {
-  padding: 1.5rem 2rem;
+  padding: var(--space-6) var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-6);
   min-height: 100vh;
   max-width: 1100px;
   margin: 0 auto;
@@ -13,31 +13,32 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  padding: var(--space-3) var(--space-4);
   background: var(--background);
-  border: 1px solid rgba(128, 128, 128, 0.3);
-  border-radius: 6px;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
 }
 
 .timer {
-  font-size: 1.75rem;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-2xl);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.05em;
 }
 
-.timer[data-urgent="true"] {
+.timer[data-urgent='true'] {
   color: var(--color-error);
 }
 
 .endButton {
-  padding: 0.5rem 1rem;
+  padding: var(--space-2) var(--space-4);
   background: var(--color-error);
-  color: #fff;
+  color: var(--color-text-on-interactive);
   border: none;
-  border-radius: 4px;
-  font-size: 0.9375rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   transition: opacity var(--transition-fast);
@@ -55,90 +56,92 @@
 .columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: var(--space-8);
   align-items: start;
 }
 
 .column h2 {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
-  margin: 0 0 0.75rem;
+  margin: 0 0 var(--space-3);
   color: inherit;
   opacity: 0.7;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-wide);
 }
 
 .testList {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
   border: 2px solid transparent;
-  border-radius: 6px;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
 }
 
-.testList[data-drop-target="true"] {
-  border-color: rgba(99, 102, 241, 0.35);
+.testList[data-drop-target='true'] {
+  border-color: var(--color-border-focus);
   border-style: dashed;
   min-height: 80px;
 }
 
-.testList[data-is-over="true"] {
+.testList[data-is-over='true'] {
   border-color: var(--color-primary);
   background: var(--color-primary-muted);
 }
 
 .selectError {
   color: var(--color-error);
-  font-size: 0.875rem;
-  margin: 0 0 0.5rem;
+  font-size: var(--font-size-sm);
+  margin: 0 0 var(--space-2);
 }
 
 /* Result screen */
 .result {
-  padding: 3rem 2rem;
+  padding: var(--space-12) var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-5);
   max-width: 480px;
 }
 
 .outcome {
-  font-size: 1.25rem;
+  font-size: var(--font-size-md);
   font-weight: 600;
 }
 
-.outcome[data-positive="true"] {
+.outcome[data-positive='true'] {
   color: var(--color-outcome-positive);
 }
 
-.outcome[data-positive="false"] {
+.outcome[data-positive='false'] {
   color: var(--color-outcome-negative);
 }
 
 .skipped {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .skipped ul {
   margin: 0;
-  padding-left: 1.25rem;
+  padding-left: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
 }
 
 .backLink {
   align-self: flex-start;
-  padding: 0.5rem 1rem;
+  padding: var(--space-2) var(--space-4);
   background: var(--color-primary);
-  color: #fff;
-  border-radius: 4px;
+  color: var(--color-text-on-interactive);
+  border-radius: var(--radius-sm);
   text-decoration: none;
-  font-size: 0.9375rem;
+  font-size: var(--font-size-base);
   font-weight: 500;
   transition: opacity var(--transition-fast);
 }

@@ -1,0 +1,58 @@
+.section {
+  margin-top: var(--space-8);
+}
+
+.description {
+  margin-bottom: var(--space-4);
+  opacity: 0.8;
+}
+
+.fieldGroup {
+  margin-bottom: var(--space-3);
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--font-size-sm);
+}
+
+.input {
+  padding: var(--space-2);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  width: 100%;
+  max-width: 300px;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.errorMsg {
+  color: var(--color-danger-fg);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.successMsg {
+  color: var(--color-success-fg);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.submitButton {
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-sm);
+}
+
+.submitButtonActive {
+  background: var(--color-danger-fg);
+  color: var(--color-text-on-interactive);
+  cursor: pointer;
+}
+
+.submitButtonDisabled {
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}

@@ -2,25 +2,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1.5rem;
+  padding: var(--space-3) var(--space-6);
   background: var(--background);
-  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
-  gap: 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  gap: var(--space-4);
 }
 
 .logo {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .links {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .links a {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   transition: text-decoration-color var(--transition-fast);
 }
 
@@ -29,26 +29,34 @@
   text-underline-offset: 2px;
 }
 
+.logo:focus-visible,
+.links a:focus-visible,
+.logoutButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
+}
+
 .email {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   opacity: 0.8;
 }
 
 .settingsLink {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
 }
 
 .logoutButton {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   background: none;
-  border: 1px solid rgba(128, 128, 128, 0.4);
-  border-radius: 4px;
-  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
   color: var(--foreground);
   cursor: pointer;
   transition: background var(--transition-fast);
 }
 
 .logoutButton:hover {
-  background: rgba(128, 128, 128, 0.1);
+  background: var(--color-bg-subtle);
 }
