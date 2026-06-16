@@ -471,8 +471,8 @@ niezależne i self-cleaning.
 
 #### Automatyczne
 
-- [ ] 1.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 1.2 Linting przechodzi: `npm run lint`
+- [x] 1.1 Typecheck przechodzi: `npm run typecheck`
+- [x] 1.2 Linting przechodzi: `npm run lint`
 
 #### Ręczne
 

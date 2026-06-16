@@ -1,173 +1,184 @@
-"use server"
+'use server';
 
-import { and, eq } from "drizzle-orm"
-import { auth } from "@/modules/auth/auth"
-import { db } from "@/shared/lib/db"
+import { and, eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
+import { auth } from '@/modules/auth/auth';
+import { db } from '@/shared/lib/db';
 import {
   scenarios,
   sessionEvents,
   sessionResults,
   testClassifications,
-} from "@/shared/lib/schema"
+} from '@/shared/lib/schema';
 import {
   evaluateSessionEnd,
   validateTestSelection,
   type TestCategory,
-} from "@/shared/lib/validator"
+} from '@/shared/lib/validator';
 import type {
   EndSessionResult,
   SelectTestResult,
   StartSessionResult,
-} from "./session.types"
+} from './session.types';
+import { deleteSessionById, getSessionById } from './queries';
 
 export async function startSessionAction(
-  scenarioId: string
+  scenarioId: string,
 ): Promise<StartSessionResult> {
-  const session = await auth()
-  if (!session?.user?.id) return { error: "Unauthorized" }
+  const session = await auth();
+  if (!session?.user?.id) return { error: 'Unauthorized' };
 
   try {
     const scenario = await db
       .select()
       .from(scenarios)
       .where(eq(scenarios.id, scenarioId))
-      .limit(1)
+      .limit(1);
 
-    if (scenario.length === 0) return { error: "Scenario not found" }
+    if (scenario.length === 0) return { error: 'Scenario not found' };
 
     const [result] = await db
       .insert(sessionResults)
       .values({
         userId: session.user.id,
         scenarioId,
-        outcome: "in_progress",
+        outcome: 'in_progress',
         isFailed: false,
       })
-      .returning({ sessionId: sessionResults.id })
+      .returning({ sessionId: sessionResults.id });
 
-    return { sessionId: result.sessionId }
+    return { sessionId: result.sessionId };
   } catch {
-    return { error: "Internal error" }
+    return { error: 'Internal error' };
   }
 }
 
 export async function selectTestAction(
   sessionId: string,
-  testId: string
+  testId: string,
 ): Promise<SelectTestResult> {
-  const session = await auth()
-  if (!session?.user?.id) return { error: "Unauthorized" }
+  const session = await auth();
+  if (!session?.user?.id) return { error: 'Unauthorized' };
 
   try {
     const [sessionRow] = await db
       .select()
       .from(sessionResults)
       .where(eq(sessionResults.id, sessionId))
-      .limit(1)
+      .limit(1);
 
-    if (!sessionRow) return { error: "Session not found" }
-    if (sessionRow.userId !== session.user.id) return { error: "Forbidden" }
-    if (sessionRow.outcome !== "in_progress") return { error: "Session already ended" }
+    if (!sessionRow) return { error: 'Session not found' };
+    if (sessionRow.userId !== session.user.id) return { error: 'Forbidden' };
+    if (sessionRow.outcome !== 'in_progress')
+      return { error: 'Session already ended' };
 
     const existingEvents = await db
       .select()
       .from(sessionEvents)
       .where(
-        and(eq(sessionEvents.sessionId, sessionId), eq(sessionEvents.testId, testId))
+        and(
+          eq(sessionEvents.sessionId, sessionId),
+          eq(sessionEvents.testId, testId),
+        ),
       )
-      .limit(1)
+      .limit(1);
 
-    if (existingEvents.length > 0) return { error: "Test already selected" }
+    if (existingEvents.length > 0) return { error: 'Test already selected' };
 
     const classificationRows = await db
       .select()
       .from(testClassifications)
-      .where(eq(testClassifications.scenarioId, sessionRow.scenarioId))
+      .where(eq(testClassifications.scenarioId, sessionRow.scenarioId));
 
-    const classifications: Record<string, TestCategory> = {}
+    const classifications: Record<string, TestCategory> = {};
     for (const row of classificationRows) {
-      classifications[row.testId] = row.classification as TestCategory
+      classifications[row.testId] = row.classification as TestCategory;
     }
 
-    if (!(testId in classifications)) return { error: "Test not in scenario" }
+    if (!(testId in classifications)) return { error: 'Test not in scenario' };
 
-    const { category, validatorResult } = validateTestSelection(testId, classifications)
+    const { category, validatorResult } = validateTestSelection(
+      testId,
+      classifications,
+    );
 
-    await db.insert(sessionEvents).values({ sessionId, testId, validatorResult })
+    await db
+      .insert(sessionEvents)
+      .values({ sessionId, testId, validatorResult });
 
-    return { validatorResult, category }
+    return { validatorResult, category };
   } catch {
-    return { error: "Internal error" }
+    return { error: 'Internal error' };
   }
 }
 
 export async function endSessionAction(
-  sessionId: string
+  sessionId: string,
 ): Promise<EndSessionResult> {
-  const session = await auth()
-  if (!session?.user?.id) return { error: "Unauthorized" }
+  const session = await auth();
+  if (!session?.user?.id) return { error: 'Unauthorized' };
 
   try {
     const [sessionRow] = await db
       .select()
       .from(sessionResults)
       .where(eq(sessionResults.id, sessionId))
-      .limit(1)
+      .limit(1);
 
-    if (!sessionRow) return { error: "Session not found" }
-    if (sessionRow.userId !== session.user.id) return { error: "Forbidden" }
-    if (sessionRow.outcome !== "in_progress")
+    if (!sessionRow) return { error: 'Session not found' };
+    if (sessionRow.userId !== session.user.id) return { error: 'Forbidden' };
+    if (sessionRow.outcome !== 'in_progress')
       return {
-        outcome: sessionRow.outcome as "positive" | "negative",
+        outcome: sessionRow.outcome as 'positive' | 'negative',
         isFailed: sessionRow.isFailed,
         skippedCritical: [],
-      }
+      };
 
     const events = await db
       .select()
       .from(sessionEvents)
-      .where(eq(sessionEvents.sessionId, sessionId))
+      .where(eq(sessionEvents.sessionId, sessionId));
 
     const orderedTestIds = events
-      .filter((e) => e.validatorResult !== "critical_miss")
-      .map((e) => e.testId)
+      .filter((e) => e.validatorResult !== 'critical_miss')
+      .map((e) => e.testId);
 
     const classificationRows = await db
       .select()
       .from(testClassifications)
-      .where(eq(testClassifications.scenarioId, sessionRow.scenarioId))
+      .where(eq(testClassifications.scenarioId, sessionRow.scenarioId));
 
-    const classifications: Record<string, TestCategory> = {}
+    const classifications: Record<string, TestCategory> = {};
     for (const row of classificationRows) {
-      classifications[row.testId] = row.classification as TestCategory
+      classifications[row.testId] = row.classification as TestCategory;
     }
 
     const { irreversibleFail, skippedCritical } = evaluateSessionEnd(
       orderedTestIds,
-      classifications
-    )
+      classifications,
+    );
 
     const claimed = await db
       .update(sessionResults)
       .set({
-        outcome: irreversibleFail ? "negative" : "positive",
+        outcome: irreversibleFail ? 'negative' : 'positive',
         isFailed: irreversibleFail,
         completedAt: new Date(),
       })
       .where(
         and(
           eq(sessionResults.id, sessionId),
-          eq(sessionResults.outcome, "in_progress")
-        )
+          eq(sessionResults.outcome, 'in_progress'),
+        ),
       )
-      .returning()
+      .returning();
 
     if (claimed.length === 0) {
       const [current] = await db
         .select()
         .from(sessionResults)
         .where(eq(sessionResults.id, sessionId))
-        .limit(1)
+        .limit(1);
 
       const criticalMissEvents = await db
         .select()
@@ -175,15 +186,15 @@ export async function endSessionAction(
         .where(
           and(
             eq(sessionEvents.sessionId, sessionId),
-            eq(sessionEvents.validatorResult, "critical_miss")
-          )
-        )
+            eq(sessionEvents.validatorResult, 'critical_miss'),
+          ),
+        );
 
       return {
-        outcome: current.outcome as "positive" | "negative",
+        outcome: current.outcome as 'positive' | 'negative',
         isFailed: current.isFailed,
         skippedCritical: criticalMissEvents.map((e) => e.testId),
-      }
+      };
     }
 
     if (skippedCritical.length > 0) {
@@ -191,18 +202,35 @@ export async function endSessionAction(
         skippedCritical.map((testId) => ({
           sessionId,
           testId,
-          validatorResult: "critical_miss" as const,
-        }))
-      )
+          validatorResult: 'critical_miss' as const,
+        })),
+      );
     }
 
     return {
-      outcome: claimed[0].outcome as "positive" | "negative",
+      outcome: claimed[0].outcome as 'positive' | 'negative',
       isFailed: claimed[0].isFailed,
       skippedCritical,
-    }
+    };
   } catch (error) {
-    console.error("[endSessionAction] DB error:", error)
-    return { error: "Internal error" }
+    console.error('[endSessionAction] DB error:', error);
+    return { error: 'Internal error' };
   }
+}
+
+export async function deleteSessionAction(
+  sessionId: string,
+): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: 'Unauthorized' };
+
+  const userId = session.user.id;
+  const existing = await getSessionById(sessionId, userId);
+  if (!existing) return { error: 'Not found' };
+  if (existing.outcome === 'in_progress')
+    return { error: 'Cannot delete an active session' };
+
+  await deleteSessionById(sessionId, userId);
+  revalidatePath('/dashboard/history');
+  return {};
 }
