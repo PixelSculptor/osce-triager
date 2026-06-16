@@ -253,11 +253,11 @@ sekcji opisana w `context/changes/project-documentation/research.md`.
 
 #### Automatyczne
 
-- [ ] 2.1 README nie jest pusty: `wc -l README.md` (min. 80 linii)
-- [ ] 2.2 Wszystkie sekcje obecne: `grep -c "^##" README.md` (≥ 10)
-- [ ] 2.3 Screenshoty referencjonowane: `grep -c "docs/screenshots" README.md`
-      (≥ 3)
-- [ ] 2.4 CI badge obecny: `grep -c "badge.svg" README.md` (≥ 1)
+- [x] 2.1 README nie jest pusty: `wc -l README.md` (min. 80 linii) — 188 linii
+- [x] 2.2 Wszystkie sekcje obecne: `grep -c "^##" README.md` (≥ 10) — 18
+- [x] 2.3 Screenshoty referencjonowane: `grep -c "docs/screenshots" README.md`
+      (≥ 3) — 5
+- [x] 2.4 CI badge obecny: `grep -c "badge.svg" README.md` (≥ 1) — 1
 
 #### Ręczne
 
