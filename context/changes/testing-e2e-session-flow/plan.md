@@ -260,9 +260,9 @@ Faza 5).
 
 #### Ręczne
 
-- [ ] 1.4 DnD widocznie przesuwa kartę EKG w trybie `--headed`
-- [ ] 1.5 Badge "Poprawne" widoczny po dragowaniu (przed zakończeniem sesji)
-- [ ] 1.6 Historia na `/dashboard/history` pokazuje "Pozytywny" po zakończeniu
+- [x] 1.4 DnD widocznie przesuwa kartę EKG w trybie `--headed`
+- [x] 1.5 Badge "Poprawne" widoczny po dragowaniu (przed zakończeniem sesji)
+- [x] 1.6 Historia na `/dashboard/history` pokazuje "Pozytywny" po zakończeniu
       sesji
 
 ### Faza 2: Login form + test-plan.md §6.4 (Risk #8)
@@ -279,5 +279,5 @@ Faza 5).
 
 #### Ręczne
 
-- [ ] 2.5 Oba nowe testy widoczne w Playwright HTML report
-- [ ] 2.6 §6.4 w `test-plan.md` zawiera wypełnione wzorce
+- [x] 2.5 Oba nowe testy widoczne w Playwright HTML report
+- [x] 2.6 §6.4 w `test-plan.md` zawiera wypełnione wzorce

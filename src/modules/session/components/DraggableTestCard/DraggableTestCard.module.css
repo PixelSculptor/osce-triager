@@ -2,7 +2,7 @@
   cursor: grab;
 }
 
-.wrapper[data-dragging="true"] {
+.wrapper[data-dragging='true'] {
   opacity: 0.4;
   cursor: grabbing;
 }

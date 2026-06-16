@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
-import { useSortable } from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
-import type { ValidatorResult } from "@/shared/lib/validator"
-import { TestCard } from "./TestCard"
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import type { ValidatorResult } from '@/shared/lib/validator';
+import { TestCard } from '../TestCard/TestCard';
 
 interface SortableTestCardProps {
-  testId: string
-  name: string
-  validatorResult?: ValidatorResult
+  testId: string;
+  name: string;
+  validatorResult?: ValidatorResult;
 }
 
 export function SortableTestCard({
@@ -23,7 +23,7 @@ export function SortableTestCard({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: testId, data: { source: "ordered" } })
+  } = useSortable({ id: testId, data: { source: 'ordered' } });
 
   return (
     <div
@@ -40,5 +40,5 @@ export function SortableTestCard({
     >
       <TestCard name={name} validatorResult={validatorResult} />
     </div>
-  )
+  );
 }

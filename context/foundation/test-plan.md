@@ -69,14 +69,14 @@ przez `/10x-new`. Status przesuwa się od lewej do prawej przez poniższe
 wartości; orkiestrator aktualizuje Status w miarę pojawiania się artefaktów na
 dysku.
 
-| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status       | Folder zmiany                                              |
-| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | ------------ | ---------------------------------------------------------- |
-| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete     | context/changes/testing-runner-bootstrap                   |
-| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete     | context/changes/testing-data-isolation-session-persistence |
-| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | complete     | context/changes/testing-auth-boundary-gate                 |
-| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | implementing | context/changes/testing-e2e-session-flow                   |
-| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | not started  | —                                                          |
-| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit                         | not started  | —                                                          |
+| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status      | Folder zmiany                                              |
+| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | ----------- | ---------------------------------------------------------- |
+| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete    | context/changes/testing-runner-bootstrap                   |
+| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete    | context/changes/testing-data-isolation-session-persistence |
+| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | complete    | context/changes/testing-auth-boundary-gate                 |
+| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | complete    | context/changes/testing-e2e-session-flow                   |
+| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | complete    | context/changes/testing-session-ui-regression              |
+| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit                         | not started | —                                                          |
 
 ## 4. Stos
 
@@ -85,13 +85,13 @@ potwierdzona hipoteza dla zainstalowanych narzędzi; `/10x-research` dla każdej
 następnej fazy musi zweryfikować kompatybilność z aktualnym środowiskiem przed
 zatwierdzeniem.
 
-| Warstwa               | Narzędzie                           | Wersja                              | Uwagi                                                                                                                                 |
-| --------------------- | ----------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| unit + integration    | Vitest                              | ^3.2.6 (zainstalowany)              | ESM-native, TypeScript-first. Kompatybilny z Next.js 16 + Cloudflare Workers dla testów w środowisku Node.js. Patrz §6.1 dla wzorców. |
-| component interaction | @testing-library/react + jsdom      | nie zainstalowany — patrz §3 Faza 5 | Do testów interakcji SessionView/DnD. Wymagana weryfikacja wsparcia dla pointer events w @dnd-kit.                                    |
-| integration (DB)      | Vitest + prawdziwy schemat Supabase | zainstalowany — patrz §3 Faza 2     | Nie mockuj Drizzle ORM — mocki ukrywają gwarancję trwałości (anty-wzorzec Ryzyka #3).                                                 |
-| auth middleware       | Vitest + fetch mock lub Playwright  | Playwright ^1.60.0 (zainstalowany)  | Cloudflare Workers Edge runtime może wymagać miniflare lub Playwright do dokładnego testowania middleware. Zweryfikowano w Fazie 3.   |
-| e2e                   | Playwright                          | ^1.60.0 (zainstalowany)             | Dla przepływów wymagających pełnego kształtu wdrożenia (auth + cookie + crossing handlerów). Patrz §3 Faza 3 i Faza 4.                |
+| Warstwa               | Narzędzie                           | Wersja                              | Uwagi                                                                                                                                                |
+| --------------------- | ----------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| unit + integration    | Vitest                              | ^3.2.6 (zainstalowany)              | ESM-native, TypeScript-first. Kompatybilny z Next.js 16 + Cloudflare Workers dla testów w środowisku Node.js. Patrz §6.1 dla wzorców.                |
+| component interaction | @testing-library/react + jsdom      | ^16 zainstalowany — patrz §3 Faza 5 | Do testów interakcji SessionView/DnD. Pointer drag w jsdom niepewny — testuj logikę reorder przez `applyReorder` (unit), pełny DnD przez Playwright. |
+| integration (DB)      | Vitest + prawdziwy schemat Supabase | zainstalowany — patrz §3 Faza 2     | Nie mockuj Drizzle ORM — mocki ukrywają gwarancję trwałości (anty-wzorzec Ryzyka #3).                                                                |
+| auth middleware       | Vitest + fetch mock lub Playwright  | Playwright ^1.60.0 (zainstalowany)  | Cloudflare Workers Edge runtime może wymagać miniflare lub Playwright do dokładnego testowania middleware. Zweryfikowano w Fazie 3.                  |
+| e2e                   | Playwright                          | ^1.60.0 (zainstalowany)             | Dla przepływów wymagających pełnego kształtu wdrożenia (auth + cookie + crossing handlerów). Patrz §3 Faza 3 i Faza 4.                               |
 
 **Narzędzia ugruntowujące stos (bieżąca sesja):**
 
@@ -414,8 +414,103 @@ npx playwright test src/__tests__/e2e/                      # wszystkie razem
 
 ### 6.5 Dodawanie testu interakcji z komponentem (UI sesji / DnD)
 
-DO UZUPEŁNIENIA — patrz §3 Faza 5 dla wzorca sekwencji przeciągania DnD oraz
-fixture przypadku brzegowego dla pierwszego/ostatniego elementu.
+**Lokalizacja**
+
+- Testy: `src/modules/session/components/SessionView/SessionView.test.tsx`
+- Testy logiki reorder:
+  `src/modules/session/components/SessionView/SessionView.reorder.test.ts`
+
+**Środowisko**: `// @vitest-environment jsdom` jako pierwsza linia pliku
+`.test.tsx`. Nie zmieniaj globalnego `environment` w `vitest.config.ts` —
+złamałoby testy integracyjne DB.
+
+**Mocki wymagane dla SessionView**
+
+```ts
+vi.mock('@/modules/session/actions', () => ({
+  selectTestAction: vi.fn(),
+  endSessionAction: vi.fn(),
+}))
+vi.mock('next/link', () => ({
+  default: ({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) =>
+    <a href={href} className={className}>{children}</a>,
+}))
+```
+
+**Zarządzanie timerem** — `SessionView` ma `setInterval` na timerze sesji. Użyj
+`toFake: ['setInterval', 'clearInterval']` — pełne `vi.useFakeTimers()` blokuje
+też `setTimeout`, który Testing Library używa wewnętrznie w `waitFor`/`findBy*`:
+
+```ts
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
+});
+afterEach(() => {
+  vi.useRealTimers();
+  vi.resetAllMocks();
+});
+```
+
+**Wzorzec kliknięcia przycisku "Zleć"**
+
+`DraggableTestCard` ma `aria-label="Przeciągnij: {name}"` na wrapperze. Scope
+button przez `within()`. Przekaż `{ delay: null }` do `userEvent.setup()` —
+domyślne opóźnienie userEvent blokuje się na sfałszowanych timerach:
+
+```ts
+const card = screen.getByLabelText('Przeciągnij: EKG 12-odprowadzeniowe');
+await userEvent
+  .setup({ delay: null })
+  .click(within(card).getByRole('button', { name: 'Zleć' }));
+```
+
+**Wzorzec asercji badge walidatora**
+
+`SortableTestCard` ma `aria-label="Zmień kolejność: {name}"`. Użyj
+`findByLabelText` (async), aby poczekać na pojawienie się karty po
+asynchronicznym `selectTestAction`:
+
+```ts
+const orderedCard = await screen.findByLabelText(
+  'Zmień kolejność: EKG 12-odprowadzeniowe',
+);
+expect(within(orderedCard).getByText('Poprawne')).toBeInTheDocument();
+```
+
+Mapowanie `validatorResult` → tekst badge: `correct → "Poprawne"`,
+`suboptimal → "Akceptowalne"`, `unnecessary → "Zbędne"`,
+`critical_miss → "Krytyczny brak"`.
+
+**Wzorzec testu logiki reorder (bez DOM)**
+
+Testuj `applyReorder` bezpośrednio — nie symuluj pointer drag w jsdom:
+
+```ts
+// SessionView.reorder.test.ts (node env, brak @vitest-environment)
+import { applyReorder, type OrderedTest } from './SessionView.utils';
+
+const makeTest = (id: string): OrderedTest => ({
+  testId: id,
+  name: `Test ${id}`,
+  validatorResult: 'correct',
+  category: 'critical',
+});
+it('moves first test to last position', () => {
+  const [A, B, C] = ['a', 'b', 'c'].map(makeTest);
+  expect(applyReorder([A, B, C], 'a', 'c')).toEqual([B, C, A]);
+});
+```
+
+**Polecenie uruchamiania**: `npm run test`
+
+**Anti-wzorce do uniknięcia**
+
+- `waitForTimeout` — użyj `findBy*` lub `waitFor`, nigdy `setTimeout`
+- `vi.useFakeTimers()` bez `toFake` — blokuje `waitFor` z Testing Library
+- Symulacja pointer drag w jsdom — użyj `applyReorder` unit testu dla logiki
+  reorder; dla pełnej walidacji DnD w przeglądarce — Playwright
+- Asercja przez `validatorResult` prop na komponencie zamiast przez widoczny
+  tekst badge — testowałoby implementację, nie zachowanie użytkownika
 
 ### 6.6 Dodawanie testu retencji / czyszczenia
 

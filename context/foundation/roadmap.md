@@ -56,7 +56,7 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 | T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                                         | T-01              | test-plan.md §3 Faza 2                        | done    |
 | T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                                | T-01              | test-plan.md §3 Faza 3                        | done    |
 | T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                                                 | T-03              | test-plan.md §3 Faza 4                        | done    |
-| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                                                              | T-04              | test-plan.md §3 Faza 5                        | planned |
+| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                                                              | T-04              | test-plan.md §3 Faza 5                        | done    |
 | T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                                                                               | T-04, S-05        | test-plan.md §3 Faza 6                        | planned |
 
 ## Strumienie
@@ -453,9 +453,16 @@ własny folder zmiany przez `/10x-new`.
 - **ID zmiany:** testing-session-ui-regression
 - **Pokrywane ryzyka:** #4 (zepsute DnD dla pierwszego/ostatniego elementu)
 - **Wymagania wstępne:** T-04
-- **Blokady:** `@testing-library/react` + jsdom nie zainstalowane — pierwsza
-  faza instaluje runner komponentowy.
-- **Status:** planned
+- **Podejście:** 4 fazy — (1) instalacja @testing-library/react v16 + jsdom +
+  jest-dom, (2) ekstrakcja `applyReorder` z SessionView + 5 unit testów (node
+  env), (3) test komponentowy badge feedback (jsdom, per-file env), (4) §6.5
+  cookbook + status complete. Pełny plan:
+  `context/changes/testing-session-ui-regression/plan.md`.
+- **Decyzje kluczowe:** PointerSensor z `distance: 8` nieprzewidywalny w jsdom →
+  ekstrakcja czystej funkcji `applyReorder`; per-file
+  `// @vitest-environment jsdom` zamiast globalnej zmiany (chroni istniejące
+  testy integracyjne DB).
+- **Status:** planned — plan gotowy 2026-06-16
 
 ---
 

@@ -5,8 +5,6 @@ import Link from 'next/link';
 import {
   DndContext,
   DragOverlay,
-  pointerWithin,
-  rectIntersection,
   PointerSensor,
   KeyboardSensor,
   useSensor,
@@ -14,34 +12,24 @@ import {
   useDroppable,
   type DragStartEvent,
   type DragEndEvent,
-  type CollisionDetection,
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  arrayMove,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import type { TestCategory, ValidatorResult } from '@/shared/lib/validator';
+import {
+  collisionDetection,
+  applyReorder,
+  type OrderedTest,
+} from './SessionView.utils';
 import { endSessionAction, selectTestAction } from '@/modules/session/actions';
 import { Button } from '@/shared/components/Button/Button';
 import { Spinner } from '@/shared/components/Spinner/Spinner';
-import { TestCard } from './TestCard';
-import { DraggableTestCard } from './DraggableTestCard';
-import { SortableTestCard } from './SortableTestCard';
+import { TestCard } from '../TestCard/TestCard';
+import { DraggableTestCard } from '../DraggableTestCard/DraggableTestCard';
+import { SortableTestCard } from '../SortableTestCard/SortableTestCard';
 import styles from './SessionView.module.css';
-
-const collisionDetection: CollisionDetection = (args) => {
-  const pointer = pointerWithin(args);
-  if (pointer.length > 0) return pointer;
-  return rectIntersection(args);
-};
-
-interface OrderedTest {
-  testId: string;
-  name: string;
-  validatorResult: ValidatorResult;
-  category: TestCategory;
-}
 
 interface SessionViewProps {
   sessionId: string;
@@ -201,12 +189,9 @@ export function SessionView({
 
     // Within-right reorder: needs a valid sortable target
     if (!over || source !== 'ordered' || active.id === over.id) return;
-    setOrderedTests((prev) => {
-      const oldIndex = prev.findIndex((t) => t.testId === active.id);
-      const newIndex = prev.findIndex((t) => t.testId === over.id);
-      if (oldIndex === -1 || newIndex === -1) return prev;
-      return arrayMove(prev, oldIndex, newIndex);
-    });
+    setOrderedTests((prev) =>
+      applyReorder(prev, active.id as string, over.id as string),
+    );
   }
 
   const orderedTestIds = useMemo(
