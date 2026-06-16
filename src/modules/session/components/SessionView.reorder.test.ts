@@ -1,11 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-
-vi.mock('@/modules/session/actions', () => ({
-  selectTestAction: vi.fn(),
-  endSessionAction: vi.fn(),
-}));
-
-import { applyReorder, type OrderedTest } from './SessionView';
+import { describe, it, expect } from 'vitest';
+import { applyReorder, type OrderedTest } from './SessionView.utils';
 
 function makeTest(id: string): OrderedTest {
   return {

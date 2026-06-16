@@ -5,8 +5,6 @@ import Link from 'next/link';
 import {
   DndContext,
   DragOverlay,
-  pointerWithin,
-  rectIntersection,
   PointerSensor,
   KeyboardSensor,
   useSensor,
@@ -14,14 +12,17 @@ import {
   useDroppable,
   type DragStartEvent,
   type DragEndEvent,
-  type CollisionDetection,
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  arrayMove,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import type { TestCategory, ValidatorResult } from '@/shared/lib/validator';
+import {
+  collisionDetection,
+  applyReorder,
+  type OrderedTest,
+} from './SessionView.utils';
 import { endSessionAction, selectTestAction } from '@/modules/session/actions';
 import { Button } from '@/shared/components/Button/Button';
 import { Spinner } from '@/shared/components/Spinner/Spinner';
@@ -29,30 +30,6 @@ import { TestCard } from './TestCard';
 import { DraggableTestCard } from './DraggableTestCard';
 import { SortableTestCard } from './SortableTestCard';
 import styles from './SessionView.module.css';
-
-const collisionDetection: CollisionDetection = (args) => {
-  const pointer = pointerWithin(args);
-  if (pointer.length > 0) return pointer;
-  return rectIntersection(args);
-};
-
-export interface OrderedTest {
-  testId: string;
-  name: string;
-  validatorResult: ValidatorResult;
-  category: TestCategory;
-}
-
-export function applyReorder(
-  tests: OrderedTest[],
-  activeId: string,
-  overId: string,
-): OrderedTest[] {
-  const oldIndex = tests.findIndex((t) => t.testId === activeId);
-  const newIndex = tests.findIndex((t) => t.testId === overId);
-  if (oldIndex === -1 || newIndex === -1) return tests;
-  return arrayMove(tests, oldIndex, newIndex);
-}
 
 interface SessionViewProps {
   sessionId: string;
