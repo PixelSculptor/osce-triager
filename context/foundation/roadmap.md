@@ -453,9 +453,16 @@ własny folder zmiany przez `/10x-new`.
 - **ID zmiany:** testing-session-ui-regression
 - **Pokrywane ryzyka:** #4 (zepsute DnD dla pierwszego/ostatniego elementu)
 - **Wymagania wstępne:** T-04
-- **Blokady:** `@testing-library/react` + jsdom nie zainstalowane — pierwsza
-  faza instaluje runner komponentowy.
-- **Status:** planned
+- **Podejście:** 4 fazy — (1) instalacja @testing-library/react v16 + jsdom +
+  jest-dom, (2) ekstrakcja `applyReorder` z SessionView + 5 unit testów (node
+  env), (3) test komponentowy badge feedback (jsdom, per-file env), (4) §6.5
+  cookbook + status complete. Pełny plan:
+  `context/changes/testing-session-ui-regression/plan.md`.
+- **Decyzje kluczowe:** PointerSensor z `distance: 8` nieprzewidywalny w jsdom →
+  ekstrakcja czystej funkcji `applyReorder`; per-file
+  `// @vitest-environment jsdom` zamiast globalnej zmiany (chroni istniejące
+  testy integracyjne DB).
+- **Status:** planned — plan gotowy 2026-06-16
 
 ---
 
