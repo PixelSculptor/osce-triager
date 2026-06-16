@@ -7,7 +7,7 @@
 > Odświeżanie: uruchom ponownie `/10x-test-plan --refresh` gdy nieaktualne
 > (patrz §8).
 >
-> Ostatnia aktualizacja: 2026-06-11
+> Ostatnia aktualizacja: 2026-06-16
 
 ## 1. Strategia
 
@@ -77,6 +77,7 @@ dysku.
 | 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | complete | context/changes/testing-e2e-session-flow                   |
 | 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | complete | context/changes/testing-session-ui-regression              |
 | 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit, integration            | complete | context/changes/testing-rodo-retention-gate                |
+| 7   | Testy usuwania sesji                               | Integration tests (IDOR, CASCADE, in_progress guard) + E2E flow (dialog cancel + confirm delete) dla S-08                                            | —                | integration (DB), e2e        | complete | context/changes/delete-session                             |
 
 ## 4. Stos
 
@@ -615,6 +616,93 @@ describe.skipIf(!DATABASE_URL_TEST)('runCleanup — integration', () => {
 
 **Polecenie uruchamiania**: `npm test` (hermetic zawsze) lub
 `npx vitest run scripts` (oba suites gdy DATABASE_URL_TEST ustawiony).
+
+### 6.7 Dodawanie testów usuwania sesji
+
+Wzorce udowodnione w zmianie `delete-session` (S-08).
+
+**Lokalizacje plików**
+
+- Testy integration queries: `src/modules/session/queries.test.ts` (blok
+  `deleteSessionById`)
+- Testy integration actions: `src/modules/session/actions.test.ts` (blok
+  `deleteSessionAction`)
+- Test E2E: `src/__tests__/e2e/session-delete.spec.ts`
+
+**Wzorzec ownership check (IDOR prevention)**
+
+`deleteSessionById` używa
+`and(eq(sessionResults.id, sessionId), eq(sessionResults.userId, userId))` —
+identyczny wzorzec co `getSessionById`. Test R-DEL-01 weryfikuje, że intruder
+otrzymuje `0` (bez rzucania), a sesja ownera pozostaje nienaruszona.
+
+**Wzorzec Drizzle delete z RETURNING**
+
+```ts
+const deleted = await db
+  .delete(sessionResults)
+  .where(
+    and(eq(sessionResults.id, sessionId), eq(sessionResults.userId, userId)),
+  )
+  .returning({ id: sessionResults.id });
+return deleted.length;
+```
+
+Samo `.delete().where(...)` bez `.returning()` nie zwraca liczby usuniętych
+wierszy w Drizzle + postgres-js. Użyj `.length` zwróconego tablicy jako count.
+
+**Wzorzec hermetyczny dla auth w actions.test.ts**
+
+`auth` z `@/modules/auth/auth` jest typowany jako `NextMiddleware` (nie
+`() => Promise<Session|null>`). Mock wymaga `as any`:
+
+```ts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+vi.mocked(auth as any).mockResolvedValueOnce(null);
+```
+
+**Wzorzec E2E — izolacja równoległa**
+
+Oba testy tworzą własną sesję przez `createCompletedSession(page)` (helper
+funkcja w pliku spec). Testy uruchamiają się równolegle, więc asercja usunięcia
+opiera się na liczeniu kart, nie na obecności konkretnej karty:
+
+```ts
+const cards = page.getByRole('listitem').filter({ hasText: SCENARIO });
+const countBefore = await cards.count();
+// ... klik delete + confirm ...
+await expect(cards).toHaveCount(countBefore - 1);
+```
+
+`expect(card).not.toBeVisible()` nie działa przy równoległych testach — gdy
+R-DEL-06 zostawia sesję w historii, `.first()` po usunięciu przez R-DEL-07 może
+rozwiązać do tamtej sesji.
+
+**React portal fix — `<dialog>` vs `<div role="dialog">`**
+
+Natywny `<dialog open>` ma browser-default `position: absolute` +
+`margin: auto`, które nadpisują `justify-content: center` rodzica. Rozwiązanie:
+`<div role="dialog" aria-modal="true">` (bez browser defaults) wewnątrz portala
+`createPortal(content, document.body)`. Portal wyjście poza drzewo DOM
+HistoryCard zapobiega migotaniu z animacji hover karty.
+
+**Polecenie uruchamiania**
+
+```bash
+npm run test:e2e -- session-delete          # E2E R-DEL-06 + R-DEL-07
+npm run test -- queries.test.ts             # Integration R-DEL-01,02,03
+npm run test -- actions.test.ts             # Integration R-DEL-04,05
+```
+
+**Ryzyka pokryte**
+
+- R-DEL-01 — IDOR: intruder nie może usunąć sesji ownera
+- R-DEL-02 — CASCADE: usunięcie sesji usuwa jej session_events
+- R-DEL-03 — Not found: non-existent UUID zwraca 0 bez rzucania
+- R-DEL-04 — in_progress guard: aktywna sesja nie może być usunięta
+- R-DEL-05 — Unauthorized: brak auth zwraca `{ error: 'Unauthorized' }`
+- R-DEL-06 — Cancel preserves: dialog anulowany, karta sesji pozostaje
+- R-DEL-07 — Confirm deletes: dialog potwierdzony, karta znika z historii
 
 ## 7. Czego celowo nie testujemy
 

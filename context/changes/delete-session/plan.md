@@ -476,7 +476,7 @@ niezależne i self-cleaning.
 
 #### Ręczne
 
-- [ ] 1.3 `deleteSessionById` i `deleteSessionAction` wyeksportowane i widoczne
+- [x] 1.3 `deleteSessionById` i `deleteSessionAction` wyeksportowane i widoczne
       w IDE bez TS errors
 
 ### Faza 2: Integration Tests — Query + Action
@@ -491,31 +491,31 @@ niezależne i self-cleaning.
 
 #### Ręczne
 
-- [ ] 2.4 Wyniki testu pokazują 5 nowych passing testów (R-DEL-01, R-DEL-02,
+- [x] 2.4 Wyniki testu pokazują 5 nowych passing testów (R-DEL-01, R-DEL-02,
       R-DEL-03, R-DEL-04, R-DEL-05)
 
 ### Faza 3: UI — Modal + Hook + DeleteSessionButton
 
 #### Automatyczne
 
-- [ ] 3.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 3.2 Linting przechodzi: `npm run lint`
+- [x] 3.1 Typecheck przechodzi: `npm run typecheck`
+- [x] 3.2 Linting przechodzi: `npm run lint`
 
 #### Ręczne
 
-- [ ] 3.3 Karta sesji w historii ma przycisk z ikoną kosza
-- [ ] 3.4 Kliknięcie przycisku otwiera modal z potwierdzeniem
-- [ ] 3.5 Anulowanie zamyka modal bez usuwania sesji
-- [ ] 3.6 Potwierdzenie usuwa sesję — karta znika z listy
-- [ ] 3.7 Brak console errors, motyw dark/light działa
+- [x] 3.3 Karta sesji w historii ma przycisk z ikoną kosza
+- [x] 3.4 Kliknięcie przycisku otwiera modal z potwierdzeniem
+- [x] 3.5 Anulowanie zamyka modal bez usuwania sesji
+- [x] 3.6 Potwierdzenie usuwa sesję — karta znika z listy
+- [x] 3.7 Brak console errors, motyw dark/light działa
 
 ### Faza 4: E2E Tests — Delete flow
 
 #### Automatyczne
 
-- [ ] 4.1 E2E testy przechodzą: `npm run test:e2e -- session-delete`
-- [ ] 4.2 Typecheck przechodzi: `npm run typecheck`
+- [x] 4.1 E2E testy przechodzą: `npm run test:e2e -- session-delete`
+- [x] 4.2 Typecheck przechodzi: `npm run typecheck`
 
 #### Ręczne
 
-- [ ] 4.3 Test output pokazuje 2 passing testy (cancel + confirm)
+- [x] 4.3 Test output pokazuje 2 passing testy (cancel + confirm)
