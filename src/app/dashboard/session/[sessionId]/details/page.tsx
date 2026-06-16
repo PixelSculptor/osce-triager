@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { ChevronLeft, ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronDown, Timer } from 'lucide-react';
 import { auth } from '@/modules/auth/auth';
 import { getSessionDetails } from '@/modules/session/queries';
 import styles from './page.module.css';
@@ -57,9 +57,12 @@ export default async function SessionDetailsPage({
           {details.outcome === 'positive' ? 'Pozytywny' : 'Negatywny'}
         </span>
         <span>{details.completedAt.toLocaleDateString('pl-PL')}</span>
-        <span>
-          Czas: {formatDuration(details.startedAt, details.completedAt)}
-        </span>
+        <p className={styles.metaItem}>
+          <Timer size={16} />
+          <span>
+            Czas: {formatDuration(details.startedAt, details.completedAt)}
+          </span>
+        </p>
       </div>
 
       <div className={styles.eventsCard}>

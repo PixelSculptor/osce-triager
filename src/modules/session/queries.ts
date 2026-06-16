@@ -85,6 +85,19 @@ export async function getUserSessions(userId: string) {
     .orderBy(desc(sessionResults.completedAt));
 }
 
+export async function deleteSessionById(
+  sessionId: string,
+  userId: string,
+): Promise<number> {
+  const deleted = await db
+    .delete(sessionResults)
+    .where(
+      and(eq(sessionResults.id, sessionId), eq(sessionResults.userId, userId)),
+    )
+    .returning({ id: sessionResults.id });
+  return deleted.length;
+}
+
 export async function getSessionDetails(sessionId: string, userId: string) {
   const [sessionRow] = await db
     .select({

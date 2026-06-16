@@ -2,6 +2,10 @@
   padding: var(--space-8);
 }
 
+.heading {
+  color: var(--color-text-link);
+}
+
 .list {
   display: grid;
   gap: var(--space-4);

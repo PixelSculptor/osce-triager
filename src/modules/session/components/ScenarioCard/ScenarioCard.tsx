@@ -6,6 +6,7 @@ import { startSessionAction } from '@/modules/session/actions';
 import { Button } from '@/shared/components/Button/Button';
 import { Spinner } from '@/shared/components/Spinner/Spinner';
 import styles from './ScenarioCard.module.css';
+import { Timer } from 'lucide-react';
 
 interface ScenarioCardProps {
   id: string;
@@ -42,7 +43,9 @@ export function ScenarioCard({
     <li className={styles.card}>
       <h2 className={styles.title}>{title}</h2>
       <p className={styles.description}>{description}</p>
-      <p className={styles.meta}>Czas: {minutes} min</p>
+      <p className={styles.meta}>
+        <Timer size={16} /> <span>Czas: {minutes} min</span>
+      </p>
       {error && <p className={styles.error}>{error}</p>}
       <Button variant='primary' onClick={handleStart} disabled={loading}>
         {loading ? <Spinner size='sm' /> : 'Rozpocznij sesję'}

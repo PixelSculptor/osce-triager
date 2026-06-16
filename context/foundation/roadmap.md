@@ -52,6 +52,7 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 | S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | done   |
 | S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu                                 | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | done   |
 | S-07 | ui-refresh                                 | korzystać z dopracowanego UI: dostępne badge w dark mode, spójne przyciski z gładkim hover, responsywne siatki, filtr historii, stepper, nowoczesny navbar/homepage | S-06              | NFR: UI/UX (estetyka, dostępność, czytelność) | done   |
+| S-08 | delete-session                             | usunąć sesję z historii (brakujące D w CRUD)                                                                                                                        | S-03              | FR-008, US-01                                 | done   |
 | T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done   |
 | T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                                         | T-01              | test-plan.md §3 Faza 2                        | done   |
 | T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                                | T-01              | test-plan.md §3 Faza 3                        | done   |
@@ -383,6 +384,32 @@ tworzą ich ponownie.
 
 ---
 
+### S-08: Usuwanie sesji z historii
+
+- **Wynik:** Student może usunąć zakończoną sesję z historii przez przycisk z
+  ikoną kosza na karcie sesji; modal z potwierdzeniem zapobiega przypadkowemu
+  usunięciu; lista odświeża się po usunięciu (revalidatePath RSC, bez toastu).
+- **ID zmiany:** delete-session
+- **Odniesienia do PRD:** FR-008, US-01
+- **Wymagania wstępne:** S-03 (historia sesji musi istnieć)
+- **Równolegle z:** —
+- **Blokady:** —
+- **Niewiadome:** rozwiązane — brak systemu modal/dialog w aplikacji → budujemy
+  native `<dialog>` HTML + `useModal` hook bez nowych zależności; brak toastu →
+  cicha aktualizacja przez `revalidatePath`; sesje `in_progress` blokowane
+  defensywnie na poziomie server action (historia i tak ich nie pokazuje).
+- **Ryzyko:** IDOR przy delete — guard `and(eq(id), eq(userId))` obowiązkowy
+  (wzorzec z T-02/`testing-data-isolation-session-persistence`); brak ownership
+  check → User B usuwa sesje User A. Pokryte integration testem R-DEL-01.
+- **Podejście:** 4 fazy — (1) backend: `deleteSessionById` +
+  `deleteSessionAction` z in_progress guard, (2) integration tests
+  (R-DEL-01,02,03,04,05), (3) UI: `useModal` + `ConfirmModal` +
+  `DeleteSessionButton` + update `HistoryCard`, (4) E2E `session-delete.spec.ts`
+  (R-DEL-06,07). Pełny plan: `context/changes/delete-session/plan.md`.
+- **Status:** done — zaimplementowane 2026-06-16; GitHub issue #46 zamknięte
+
+---
+
 ## Testy
 
 Fazy wdrażania testów z `context/foundation/test-plan.md`. Każda faza otwiera
@@ -509,6 +536,7 @@ własny folder zmiany przez `/10x-new`.
 | S-05             | account-deletion       | [S-05] Usunięcie konta z 30-dniową retencją danych (RODO)               | no                    | Uruchom `/10x-research account-deletion`, następnie `/10x-plan account-deletion`                                                                          |
 | S-06             | ui-design-system       | [S-06] Design system: tożsamość wizualna, dual theme, tokeny            | yes                   | Research done 2026-06-15 (`research.md`); uruchom `/10x-plan ui-design-system` — rozstrzygnij 4 otwarte decyzje (font, ratio, toggle, zakres 1. PR)       |
 | S-07             | ui-refresh             | [S-07] Odświeżenie UI: dark mode badge, przyciski, siatki, navbar, hero | done                  | Zaimplementowane 2026-06-15; GitHub issue #40 zamknięte                                                                                                   |
+| S-08             | delete-session         | [S-08] Usuwanie sesji z historii (brakujące D w CRUD)                   | done                  | Zaimplementowane 2026-06-16; GitHub issue #46 zamknięte                                                                                                   |
 
 ## Otwarte pytania dotyczące mapy drogowej
 

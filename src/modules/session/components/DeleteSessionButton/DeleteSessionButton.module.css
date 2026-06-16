@@ -1,0 +1,20 @@
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--transition-hover),
+    background var(--transition-hover);
+}
+
+.deleteButton:hover {
+  color: var(--color-danger-fg);
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
+}
