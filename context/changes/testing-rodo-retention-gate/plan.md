@@ -334,9 +334,9 @@ równoległymi runami.
 
 #### Automatyczne
 
-- [ ] 3.1 `DATABASE_URL_TEST=<url> npm test` — integration suite przechodzi (5
+- [x] 3.1 `DATABASE_URL_TEST=<url> npm test` — integration suite przechodzi (5
       testów zielonych)
-- [ ] 3.2 `npm test` bez `DATABASE_URL_TEST` — integration suite skipowana (0
+- [x] 3.2 `npm test` bez `DATABASE_URL_TEST` — integration suite skipowana (0
       failures)
 
 #### Ręczne
