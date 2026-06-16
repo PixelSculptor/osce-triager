@@ -1,7 +1,7 @@
 ---
 change_id: testing-rodo-retention-gate
 title: RODO retention gate unit tests
-status: preparing
+status: planned
 created: 2026-06-16
 updated: 2026-06-16
 archived_at: null

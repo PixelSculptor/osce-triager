@@ -57,7 +57,7 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 | T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                                | T-01              | test-plan.md §3 Faza 3                        | done    |
 | T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                                                 | T-03              | test-plan.md §3 Faza 4                        | done    |
 | T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                                                              | T-04              | test-plan.md §3 Faza 5                        | done    |
-| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                                                                               | T-04, S-05        | test-plan.md §3 Faza 6                        | planned |
+| T-06 | testing-rodo-retention-gate                | (testy) Refactor cleanup skryptu + fix verificationToken (luka RODO) + testy granicy 30 dni, CASCADE i cleanup tokenów                                              | T-04              | test-plan.md §3 Faza 6                        | planned |
 
 ## Strumienie
 
@@ -468,14 +468,20 @@ własny folder zmiany przez `/10x-new`.
 
 ### T-06: Brama retencji RODO
 
-- **Wynik:** (testy) Jednostkowy test logiki czyszczenia — wiersz
-  `deleted_at = teraz − 31 dni` jest usuwany; wiersz
-  `deleted_at = teraz − 29 dni` pozostaje.
-- **ID zmiany:** testing-gdpr-retention-gate
-- **Pokrywane ryzyka:** #5 (dane miękkousunięte konto przeżywają okno retencji)
-- **Wymagania wstępne:** T-04, S-05
-- **Blokady:** zależy od implementacji S-05 (soft-delete + cron).
-- **Status:** planned
+- **Wynik:** (testy) Refactor `cleanup-expired-accounts.mjs` do postaci
+  testowalnej (`runCleanup(sql)`); fix luki RODO — atomowy cleanup
+  `verificationToken` przez CTE; testy: granica 30 dni (31/1 dni), CASCADE przez
+  4 tabele, cleanup tokenów (8 testów łącznie).
+- **ID zmiany:** testing-rodo-retention-gate
+- **Pokrywane ryzyka:** #5 (dane miękkousunięte konto przeżywają okno retencji),
+  luka verificationToken (email PII nieusuwany przez CASCADE)
+- **Wymagania wstępne:** T-04
+- **Blokady:** —
+- **Podejście:** 3 fazy — (1) refactor skryptu + CTE dla verificationToken, (2)
+  vitest config + unit testy hermetic, (3) integration testy z
+  DATABASE_URL_TEST. Pełny plan:
+  `context/changes/testing-rodo-retention-gate/plan.md`.
+- **Status:** planned — plan gotowy 2026-06-16
 
 ---
 
