@@ -74,10 +74,13 @@ README.
 
 - `docs/screenshots/login.png` — strona logowania (pierwsze wrażenie, design
   system)
+- `docs/screenshots/dashboard.png` — panel studenta z listą scenariuszy
 - `docs/screenshots/session.png` — aktywna sesja diagnostyczna (timer, lista
   badań, drag-and-drop, feedback walidatora — najważniejszy screen, pokazuje
   core value prop)
 - `docs/screenshots/results.png` — wynik sesji (score, badge positive/negative)
+- `docs/screenshots/session-details.png` — szczegóły sesji negatywnej (ścieżka
+  diagnostyczna z klasyfikacjami: Prawidłowy / Suboptymalny / Krytyczny brak)
 
 **Cel**: Wizualne potwierdzenie działającej aplikacji — rekruter bez klikania
 widzi UI.
@@ -92,7 +95,7 @@ bezpośrednio w markdown.
 #### Weryfikacja automatyczna:
 
 - Pliki istnieją:
-  `ls docs/screenshots/login.png docs/screenshots/session.png docs/screenshots/results.png`
+  `ls docs/screenshots/login.png docs/screenshots/dashboard.png docs/screenshots/session.png docs/screenshots/results.png`
 
 #### Weryfikacja ręczna:
 
@@ -141,7 +144,9 @@ sekcji opisana w `context/changes/project-documentation/research.md`.
    ## Demo
 
    **Live**: https://osce-triager.kapix007.workers.dev
-   ![Login](docs/screenshots/login.png) ![Session](docs/screenshots/session.png)
+   ![Login](docs/screenshots/login.png)
+   ![Dashboard](docs/screenshots/dashboard.png)
+   ![Session](docs/screenshots/session.png)
    ![Results](docs/screenshots/results.png)
    ```
 
@@ -234,8 +239,8 @@ sekcji opisana w `context/changes/project-documentation/research.md`.
 
 #### Automatyczne
 
-- [ ] 1.1 Pliki istnieją:
-      `ls docs/screenshots/login.png docs/screenshots/session.png docs/screenshots/results.png`
+- [x] 1.1 Pliki istnieją:
+      `ls docs/screenshots/login.png docs/screenshots/dashboard.png docs/screenshots/session.png docs/screenshots/results.png`
 
 #### Ręczne
 
