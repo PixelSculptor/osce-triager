@@ -550,8 +550,8 @@ na `complete`.
 
 #### Automatyczne
 
-- [ ] 3.1 `npm run typecheck` przechodzi
-- [ ] 3.2 `npm run test` — nowy test przechodzi bez `DATABASE_URL_TEST`
+- [x] 3.1 `npm run typecheck` przechodzi
+- [x] 3.2 `npm run test` — nowy test przechodzi bez `DATABASE_URL_TEST`
 
 #### Ręczne
 

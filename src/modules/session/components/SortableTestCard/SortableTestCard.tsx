@@ -3,7 +3,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { ValidatorResult } from '@/shared/lib/validator';
-import { TestCard } from './TestCard';
+import { TestCard } from '../TestCard/TestCard';
 
 interface SortableTestCardProps {
   testId: string;

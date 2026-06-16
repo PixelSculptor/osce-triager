@@ -56,6 +56,17 @@
   żadna zmiana w configu CI nie jest potrzebna.
 - **Dotyczy**: implement
 
+## Każdy komponent React w dedykowanym podfolderze
+
+- **Kontekst**: Wszystkie moduły z komponentami React (foldery `components/`)
+- **Problem**: Płaska lista plików utrudnia orientację i narusza zasadę
+  lokalności — trudno szybko znaleźć wszystkie składowe należące do komponentu.
+- **Reguła**: Każdy komponent umieszczaj we własnym folderze `ComponentName/`
+  zawierającym `ComponentName.tsx`, `ComponentName.module.css` i opcjonalnie
+  `ComponentName.utils.ts`; `index.ts` na poziomie `components/` re-eksportuje
+  przez `./ComponentName/ComponentName`.
+- **Dotyczy**: plan, implement, impl-review
+
 ## Nigdy nie używaj glifów Unicode/emoji jako ikon UI — używaj lucide-react
 
 - **Kontekst**: Każdy komponent/strona w warstwie prezentacji (`*.tsx`)

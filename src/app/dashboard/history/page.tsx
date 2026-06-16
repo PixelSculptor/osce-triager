@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/modules/auth/auth';
 import { getUserSessions } from '@/modules/session/queries';
-import { HistoryFilter } from '@/modules/session/components/HistoryFilter';
+import { HistoryFilter } from '@/modules/session/components/HistoryFilter/HistoryFilter';
 import styles from './page.module.css';
 
 export default async function HistoryPage() {

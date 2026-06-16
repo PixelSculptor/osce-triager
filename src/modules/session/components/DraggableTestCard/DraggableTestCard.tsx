@@ -2,7 +2,7 @@
 
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { TestCard } from './TestCard';
+import { TestCard } from '../TestCard/TestCard';
 import styles from './DraggableTestCard.module.css';
 
 interface DraggableTestCardProps {
