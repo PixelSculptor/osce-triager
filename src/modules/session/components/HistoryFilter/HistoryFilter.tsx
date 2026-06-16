@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { HistoryCard } from './HistoryCard';
+import { HistoryCard } from '../HistoryCard/HistoryCard';
 import styles from './HistoryFilter.module.css';
 
 type FilterValue = 'all' | 'positive' | 'negative';

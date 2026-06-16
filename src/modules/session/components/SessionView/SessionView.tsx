@@ -26,9 +26,9 @@ import {
 import { endSessionAction, selectTestAction } from '@/modules/session/actions';
 import { Button } from '@/shared/components/Button/Button';
 import { Spinner } from '@/shared/components/Spinner/Spinner';
-import { TestCard } from './TestCard';
-import { DraggableTestCard } from './DraggableTestCard';
-import { SortableTestCard } from './SortableTestCard';
+import { TestCard } from '../TestCard/TestCard';
+import { DraggableTestCard } from '../DraggableTestCard/DraggableTestCard';
+import { SortableTestCard } from '../SortableTestCard/SortableTestCard';
 import styles from './SessionView.module.css';
 
 interface SessionViewProps {

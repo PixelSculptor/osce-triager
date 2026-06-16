@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import { useDraggable } from "@dnd-kit/core"
-import { CSS } from "@dnd-kit/utilities"
-import { TestCard } from "./TestCard"
-import styles from "./DraggableTestCard.module.css"
+import { useDraggable } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
+import { TestCard } from './TestCard';
+import styles from './DraggableTestCard.module.css';
 
 interface DraggableTestCardProps {
-  testId: string
-  name: string
-  onSelect?: () => void
-  isLoading?: boolean
+  testId: string;
+  name: string;
+  onSelect?: () => void;
+  isLoading?: boolean;
 }
 
 export function DraggableTestCard({
@@ -19,7 +19,7 @@ export function DraggableTestCard({
   isLoading,
 }: DraggableTestCardProps) {
   const { attributes, listeners, setNodeRef, isDragging, transform } =
-    useDraggable({ id: testId, data: { source: "available", name } })
+    useDraggable({ id: testId, data: { source: 'available', name } });
 
   return (
     <div
@@ -33,5 +33,5 @@ export function DraggableTestCard({
     >
       <TestCard name={name} onSelect={onSelect} isLoading={isLoading} />
     </div>
-  )
+  );
 }
