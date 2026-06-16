@@ -49,7 +49,7 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 | S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                                                                                        | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done    |
 | S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                                                                                     | S-02              | FR-008, US-01                                 | done    |
 | S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done    |
-| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned |
+| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | done    |
 | S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu                                 | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
 | S-07 | ui-refresh                                 | korzystać z dopracowanego UI: dostępne badge w dark mode, spójne przyciski z gładkim hover, responsywne siatki, filtr historii, stepper, nowoczesny navbar/homepage | S-06              | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
 | T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done    |
@@ -288,12 +288,17 @@ tworzą ich ponownie.
 - **Wymagania wstępne:** F-01, F-02, F-03
 - **Równolegle z:** S-03, S-04
 - **Blokady:** —
-- **Niewiadome:** mechanizm soft-delete (flaga `deleted_at` + cron job vs.
-  scheduled function w Cloudflare Workers) — do rozstrzygnięcia w
-  `/10x-research`.
+- **Niewiadome:** rozwiązane — GitHub Actions (`cleanup.yml`, cron 02:00 UTC)
+  zamiast Cloudflare Workers cron; `deletionRequestedAt` (nie `deleted_at`) jako
+  flaga soft-delete; `DATABASE_URL` dostępne tylko jako GitHub Secret.
 - **Ryzyko:** Retencja 30 dni wymaga harmonogramu czyszczenia danych; wyciek
   danych po upływie retencji to naruszenie RODO.
-- **Status:** planned
+- **Status:** done — zaimplementowane 2026-06-02 (branch
+  `feature/account-deletion`, commity `beb45cd`–`bb6879e`; PR #27 + #28
+  zmergowane). 3 fazy: migracja schematu (`deletionRequestedAt`), strona
+  ustawień + Server Actions (`requestDeletionAction`, `cancelDeletionAction`),
+  GitHub Actions cleanup workflow. Luka: `verificationToken` bez FK → cleanup w
+  T-06.
 
 ---
 
@@ -543,6 +548,7 @@ własny folder zmiany przez `/10x-new`.
 | S-02 | first-playable-session                     | Scenariusze na dashboardzie, sesja z timerem, walidator inline, wynik końcowy; 6 faz (p0–p5)                            | 2026-06-01 | `fa1c613`–`864c21c` |
 | S-04 | ux-improvements                            | Tokeny CSS + przejścia, spinner CSS, cross-container DnD (@dnd-kit); 3 fazy (p1–p3)                                     | 2026-06-02 | `b85ad66`–`fc18de2` |
 | S-03 | session-history-save                       | Historia listing + Nav link + HistoryCard; detail view z kolejnością badań; 2 fazy (p1–p2)                              | 2026-06-09 | `25e56a2`–`d8b5936` |
+| S-05 | account-deletion                           | Migracja `deletionRequestedAt`, Settings page + Server Actions, GitHub Actions cleanup cron; 3 fazy                     | 2026-06-02 | `beb45cd`–`bb6879e` |
 | T-01 | testing-runner-bootstrap                   | Vitest zainstalowany; 9 testów (unit + integration) dla walidatora i selectTestAction; §6.1 wypełniony                  | 2026-06-08 | —                   |
 | T-02 | testing-data-isolation-session-persistence | Integracyjne: IDOR zablokowany (queries.test.ts); hermetyczny: częściowy błąd zapisu (actions.test.ts); §6.2 wypełniony | 2026-06-09 | —                   |
 | T-03 | testing-auth-boundary-gate                 | E2E Playwright: middleware blokuje `/dashboard` i `/dashboard/session/[id]` bez sesji; §6.3 wypełniony                  | 2026-06-11 | —                   |
