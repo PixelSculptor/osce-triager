@@ -40,24 +40,24 @@ przepływ nie działa, reszta produktu jest bez znaczenia.
 
 ## W skrócie
 
-| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                                                                                           | Wymagania wstępne | Odniesienia do PRD                            | Status  |
-| ---- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | ------- |
-| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                                                                                       | —                 | FR-001, FR-002                                | done    |
-| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                                                                                              | —                 | NFR: Chrome/Firefox/Safari                    | done    |
-| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań                                                                       | F-01              | FR-003, FR-004, FR-008                        | done    |
-| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                                                                                     | F-01              | FR-001, FR-002                                | done    |
-| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                                                                                        | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done    |
-| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                                                                                     | S-02              | FR-008, US-01                                 | done    |
-| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done    |
-| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | planned |
-| S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu                                 | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
-| S-07 | ui-refresh                                 | korzystać z dopracowanego UI: dostępne badge w dark mode, spójne przyciski z gładkim hover, responsywne siatki, filtr historii, stepper, nowoczesny navbar/homepage | S-06              | NFR: UI/UX (estetyka, dostępność, czytelność) | done    |
-| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done    |
-| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                                         | T-01              | test-plan.md §3 Faza 2                        | done    |
-| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                                | T-01              | test-plan.md §3 Faza 3                        | done    |
-| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                                                 | T-03              | test-plan.md §3 Faza 4                        | done    |
-| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                                                              | T-04              | test-plan.md §3 Faza 5                        | done    |
-| T-06 | testing-gdpr-retention-gate                | (testy) Jednostkowy test logiki czyszczenia przy granicy 30-dniowej (aktywuj po S-05)                                                                               | T-04, S-05        | test-plan.md §3 Faza 6                        | planned |
+| ID   | ID zmiany                                  | Wynik (użytkownik może …)                                                                                                                                           | Wymagania wstępne | Odniesienia do PRD                            | Status |
+| ---- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------- | ------ |
+| F-01 | auth-scaffold                              | (fundament) Auth.js + e-mail+hasło; sesje użytkownika wydawane i weryfikowane                                                                                       | —                 | FR-001, FR-002                                | done   |
+| F-03 | ci-cd-pipeline                             | (fundament) GitHub Actions auto-deploy na Cloudflare przy każdym merge                                                                                              | —                 | NFR: Chrome/Firefox/Safari                    | done   |
+| F-02 | data-schema                                | (fundament) Drizzle + Supabase: tabele dziedzinowe + seed hardcoded scenariuszy i listy badań                                                                       | F-01              | FR-003, FR-004, FR-008                        | done   |
+| S-01 | auth-flow                                  | zalogować się i wylogować z kontem e-mail+hasło                                                                                                                     | F-01              | FR-001, FR-002                                | done   |
+| S-02 | first-playable-session                     | otworzyć scenariusz z timerem, wybrać badania i dostać feedback walidatora ★                                                                                        | S-01, F-02        | FR-003, FR-004, FR-005, FR-006, FR-007, US-01 | done   |
+| S-03 | session-history-save                       | zobaczyć wynik sesji zapisany w swoim koncie po jej zakończeniu                                                                                                     | S-02              | FR-008, US-01                                 | done   |
+| S-04 | ux-improvements                            | korzystać z interfejsu z przemyślaną paletą kolorów, animacjami, stanami ładowania i drag-and-drop                                                                  | F-01, F-02, F-03  | NFR: UI/UX                                    | done   |
+| S-05 | account-deletion                           | zażądać usunięcia konta; dane usuwane trwale po 30-dniowym okresie retencji (wymóg RODO)                                                                            | F-01, F-02, F-03  | FR-002, sekcja Access Control                 | done   |
+| S-06 | ui-design-system                           | korzystać z interfejsu o spójnej tożsamości medycznej (teal/blue) z dual light+dark, czytelną typografią i pełnymi tokenami designu                                 | S-02, S-03, S-04  | NFR: UI/UX (estetyka, dostępność, czytelność) | done   |
+| S-07 | ui-refresh                                 | korzystać z dopracowanego UI: dostępne badge w dark mode, spójne przyciski z gładkim hover, responsywne siatki, filtr historii, stepper, nowoczesny navbar/homepage | S-06              | NFR: UI/UX (estetyka, dostępność, czytelność) | done   |
+| T-01 | testing-runner-bootstrap                   | (testy) Vitest zainstalowany; logika walidatora pokryta jednostkowo i integracyjnie                                                                                 | F-01, F-02        | test-plan.md §3 Faza 1                        | done   |
+| T-02 | testing-data-isolation-session-persistence | (testy) Integracyjne zapytania z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                                         | T-01              | test-plan.md §3 Faza 2                        | done   |
+| T-03 | testing-auth-boundary-gate                 | (testy) Playwright E2E — middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                                | T-01              | test-plan.md §3 Faza 3                        | done   |
+| T-04 | testing-e2e-session-flow                   | (testy) Playwright E2E — główny flow diagnostyczny w przeglądarce + jawny test formularza logowania                                                                 | T-03              | test-plan.md §3 Faza 4                        | done   |
+| T-05 | testing-session-ui-regression              | (testy) Interakcja z komponentem dla DnD na pierwszym/ostatnim elemencie — regresja UI                                                                              | T-04              | test-plan.md §3 Faza 5                        | done   |
+| T-06 | testing-rodo-retention-gate                | (testy) Refactor cleanup skryptu + fix verificationToken (luka RODO) + testy granicy 30 dni, CASCADE i cleanup tokenów                                              | T-04              | test-plan.md §3 Faza 6                        | done   |
 
 ## Strumienie
 
@@ -288,12 +288,17 @@ tworzą ich ponownie.
 - **Wymagania wstępne:** F-01, F-02, F-03
 - **Równolegle z:** S-03, S-04
 - **Blokady:** —
-- **Niewiadome:** mechanizm soft-delete (flaga `deleted_at` + cron job vs.
-  scheduled function w Cloudflare Workers) — do rozstrzygnięcia w
-  `/10x-research`.
+- **Niewiadome:** rozwiązane — GitHub Actions (`cleanup.yml`, cron 02:00 UTC)
+  zamiast Cloudflare Workers cron; `deletionRequestedAt` (nie `deleted_at`) jako
+  flaga soft-delete; `DATABASE_URL` dostępne tylko jako GitHub Secret.
 - **Ryzyko:** Retencja 30 dni wymaga harmonogramu czyszczenia danych; wyciek
   danych po upływie retencji to naruszenie RODO.
-- **Status:** planned
+- **Status:** done — zaimplementowane 2026-06-02 (branch
+  `feature/account-deletion`, commity `beb45cd`–`bb6879e`; PR #27 + #28
+  zmergowane). 3 fazy: migracja schematu (`deletionRequestedAt`), strona
+  ustawień + Server Actions (`requestDeletionAction`, `cancelDeletionAction`),
+  GitHub Actions cleanup workflow. Luka: `verificationToken` bez FK → cleanup w
+  T-06.
 
 ---
 
@@ -468,14 +473,25 @@ własny folder zmiany przez `/10x-new`.
 
 ### T-06: Brama retencji RODO
 
-- **Wynik:** (testy) Jednostkowy test logiki czyszczenia — wiersz
-  `deleted_at = teraz − 31 dni` jest usuwany; wiersz
-  `deleted_at = teraz − 29 dni` pozostaje.
-- **ID zmiany:** testing-gdpr-retention-gate
-- **Pokrywane ryzyka:** #5 (dane miękkousunięte konto przeżywają okno retencji)
-- **Wymagania wstępne:** T-04, S-05
-- **Blokady:** zależy od implementacji S-05 (soft-delete + cron).
-- **Status:** planned
+- **Wynik:** (testy) Refactor `cleanup-expired-accounts.mjs` do postaci
+  testowalnej (`runCleanup(sql)`); fix luki RODO — atomowy cleanup
+  `verificationToken` przez CTE; testy: granica 30 dni (31/1 dni), CASCADE przez
+  4 tabele, cleanup tokenów (8 testów łącznie).
+- **ID zmiany:** testing-rodo-retention-gate
+- **Pokrywane ryzyka:** #5 (dane miękkousunięte konto przeżywają okno retencji),
+  luka verificationToken (email PII nieusuwany przez CASCADE)
+- **Wymagania wstępne:** T-04
+- **Blokady:** —
+- **Podejście:** 3 fazy — (1) refactor skryptu + CTE dla verificationToken, (2)
+  vitest config + unit testy hermetic, (3) integration testy z
+  DATABASE_URL_TEST. Pełny plan:
+  `context/changes/testing-rodo-retention-gate/plan.md`.
+- **Status:** done — zaimplementowane 2026-06-16 (branch
+  `testing-rodo-retention-gate`, commity `f438103`–`10635c1`). 3 fazy: (1)
+  refactor `runCleanup(sql)` + atomowy CTE usuwający `verificationToken`, (2)
+  vitest config + 3 hermetic unit testy, (3) 5 integration testów (granica 30
+  dni, CASCADE przez 4 tabele, cleanup tokenów, NULL preservation). 30/30 testów
+  zielonych.
 
 ---
 
@@ -537,7 +553,9 @@ własny folder zmiany przez `/10x-new`.
 | S-02 | first-playable-session                     | Scenariusze na dashboardzie, sesja z timerem, walidator inline, wynik końcowy; 6 faz (p0–p5)                            | 2026-06-01 | `fa1c613`–`864c21c` |
 | S-04 | ux-improvements                            | Tokeny CSS + przejścia, spinner CSS, cross-container DnD (@dnd-kit); 3 fazy (p1–p3)                                     | 2026-06-02 | `b85ad66`–`fc18de2` |
 | S-03 | session-history-save                       | Historia listing + Nav link + HistoryCard; detail view z kolejnością badań; 2 fazy (p1–p2)                              | 2026-06-09 | `25e56a2`–`d8b5936` |
+| S-05 | account-deletion                           | Migracja `deletionRequestedAt`, Settings page + Server Actions, GitHub Actions cleanup cron; 3 fazy                     | 2026-06-02 | `beb45cd`–`bb6879e` |
 | T-01 | testing-runner-bootstrap                   | Vitest zainstalowany; 9 testów (unit + integration) dla walidatora i selectTestAction; §6.1 wypełniony                  | 2026-06-08 | —                   |
 | T-02 | testing-data-isolation-session-persistence | Integracyjne: IDOR zablokowany (queries.test.ts); hermetyczny: częściowy błąd zapisu (actions.test.ts); §6.2 wypełniony | 2026-06-09 | —                   |
 | T-03 | testing-auth-boundary-gate                 | E2E Playwright: middleware blokuje `/dashboard` i `/dashboard/session/[id]` bez sesji; §6.3 wypełniony                  | 2026-06-11 | —                   |
 | S-07 | ui-refresh                                 | 6 faz: tokeny dark mode, Button system, siatki/badge, filtr/stepper, navbar+E2E, homepage hero (gradient + SVG medical) | 2026-06-15 | `74b1985`–`fbdd30b` |
+| T-06 | testing-rodo-retention-gate                | Refactor `runCleanup(sql)` + atomowy CTE (verificationToken fix); 3 hermetic + 5 integration testów; 30/30 zielonych    | 2026-06-16 | `f438103`–`10635c1` |

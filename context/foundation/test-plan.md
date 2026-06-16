@@ -69,14 +69,14 @@ przez `/10x-new`. Status przesuwa się od lewej do prawej przez poniższe
 wartości; orkiestrator aktualizuje Status w miarę pojawiania się artefaktów na
 dysku.
 
-| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status      | Folder zmiany                                              |
-| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | ----------- | ---------------------------------------------------------- |
-| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete    | context/changes/testing-runner-bootstrap                   |
-| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete    | context/changes/testing-data-isolation-session-persistence |
-| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | complete    | context/changes/testing-auth-boundary-gate                 |
-| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | complete    | context/changes/testing-e2e-session-flow                   |
-| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | complete    | context/changes/testing-session-ui-regression              |
-| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit                         | not started | —                                                          |
+| #   | Nazwa fazy                                         | Cel (jeden wiersz)                                                                                                                                   | Pokrywane ryzyka | Typy testów                  | Status   | Folder zmiany                                              |
+| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------- | -------- | ---------------------------------------------------------- |
+| 1   | Bootstrap runnera + testy jednostkowe walidatora   | Zainstaluj vitest; udowodnij, że pierwszy test przechodzi; przetestuj jednostkowo logikę klasyfikacji walidatora z danymi fixture                    | #1               | unit, integration            | complete | context/changes/testing-runner-bootstrap                   |
+| 2   | Izolacja danych + trwałość sesji                   | Testy integracyjne zapytań z zakresem userId + round-trip zapisu sesji na prawdziwym DB                                                              | #2, #3           | integration (DB)             | complete | context/changes/testing-data-isolation-session-persistence |
+| 3   | Brama granicy auth                                 | Udowodnij, że middleware blokuje nieuwierzytelniony dostęp do wszystkich chronionych tras                                                            | #6               | integration, lightweight e2e | complete | context/changes/testing-auth-boundary-gate                 |
+| 4   | E2E głównego przepływu sesji + formularz logowania | Udowodnij, że główny flow diagnostyczny (S-02) działa end-to-end w przeglądarce; zastąp fixture saved-state testem wypełniającym formularz logowania | #7, #8           | e2e (Playwright)             | complete | context/changes/testing-e2e-session-flow                   |
+| 5   | Regresja UI sesji — baseline                       | Test interakcji z komponentem dla przeciągania DnD na pierwszym/ostatnim elemencie; wyświetlanie feedbacku walidatora w SessionView                  | #4               | component interaction        | complete | context/changes/testing-session-ui-regression              |
+| 6   | Brama retencji RODO                                | Test jednostkowy logiki czyszczenia przy granicy 30-dniowej (aktywuj po wdrożeniu S-05)                                                              | #5               | unit, integration            | complete | context/changes/testing-rodo-retention-gate                |
 
 ## 4. Stos
 
@@ -514,8 +514,107 @@ it('moves first test to last position', () => {
 
 ### 6.6 Dodawanie testu retencji / czyszczenia
 
-DO UZUPEŁNIENIA — patrz §3 Faza 6 dla wzorca logiki granicy soft-delete (aktywuj
-po wysłaniu S-05).
+Wzorce udowodnione w zmianie `testing-rodo-retention-gate` (Faza 6).
+
+**Lokalizacje plików**
+
+- Skrypt cleanup: `scripts/cleanup-expired-accounts.mjs` — eksportuje
+  `runCleanup(sql)`
+- Testy: `scripts/__tests__/cleanup.test.mjs`
+
+**Vitest config** — aby testy w `scripts/` były wykrywane, `vitest.config.ts`
+musi zawierać `'scripts/**/*.test.mjs'` w `test.include`.
+
+**Wzorzec hermetyczny (mock sql)**
+
+`sql` z postgres.js jest wywoływany jako tagged template literal — `vi.fn()` z
+`mockResolvedValue` obsługuje to transparentnie:
+
+```js
+import { describe, it, expect, vi } from 'vitest';
+import { runCleanup } from '../cleanup-expired-accounts.mjs';
+
+describe('runCleanup — hermetic', () => {
+  it('returns correct counts', async () => {
+    const sql = vi
+      .fn()
+      .mockResolvedValue([{ users_deleted: 2, tokens_deleted: 1 }]);
+    const result = await runCleanup(sql);
+    expect(result).toEqual({ usersDeleted: 2, tokensDeleted: 1 });
+  });
+
+  it('propagates sql error', async () => {
+    const sql = vi.fn().mockRejectedValue(new Error('DB error'));
+    await expect(runCleanup(sql)).rejects.toThrow('DB error');
+  });
+});
+```
+
+**Wzorzec integracyjny (prawdziwy DB)**
+
+Użyj `describe.skipIf(!process.env.DATABASE_URL_TEST)` analogicznie do §6.2.
+Utwórz połączenie postgres.js w `beforeAll`, zamknij w `afterAll`. Każdy test
+seeduje dane z unikalnym prefiksem `test-rodo-` + timestamp, `afterEach` czyści
+w odwrotnej kolejności FK (idempotentne — DELETE WHERE nie rzuca gdy wiersz już
+usunięty przez `runCleanup`):
+
+```js
+import postgres from 'postgres';
+
+const DATABASE_URL_TEST = process.env.DATABASE_URL_TEST;
+
+describe.skipIf(!DATABASE_URL_TEST)('runCleanup — integration', () => {
+  let sql;
+  const ts = Date.now();
+
+  beforeAll(() => {
+    sql = postgres(DATABASE_URL_TEST, { prepare: false });
+  });
+  afterAll(async () => {
+    await sql.end();
+  });
+
+  afterEach(async () => {
+    // Reverse FK order — idempotent
+    await sql`DELETE FROM "session_event" WHERE id = ${'test-rodo-se-' + ts}`;
+    await sql`DELETE FROM "session_result" WHERE id = ${'test-rodo-sr-' + ts}`;
+    // ... pozostałe tabele w kolejności FK
+    await sql`DELETE FROM "user" WHERE id LIKE ${'test-rodo-u%-' + ts}`;
+  });
+
+  it('deletes user with deletion_requested_at 31 days ago', async () => {
+    const userId = `test-rodo-u1-${ts}`;
+    await sql`INSERT INTO "user" (id, email, deletion_requested_at)
+      VALUES (${userId}, ${'test@test.local'}, NOW() - INTERVAL '31 days')`;
+    const result = await runCleanup(sql);
+    expect(result).toEqual({ usersDeleted: 1, tokensDeleted: 0 });
+    const rows = await sql`SELECT id FROM "user" WHERE id = ${userId}`;
+    expect(rows).toHaveLength(0);
+  });
+});
+```
+
+**Kluczowe odkrycia implementacyjne**
+
+- **CTE data-modifying wymaga `RETURNING`**: każdy CTE referencjonowany w
+  zewnętrznym `SELECT` musi mieć klauzulę `RETURNING`, inaczej PostgreSQL rzuca
+  `WITH query "..." does not have a RETURNING clause`.
+- **import.meta.main w Node.js ESM**: brak natywnego `import.meta.main`.
+  Wzorzec: `fileURLToPath(import.meta.url) === path.resolve(process.argv[1])`.
+- **vitest.setup.ts ładuje `.env.test`** przez dotenv — `DATABASE_URL_TEST` jest
+  zawsze dostępne w tym projekcie; `skipIf` działa dla środowisk bez
+  `.env.test`.
+- **Atomowy cleanup verificationToken**: `verificationToken` nie ma FK do `user`
+  — email (PII) musi być usuwany przez data-modifying CTE w tym samym zapytaniu
+  co usunięcie usera, nie osobnym krokiem.
+
+**Reguła wyroczni**: warunek granicy to strict `<`
+(`deletion_requested_at < NOW() - INTERVAL '30 days'`). User exactly na granicy
+30 dni jest zachowany — testuj `31 days` (deleted) i `1 day` (preserved), nie
+`30 days` (edge).
+
+**Polecenie uruchamiania**: `npm test` (hermetic zawsze) lub
+`npx vitest run scripts` (oba suites gdy DATABASE_URL_TEST ustawiony).
 
 ## 7. Czego celowo nie testujemy
 
