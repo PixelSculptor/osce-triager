@@ -308,22 +308,22 @@ równoległymi runami.
 
 #### Automatyczne
 
-- [ ] 1.1 Skrypt przechodzi syntax check:
+- [x] 1.1 Skrypt przechodzi syntax check:
       `node --check scripts/cleanup-expired-accounts.mjs`
 
 #### Ręczne
 
-- [ ] 1.2 `node scripts/cleanup-expired-accounts.mjs` z `DATABASE_URL` loguje
+- [x] 1.2 `node scripts/cleanup-expired-accounts.mjs` z `DATABASE_URL` loguje
       poprawny output i kończy z kodem 0
-- [ ] 1.3 Import skryptu w teście nie wywołuje efektów ubocznych
+- [x] 1.3 Import skryptu w teście nie wywołuje efektów ubocznych
 
 ### Faza 2: Test infrastruktura + testy jednostkowe
 
 #### Automatyczne
 
-- [ ] 2.1 `npm test` przechodzi (wszystkie testy zielone bez
+- [x] 2.1 `npm test` przechodzi (wszystkie testy zielone bez
       `DATABASE_URL_TEST`)
-- [ ] 2.2 `npx vitest run scripts` wykrywa i uruchamia 3 unit testy
+- [x] 2.2 `npx vitest run scripts` wykrywa i uruchamia 3 unit testy
 
 #### Ręczne
 
