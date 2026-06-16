@@ -11,11 +11,18 @@ preparing for OSCE exams.
 
 **Live**: https://osce-triager.kapix007.workers.dev
 
+![Session flow — dashboard → order tests → validator feedback → result](docs/screenshots/session-demo.gif)
+
+<details>
+<summary>Key screens</summary>
+
 ![Login screen](docs/screenshots/login.png)
 ![Student dashboard](docs/screenshots/dashboard.png)
 ![Active diagnostic session](docs/screenshots/session.png)
 ![Session result](docs/screenshots/results.png)
 ![Session details — diagnostic pathway review](docs/screenshots/session-details.png)
+
+</details>
 
 ---
 
