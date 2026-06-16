@@ -30,7 +30,7 @@
   font-weight: 700;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
 }
 
 .description {

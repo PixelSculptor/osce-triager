@@ -19,15 +19,17 @@ export function DeleteAccountSection() {
 
   return (
     <section className={styles.section}>
-      <h2>Usuń konto</h2>
+      <h2 className={styles.title}>Usuń konto</h2>
       <p className={styles.description}>
-        Twoje konto zostanie trwale usunięte po 30 dniach. W tym czasie możesz
-        anulować żądanie.
+        Twoje konto zostanie trwale usunięte po{' '}
+        <strong className={styles.dangerAction}>30 dniach</strong>. W tym czasie
+        możesz anulować żądanie.
       </p>
       <form action={formAction}>
         <div className={styles.fieldGroup}>
           <label htmlFor='confirmation' className={styles.label}>
-            Wpisz <strong>DELETE</strong> aby potwierdzić:
+            Wpisz <strong className={styles.dangerAction}>DELETE</strong> aby
+            potwierdzić:
           </label>
           <input
             id='confirmation'

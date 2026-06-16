@@ -194,7 +194,8 @@ describe('deleteSessionAction — R-DEL-05 Unauthorized (hermetic)', () => {
   });
 
   it('R-DEL-05: returns Unauthorized when auth returns null', async () => {
-    vi.mocked(auth).mockResolvedValueOnce(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(auth as any).mockResolvedValueOnce(null);
     const result = await deleteSessionAction('any-id');
     expect(result).toEqual({ error: 'Unauthorized' });
   });
@@ -239,9 +240,10 @@ describe.skipIf(!runIntegration)(
     });
 
     it('R-DEL-04: blocks deletion of in_progress session, session still exists', async () => {
-      vi.mocked(auth).mockResolvedValueOnce({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      vi.mocked(auth as any).mockResolvedValueOnce({
         user: { id: DEL_ACT_USER },
-      } as Awaited<ReturnType<typeof auth>>);
+      });
       const result = await deleteSessionAction(DEL_ACT_SESSION);
       expect(result).toEqual({ error: 'Cannot delete an active session' });
 

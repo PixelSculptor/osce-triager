@@ -7,6 +7,16 @@
   box-shadow: var(--shadow-card);
 }
 
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--space-2);
+}
+
+.dangerAction {
+  color: var(--color-danger-fg);
+}
+
 .description {
   margin-bottom: var(--space-4);
   opacity: 0.8;

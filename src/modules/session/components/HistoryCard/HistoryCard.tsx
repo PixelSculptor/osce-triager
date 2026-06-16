@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Timer } from 'lucide-react';
+import { DeleteSessionButton } from '../DeleteSessionButton/DeleteSessionButton';
 import styles from './HistoryCard.module.css';
 
 interface HistoryCardProps {
@@ -32,13 +35,23 @@ export function HistoryCard({
 
   return (
     <li className={styles.card}>
+      <div className={styles.deleteArea}>
+        <DeleteSessionButton
+          sessionId={id}
+          scenarioTitle={scenarioTitle}
+          completedAt={completedAt}
+        />
+      </div>
       <h3 className={styles.title}>{scenarioTitle}</h3>
       <div className={styles.meta}>
         <span className={`${styles.badge} ${styles[outcome]}`}>
           {outcome === 'positive' ? 'Pozytywny' : 'Negatywny'}
         </span>
         <span>{dateStr}</span>
-        <span>Czas: {duration}</span>
+        <p className={styles.metaItem}>
+          <Timer size={16} />
+          <span>Czas: {duration}</span>
+        </p>
       </div>
       <Link
         href={`/dashboard/session/${id}/details`}

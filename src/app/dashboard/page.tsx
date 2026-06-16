@@ -12,7 +12,7 @@ export default async function DashboardPage() {
 
   return (
     <main className={styles.main}>
-      <h1>Panel studenta</h1>
+      <h1 className={styles.heading}>Panel studenta</h1>
       <ul className={styles.list}>
         {scenarioList.map((scenario) => (
           <ScenarioCard
