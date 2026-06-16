@@ -539,8 +539,8 @@ na `complete`.
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run typecheck` przechodzi
-- [ ] 2.2 `npm run test` — pięć nowych testów przechodzi
+- [x] 2.1 `npm run typecheck` przechodzi
+- [x] 2.2 `npm run test` — pięć nowych testów przechodzi
 
 #### Ręczne
 

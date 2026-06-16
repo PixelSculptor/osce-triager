@@ -36,11 +36,22 @@ const collisionDetection: CollisionDetection = (args) => {
   return rectIntersection(args);
 };
 
-interface OrderedTest {
+export interface OrderedTest {
   testId: string;
   name: string;
   validatorResult: ValidatorResult;
   category: TestCategory;
+}
+
+export function applyReorder(
+  tests: OrderedTest[],
+  activeId: string,
+  overId: string,
+): OrderedTest[] {
+  const oldIndex = tests.findIndex((t) => t.testId === activeId);
+  const newIndex = tests.findIndex((t) => t.testId === overId);
+  if (oldIndex === -1 || newIndex === -1) return tests;
+  return arrayMove(tests, oldIndex, newIndex);
 }
 
 interface SessionViewProps {
@@ -201,12 +212,9 @@ export function SessionView({
 
     // Within-right reorder: needs a valid sortable target
     if (!over || source !== 'ordered' || active.id === over.id) return;
-    setOrderedTests((prev) => {
-      const oldIndex = prev.findIndex((t) => t.testId === active.id);
-      const newIndex = prev.findIndex((t) => t.testId === over.id);
-      if (oldIndex === -1 || newIndex === -1) return prev;
-      return arrayMove(prev, oldIndex, newIndex);
-    });
+    setOrderedTests((prev) =>
+      applyReorder(prev, active.id as string, over.id as string),
+    );
   }
 
   const orderedTestIds = useMemo(
