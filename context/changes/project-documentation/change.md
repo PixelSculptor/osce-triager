@@ -1,7 +1,7 @@
 ---
 change_id: project-documentation
 title: Project documentation
-status: new
+status: done
 created: 2026-06-16
 updated: 2026-06-16
 archived_at: null
