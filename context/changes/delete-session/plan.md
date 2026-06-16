@@ -483,11 +483,11 @@ niezależne i self-cleaning.
 
 #### Automatyczne
 
-- [ ] 2.1 Integration testy queries przechodzą:
+- [x] 2.1 Integration testy queries przechodzą:
       `npm run test -- queries.test.ts`
-- [ ] 2.2 Integration testy actions przechodzą:
+- [x] 2.2 Integration testy actions przechodzą:
       `npm run test -- actions.test.ts`
-- [ ] 2.3 Typecheck przechodzi: `npm run typecheck`
+- [x] 2.3 Typecheck przechodzi: `npm run typecheck`
 
 #### Ręczne
 
