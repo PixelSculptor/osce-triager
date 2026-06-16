@@ -526,14 +526,14 @@ na `complete`.
 
 #### Automatyczne
 
-- [ ] 1.1 `npm install` kończy się bez błędów dependency conflict
-- [ ] 1.2 `npm run typecheck` przechodzi po instalacji
-- [ ] 1.3 `npm run test` przechodzi — istniejące testy nie regresują
+- [x] 1.1 `npm install` kończy się bez błędów dependency conflict
+- [x] 1.2 `npm run typecheck` przechodzi po instalacji
+- [x] 1.3 `npm run test` przechodzi — istniejące testy nie regresują
 
 #### Ręczne
 
-- [ ] 1.4 `package.json` zawiera cztery nowe devDependencies z poprawnymi wersjami
-- [ ] 1.5 `vitest.setup.ts` ma `import '@testing-library/jest-dom/vitest'` jako pierwszą linię
+- [x] 1.4 `package.json` zawiera cztery nowe devDependencies z poprawnymi wersjami
+- [x] 1.5 `vitest.setup.ts` ma `import '@testing-library/jest-dom/vitest'` jako pierwszą linię
 
 ### Faza 2: Ekstrakcja `applyReorder` + testy jednostkowe
 
