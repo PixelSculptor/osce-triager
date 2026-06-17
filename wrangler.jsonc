@@ -22,6 +22,12 @@
     // see https://opennext.js.org/cloudflare/howtos/image
     "binding": "IMAGES"
   },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  },
   "vars": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://yehnxcansdzrfukqjpor.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllaG54Y2Fuc2R6cmZ1a3FqcG9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDM1NzQsImV4cCI6MjA5NTIxOTU3NH0.ZR8dC1GtYuxYro2rerTcDxX_lHeTK5y2yRw_lgmAy7A",
