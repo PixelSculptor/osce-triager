@@ -4,12 +4,26 @@ An interactive diagnostic pathway simulator for 6th-year medical students
 preparing for OSCE exams.
 
 [![CI](https://github.com/PixelSculptor/osce-traiger/actions/workflows/ci.yml/badge.svg)](https://github.com/PixelSculptor/osce-traiger/actions/workflows/ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![Cloudflare Workers](https://img.shields.io/badge/Deployed-Cloudflare_Workers-F38020?logo=cloudflare&logoColor=white)](https://osce-triager.kapix007.workers.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+OSCE (Objective Structured Clinical Examination) is the final practical exam for
+medical students — a timed, station-based assessment of clinical
+decision-making. This simulator lets 6th-year students practice diagnostic
+ordering under exam conditions: pick tests from a pool of 18, get real-time
+feedback from a validator (Correct / Suboptimal / Unnecessary / Critical miss),
+and face the same irreversible penalty as the real exam — a single missed
+critical test flips the session outcome to Negative, with no recovery.
 
 ---
 
 ## Demo
 
 **Live**: https://osce-triager.kapix007.workers.dev
+
+![Demo session](docs/demo.gif)
 
 ![Login screen](docs/screenshots/login.png)
 ![Student dashboard](docs/screenshots/dashboard.png)
@@ -131,6 +145,18 @@ src/shared/
 ---
 
 ## Database Schema
+
+```mermaid
+erDiagram
+  user ||--o{ account : "OAuth link"
+  user ||--o{ session : "auth session"
+  user ||--o{ session_result : "creates"
+  scenario ||--o{ test_classification : "defines"
+  diagnostic_test ||--o{ test_classification : "classified in"
+  scenario ||--o{ session_result : "used in"
+  session_result ||--o{ session_event : "contains"
+  diagnostic_test ||--o{ session_event : "ordered in"
+```
 
 ### Auth tables (NextAuth)
 
