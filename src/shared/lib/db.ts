@@ -15,6 +15,11 @@ export const getDb: () => PostgresJsDatabase<typeof schema> = cache(() =>
       prepare: false,
       fetch_types: false,
       connect_timeout: 10,
+      // Self-close idle sockets. In workerd the request-scoped I/O is torn down
+      // anyway; this matters for long-lived Node hosts (`next dev`, tests) where
+      // per-request cache() pools would otherwise linger and exhaust the local
+      // Postgres connection slots.
+      idle_timeout: 20,
     }),
     { schema },
   ),

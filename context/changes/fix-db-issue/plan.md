@@ -445,12 +445,15 @@ commitów faz 1-2 (przywrócenie singletonu). Deploy dopiero po Fazie 2.
 
 #### Automatyczne
 
-- [ ] 3.1 Preview startuje bez błędów: `npm run preview`
+- [x] 3.1 Preview startuje bez błędów: `npm run preview` (workerd lokalnie,
+      lokalny URL — potwierdzone ręcznie)
 
 #### Ręczne
 
-- [ ] 3.2 Preview: `/dashboard` ładuje się za pierwszym razem
-- [ ] 3.3 Preview: wejście w sesję bez zawieszenia
-- [ ] 3.4 Preview: zlecenie badania zwraca wynik, brak HTTP 500
+- [x] 3.2 Preview: `/dashboard` ładuje się za pierwszym razem
+- [x] 3.3 Preview: wejście w sesję bez zawieszenia
+- [x] 3.4 Preview: zlecenie badania zwraca wynik, brak HTTP 500 (3.2–3.4
+      potwierdzone: preview na workerd przeszedł bez problemów — fix per-request
+      potwierdzony na realnym runtime, ten sam co prod)
 - [ ] 3.5 Deploy na prod: `npm run deploy`
 - [ ] 3.6 Prod: trzy przepływy działają, brak "code had hung" w Workers Logs
