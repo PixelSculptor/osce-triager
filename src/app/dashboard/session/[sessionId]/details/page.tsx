@@ -37,12 +37,7 @@ export default async function SessionDetailsPage({
 }) {
   const { sessionId } = await params;
 
-  let session = null;
-  try {
-    session = await auth();
-  } catch (e) {
-    console.error('[SessionDetailsPage] auth() threw:', e);
-  }
+  const session = await auth();
   if (!session?.user?.id) redirect('/login');
 
   const details = await getSessionDetails(sessionId, session.user.id);

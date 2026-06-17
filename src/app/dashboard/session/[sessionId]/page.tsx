@@ -17,12 +17,7 @@ export default async function SessionPage({
 }) {
   const { sessionId } = await params;
 
-  let session = null;
-  try {
-    session = await auth();
-  } catch (e) {
-    console.error('[SessionPage] auth() threw:', e);
-  }
+  const session = await auth();
   if (!session?.user?.id) redirect('/login');
 
   const sessionResult = await getSessionById(sessionId, session.user.id);
