@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import NextAuth from 'next-auth';
 import { normalizeEmail } from '@/modules/auth/user.util';
 import Credentials from 'next-auth/providers/credentials';
-import { db } from '@/shared/lib/db';
+import { getDb } from '@/shared/lib/db';
 import {
   accounts,
   sessions,
@@ -12,8 +12,12 @@ import {
   verificationTokens,
 } from '@/shared/lib/schema';
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db, {
+// Lazy config factory: NextAuth evaluates this per invocation, so the adapter
+// and authorize() bind a per-request getDb() client instead of a module-level
+// singleton. The config is complete regardless of the (unused) request — auth()
+// in RSC invokes it without one.
+export const { handlers, auth, signIn, signOut } = NextAuth(() => ({
+  adapter: DrizzleAdapter(getDb(), {
     usersTable: users,
     accountsTable: accounts,
     sessionsTable: sessions,
@@ -39,6 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
+        const db = getDb();
         const user = await db.query.users.findFirst({
           where: eq(users.email, normalizeEmail(credentials.email as string)),
         });
@@ -56,4 +61,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-});
+}));

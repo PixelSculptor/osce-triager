@@ -416,20 +416,29 @@ commitów faz 1-2 (przywrócenie singletonu). Deploy dopiero po Fazie 2.
 
 #### Automatyczne
 
-- [ ] 2.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 2.2 Lint przechodzi: `npm run lint`
-- [ ] 2.3 Testy przechodzą: `npm run test`
-- [ ] 2.4 Build OpenNext przechodzi: `npm run build:worker`
-- [ ] 2.5 Brak singletonu: `grep -n "export const db" src/shared/lib/db.ts`
+- [x] 2.1 Typecheck przechodzi: `npm run typecheck`
+- [x] 2.2 Lint przechodzi: `npm run lint`
+- [x] 2.3 Testy przechodzą: `npm run test` (`35 passed` po wyczyszczeniu idle
+      połączeń lokalnej bazy — sam test runner nie był problemem)
+- [x] 2.4 Build OpenNext przechodzi: `npm run build:worker`
+      (`OpenNext build complete.`, `worker.js` zapisany)
+- [x] 2.5 Brak singletonu: `grep -n "export const db" src/shared/lib/db.ts`
       pusto
-- [ ] 2.6 `postgres(` w `db.ts` tylko wewnątrz `cache(() => …)`
-- [ ] 2.7 Żaden plik nie importuje singletonu: `grep -rn "import { db }" src`
+- [x] 2.6 `postgres(` w `db.ts` tylko wewnątrz `cache(() => …)`
+- [x] 2.7 Żaden plik nie importuje singletonu: `grep -rn "import { db }" src`
       pusto
+
+> Uwaga: analiza planu wymieniała 8 konsumentów; typecheck po usunięciu
+> singletonu wykrył jeszcze 2 (`src/shared/lib/seed.ts`,
+> `src/shared/lib/seed-test.ts`) używające `const { db } = await import('./db')`
+> (dynamiczny import — pominięty przez grep statyczny). Oba zmigrowane na
+> `getDb()`; wzorzec dynamicznego importu zachowany.
 
 #### Ręczne
 
-- [ ] 2.8 Przegląd `auth.ts`: pełny config także dla `req === undefined`,
-      eksporty niezmienione
+- [x] 2.8 Przegląd `auth.ts`: pełny config także dla `req === undefined` (forma
+      `NextAuth(() => ({…}))` — config nie zależy od `req`), eksporty
+      `{ handlers, auth, signIn, signOut }` niezmienione
 - [ ] 2.9 Login (Credentials) i rejestracja działają lokalnie (`npm run dev`)
 
 ### Faza 3: Weryfikacja na workerd (preview + prod)
