@@ -73,6 +73,7 @@ export async function registerAction(
     if (e instanceof Error && e.message === 'EMAIL_TAKEN') {
       return { errors: { email: 'Ten adres email jest już zajęty' } };
     }
+    console.error('[registerAction] registerUser threw:', e);
     return { errors: { _form: 'Wystąpił błąd. Spróbuj ponownie.' } };
   }
 
