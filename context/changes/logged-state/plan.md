@@ -417,14 +417,14 @@ sprawdzeń wdróż i wykonaj weryfikację ręczną na produkcji.
 
 #### Automatyczne
 
-- [ ] 1.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 1.2 Linting przechodzi: `npm run lint`
-- [ ] 1.3 Build przechodzi: `npm run build`
+- [x] 1.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 1.2 Linting przechodzi: `npm run lint`
+- [x] 1.3 Build przechodzi: `npm run build`
 
 #### Ręczne
 
-- [ ] 1.4 Lokalnie aplikacja łączy się i ładuje dane bez regresji
-- [ ] 1.5 Wartości timeoutów poniżej budżetu Workera (8s query < ~10s limit)
+- [x] 1.4 Lokalnie aplikacja łączy się i ładuje dane bez regresji
+- [x] 1.5 Wartości timeoutów poniżej budżetu Workera (8s query < ~10s limit)
 
 ### Faza 2: Usunięcie DrizzleAdapter z auth.ts
 
