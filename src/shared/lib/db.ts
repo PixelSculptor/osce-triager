@@ -7,6 +7,7 @@ import * as schema from './schema';
 // max: 1 — one connection per Worker isolate (Workers are stateless)
 const client = postgres(process.env.DATABASE_URL!, {
   prepare: false,
+  ssl: process.env.NODE_ENV === 'production' ? 'require' : false,
   connect_timeout: 10,
   idle_timeout: 20,
   max: 1,
