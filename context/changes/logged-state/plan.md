@@ -461,10 +461,10 @@ sprawdzeń wdróż i wykonaj weryfikację ręczną na produkcji.
 
 #### Automatyczne
 
-- [ ] 4.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 4.2 Linting przechodzi: `npm run lint`
-- [ ] 4.3 Build przechodzi: `npm run build`
-- [ ] 4.4 `next.config.ts` eksportuje `headers()` i zachowuje
+- [x] 4.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 4.2 Linting przechodzi: `npm run lint`
+- [x] 4.3 Build przechodzi: `npm run build`
+- [x] 4.4 `next.config.ts` eksportuje `headers()` i zachowuje
       `initOpenNextCloudflareForDev()`
 
 #### Ręczne
