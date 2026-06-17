@@ -390,11 +390,18 @@ commitów faz 1-2 (przywrócenie singletonu). Deploy dopiero po Fazie 2.
 
 #### Automatyczne
 
-- [ ] 1.1 Typecheck przechodzi: `npm run typecheck`
-- [ ] 1.2 Lint przechodzi: `npm run lint`
-- [ ] 1.3 Testy przechodzą: `npm run test`
-- [ ] 1.4 `getDb` obecne w `db.ts`: `grep -n "getDb" src/shared/lib/db.ts`
-- [ ] 1.5 Pliki nie-auth nie importują singletonu:
+- [x] 1.1 Typecheck przechodzi: `npm run typecheck` (po usunięciu nieaktualnego
+      `.next/types/validator.ts` wskazującego na usunięty route `debug-env` —
+      artefakt builda, niezwiązany z tą zmianą)
+- [x] 1.2 Lint przechodzi: `npm run lint` (0 błędów, 0 ostrzeżeń)
+- [~] 1.3 Testy: wynik identyczny jak baseline (`2 passed | 10 skipped` dla obu
+  zmigrowanych plików; pełny pakiet `20 passed | 5 failed | 10 skipped`). Testy
+  hermetyczne przechodzą (m.in. spy na `getDb()` w `endSessionAction`). Testy
+  integracyjne padają na `remaining connection slots` (53300) — ograniczenie
+  testowej bazy `DATABASE_URL_TEST`, takie samo przed i po zmianie; brak
+  regresji.
+- [x] 1.4 `getDb` obecne w `db.ts`: `grep -n "getDb" src/shared/lib/db.ts`
+- [x] 1.5 Pliki nie-auth nie importują singletonu:
       `grep -rn "import { db }" src/modules/session src/modules/account src/modules/auth/user.util.ts`
       pusto
 
@@ -402,7 +409,8 @@ commitów faz 1-2 (przywrócenie singletonu). Deploy dopiero po Fazie 2.
 
 - [ ] 1.6 Przegląd diffu: każda funkcja pobiera `db = getDb()` lokalnie, logika
       niezmieniona
-- [ ] 1.7 `auth.ts` nadal kompiluje się dzięki tymczasowemu `export const db`
+- [x] 1.7 `auth.ts` nadal kompiluje się dzięki tymczasowemu `export const db`
+      (potwierdzone przez zielony typecheck — `auth.ts` wciąż importuje `db`)
 
 ### Faza 2: Lazy-init NextAuth + usunięcie singletonu
 

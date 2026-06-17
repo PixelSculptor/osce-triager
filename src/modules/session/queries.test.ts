@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { eq } from 'drizzle-orm';
-import { db } from '@/shared/lib/db';
+import { getDb } from '@/shared/lib/db';
 import {
   users,
   scenarios,
@@ -13,6 +13,10 @@ import {
   getSessionEvents,
   deleteSessionById,
 } from '@/modules/session/queries';
+
+// Outside a request context (Node) getDb() returns a fresh client; one client
+// for the whole suite is enough for setup/cleanup against local Postgres.
+const db = getDb();
 
 const runIntegration = !!process.env.DATABASE_URL_TEST;
 

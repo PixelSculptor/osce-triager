@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { and, desc, eq, ne } from 'drizzle-orm';
-import { db } from '@/shared/lib/db';
+import { getDb } from '@/shared/lib/db';
 import {
   diagnosticTests,
   scenarios,
@@ -11,10 +11,12 @@ import {
 } from '@/shared/lib/schema';
 
 export async function getScenarios() {
+  const db = getDb();
   return db.select().from(scenarios).orderBy(scenarios.createdAt);
 }
 
 export async function getSessionById(sessionId: string, userId: string) {
+  const db = getDb();
   const [row] = await db
     .select()
     .from(sessionResults)
@@ -26,6 +28,7 @@ export async function getSessionById(sessionId: string, userId: string) {
 }
 
 export async function getScenarioById(scenarioId: string) {
+  const db = getDb();
   const [row] = await db
     .select()
     .from(scenarios)
@@ -35,10 +38,12 @@ export async function getScenarioById(scenarioId: string) {
 }
 
 export async function getDiagnosticTests() {
+  const db = getDb();
   return db.select().from(diagnosticTests);
 }
 
 export async function getTestClassificationsByScenario(scenarioId: string) {
+  const db = getDb();
   return db
     .select()
     .from(testClassifications)
@@ -46,6 +51,7 @@ export async function getTestClassificationsByScenario(scenarioId: string) {
 }
 
 export async function getSessionEvents(sessionId: string, userId: string) {
+  const db = getDb();
   return db
     .select({
       id: sessionEvents.id,
@@ -66,6 +72,7 @@ export async function getSessionEvents(sessionId: string, userId: string) {
 }
 
 export async function getUserSessions(userId: string) {
+  const db = getDb();
   return db
     .select({
       id: sessionResults.id,
@@ -89,6 +96,7 @@ export async function deleteSessionById(
   sessionId: string,
   userId: string,
 ): Promise<number> {
+  const db = getDb();
   const deleted = await db
     .delete(sessionResults)
     .where(
@@ -99,6 +107,7 @@ export async function deleteSessionById(
 }
 
 export async function getSessionDetails(sessionId: string, userId: string) {
+  const db = getDb();
   const [sessionRow] = await db
     .select({
       id: sessionResults.id,

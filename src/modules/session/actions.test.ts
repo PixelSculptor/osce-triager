@@ -21,7 +21,7 @@ import {
   endSessionAction,
   deleteSessionAction,
 } from '@/modules/session/actions';
-import { db } from '@/shared/lib/db';
+import * as dbModule from '@/shared/lib/db';
 import {
   users,
   scenarios,
@@ -30,6 +30,10 @@ import {
   sessionResults,
   sessionEvents,
 } from '@/shared/lib/schema';
+
+// Outside a request context (Node) getDb() returns a fresh client; one client
+// for the whole suite is enough for the integration setup/cleanup below.
+const db = dbModule.getDb();
 
 // Skip the entire suite when no test DB is configured.
 // Run with DATABASE_URL_TEST=<url> (see .env.test.example) and apply the
@@ -100,7 +104,8 @@ describe.skipIf(!runIntegration)('selectTestAction integration', () => {
 
 // ---------------------------------------------------------------------------
 // Hermetic: Write 2 partial failure in endSessionAction
-// Uses vi.spyOn on db so the real DB (used above) is unaffected.
+// Spies on getDb() to return a mock client, so the real DB (used above) is
+// unaffected and the action's per-request getDb() call is intercepted.
 // ---------------------------------------------------------------------------
 
 describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
@@ -144,14 +149,13 @@ describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
   }
 
   beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(db as any, 'select')
+    const select = vi
+      .fn()
       .mockImplementationOnce(() => makeSelectChain([sessionRow])) // Select 1: sessionResults
       .mockImplementationOnce(() => makeSelectChain([])) // Select 2: sessionEvents (no selections)
       .mockImplementationOnce(() => makeSelectChain([classificationRow])); // Select 3: testClassifications
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(db as any, 'update').mockImplementation(() => {
+    const update = vi.fn().mockImplementation(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const chain: any = {
         set: () => chain,
@@ -161,10 +165,16 @@ describe('endSessionAction — Write 2 partial failure (hermetic)', () => {
       return chain;
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(db as any, 'insert').mockImplementation(() => ({
+    const insert = vi.fn().mockImplementation(() => ({
       values: vi.fn().mockRejectedValue(new Error('DB timeout')),
     }));
+
+    vi.spyOn(dbModule, 'getDb').mockReturnValue({
+      select,
+      update,
+      insert,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
   });
 
   afterEach(() => {
