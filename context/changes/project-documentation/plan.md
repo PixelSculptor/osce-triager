@@ -244,10 +244,10 @@ sekcji opisana w `context/changes/project-documentation/research.md`.
 
 #### Ręczne
 
-- [ ] 1.2 Live URL `https://osce-triager.kapix007.workers.dev` aktywny i
+- [x] 1.2 Live URL `https://osce-triager.kapix007.workers.dev` aktywny i
       renderuje aplikację
-- [ ] 1.3 Screenshoty poprawnie otwierają się, rozmiar <1MB każdy
-      (`du -sh docs/screenshots/*.png`)
+- [x] 1.3 Screenshoty poprawnie otwierają się, rozmiar <1MB każdy
+      (`du -sh docs/screenshots/*.png`) — 252–312KB, wszystkie <1MB
 
 ### Faza 2: README.md
 
@@ -261,7 +261,7 @@ sekcji opisana w `context/changes/project-documentation/research.md`.
 
 #### Ręczne
 
-- [ ] 2.5 README renderuje się poprawnie na GitHub (brak broken markdown)
-- [ ] 2.6 CI badge wyświetla status (nie broken image)
-- [ ] 2.7 Screenshoty inline widoczne w sekcji Demo
-- [ ] 2.8 Live URL link klikalny i prowadzi do aplikacji
+- [x] 2.5 README renderuje się poprawnie na GitHub (brak broken markdown)
+- [x] 2.6 CI badge wyświetla status (nie broken image)
+- [x] 2.7 Screenshoty inline widoczne w sekcji Demo
+- [x] 2.8 Live URL link klikalny i prowadzi do aplikacji
