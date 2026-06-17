@@ -25,7 +25,13 @@ import { deleteSessionById, getSessionById } from './queries';
 export async function startSessionAction(
   scenarioId: string,
 ): Promise<StartSessionResult> {
-  const session = await auth();
+  let session;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[startSessionAction] auth() threw:', e);
+    return { error: 'Internal error' };
+  }
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
   try {
@@ -57,7 +63,13 @@ export async function selectTestAction(
   sessionId: string,
   testId: string,
 ): Promise<SelectTestResult> {
-  const session = await auth();
+  let session;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[selectTestAction] auth() threw:', e);
+    return { error: 'Internal error' };
+  }
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
   try {
@@ -115,7 +127,13 @@ export async function selectTestAction(
 export async function endSessionAction(
   sessionId: string,
 ): Promise<EndSessionResult> {
-  const session = await auth();
+  let session;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[endSessionAction] auth() threw:', e);
+    return { error: 'Internal error' };
+  }
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
   try {
@@ -221,16 +239,27 @@ export async function endSessionAction(
 export async function deleteSessionAction(
   sessionId: string,
 ): Promise<{ error?: string }> {
-  const session = await auth();
+  let session;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[deleteSessionAction] auth() threw:', e);
+    return { error: 'Internal error' };
+  }
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
   const userId = session.user.id;
-  const existing = await getSessionById(sessionId, userId);
-  if (!existing) return { error: 'Not found' };
-  if (existing.outcome === 'in_progress')
-    return { error: 'Cannot delete an active session' };
+  try {
+    const existing = await getSessionById(sessionId, userId);
+    if (!existing) return { error: 'Not found' };
+    if (existing.outcome === 'in_progress')
+      return { error: 'Cannot delete an active session' };
 
-  await deleteSessionById(sessionId, userId);
-  revalidatePath('/dashboard/history');
-  return {};
+    await deleteSessionById(sessionId, userId);
+    revalidatePath('/dashboard/history');
+    return {};
+  } catch (e) {
+    console.error('[deleteSessionAction] DB error:', e);
+    return { error: 'Internal error' };
+  }
 }
