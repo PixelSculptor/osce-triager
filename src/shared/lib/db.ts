@@ -8,14 +8,16 @@ import * as schema from './schema';
 //   (< Worker budget) so a dead/recycled PgBouncer connection turns a hang
 //   (Error 1101) into a catchable error
 // max: 1 — one connection per Worker isolate (Workers are stateless)
-// ssl: 'require' for remote Supabase; false for local dev/CI (127.0.0.1)
+// ssl: {} for remote Supabase, false for local dev/CI (127.0.0.1). An empty
+//   object enables TLS with normal cert verification but never sets
+//   rejectUnauthorized — on Cloudflare Workers postgres.js's Node build maps
+//   ssl:'require' to rejectUnauthorized, which workerd's tls.connect rejects
+//   (ERR_OPTION_NOT_IMPLEMENTED). The Supavisor pooler presents a valid public
+//   cert, so default verification passes.
 const dbUrl = process.env.DATABASE_URL ?? '';
 const client = postgres(dbUrl, {
   prepare: false,
-  ssl:
-    dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost')
-      ? false
-      : 'require',
+  ssl: dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost') ? false : {},
   connect_timeout: 5,
   connection: { statement_timeout: 8000 },
   idle_timeout: 20,
