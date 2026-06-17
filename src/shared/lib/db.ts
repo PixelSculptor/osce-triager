@@ -3,7 +3,8 @@ import postgres from 'postgres';
 import * as schema from './schema';
 
 // prepare: false — required for Supabase PgBouncer transaction mode pooler
-// connect_timeout — fail fast on connection setup instead of hanging the Worker
+// connect_timeout: 15 — allow a cold Worker isolate enough time for the
+//   socket + TLS handshake to Supabase (5s proved too aggressive on cold start)
 // connection.statement_timeout — hard server-side per-query cap in ms
 //   (< Worker budget) so a dead/recycled PgBouncer connection turns a hang
 //   (Error 1101) into a catchable error
@@ -15,10 +16,23 @@ import * as schema from './schema';
 //   (ERR_OPTION_NOT_IMPLEMENTED). The Supavisor pooler presents a valid public
 //   cert, so default verification passes.
 const dbUrl = process.env.DATABASE_URL ?? '';
+const isLocal = dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost');
+
+// Diagnostic: log the resolved target (host:port, never the password) once per
+// isolate so the Worker logs show exactly what DATABASE_URL points at.
+try {
+  const parsed = new URL(dbUrl);
+  console.log(
+    `[db] target ${parsed.hostname}:${parsed.port || '5432'} ssl=${!isLocal}`,
+  );
+} catch {
+  console.error('[db] DATABASE_URL is missing or not a valid URL');
+}
+
 const client = postgres(dbUrl, {
   prepare: false,
-  ssl: dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost') ? false : {},
-  connect_timeout: 5,
+  ssl: isLocal ? false : {},
+  connect_timeout: 15,
   connection: { statement_timeout: 8000 },
   idle_timeout: 20,
   max: 1,
