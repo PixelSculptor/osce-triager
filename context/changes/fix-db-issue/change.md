@@ -36,16 +36,14 @@ project-prod-db-connection.
 ## Resolution (2026-06-18)
 
 **Co było problemem ostatecznie:** `src/shared/lib/db.ts` trzymał klienta
-postgres-js jako **singleton na poziomie modułu**
-(`const client = postgres(...)`
-
-- `export const db`). Na Cloudflare Workers (workerd) socket TCP otwarty w
-  kontekście I/O jednego requestu był reużywany w kolejnym requeście — czego
-  workerd zabrania. Zapytanie nigdy się nie kończyło, handler wisiał, a runtime
-  kasował request z błędem „code had hung". Lokalnie (Node) nie występowało, bo
-  Node nie izoluje I/O per-request. Wbrew wcześniejszej hipotezie **Hyperdrive
-  NIE był potrzebny** — to nie była warstwa transportu/TLS, tylko cykl życia
-  klienta.
+postgres-js jako **singleton na poziomie modułu** (`const client = postgres(...)`
+oraz `export const db = drizzle(...)`). Na Cloudflare Workers (workerd) socket
+TCP otwarty w kontekście I/O jednego requestu był reużywany w kolejnym
+requeście — czego workerd zabrania. Zapytanie nigdy się nie kończyło, handler
+wisiał, a runtime kasował request z błędem „code had hung". Lokalnie (Node) nie
+występowało, bo Node nie izoluje I/O per-request. Wbrew wcześniejszej hipotezie
+**Hyperdrive NIE był potrzebny** — to nie była warstwa transportu/TLS, tylko
+cykl życia klienta.
 
 **Jak rozwiązane:** zamieniono singleton na fabrykę **per-request `getDb()`**
 opartą o React `cache()` (jeden klient w obrębie requestu, świeży w następnym —
