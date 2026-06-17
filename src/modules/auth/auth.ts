@@ -1,12 +1,24 @@
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import NextAuth from 'next-auth';
 import { normalizeEmail } from '@/modules/auth/user.util';
 import Credentials from 'next-auth/providers/credentials';
 import { db } from '@/shared/lib/db';
-import { users } from '@/shared/lib/schema';
+import {
+  accounts,
+  sessions,
+  users,
+  verificationTokens,
+} from '@/shared/lib/schema';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: accounts,
+    sessionsTable: sessions,
+    verificationTokensTable: verificationTokens,
+  }),
   session: { strategy: 'jwt' },
   callbacks: {
     jwt({ token, user }) {

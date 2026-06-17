@@ -1,7 +1,6 @@
 'use server';
 
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
-import { revalidatePath } from 'next/cache';
 import { signIn, signOut } from '@/modules/auth/auth';
 import { registerUser } from '@/modules/auth/user.util';
 
@@ -73,7 +72,6 @@ export async function registerAction(
     if (e instanceof Error && e.message === 'EMAIL_TAKEN') {
       return { errors: { email: 'Ten adres email jest już zajęty' } };
     }
-    console.error('[registerAction] registerUser threw:', e);
     return { errors: { _form: 'Wystąpił błąd. Spróbuj ponownie.' } };
   }
 
@@ -93,11 +91,6 @@ export async function logoutAction(): Promise<void> {
   try {
     await signOut({ redirectTo: '/' });
   } catch (e) {
-    // signOut redirects by throwing; clear the layout cache before the
-    // redirect propagates so a refresh after logout shows the guest state.
-    if (isRedirectError(e)) {
-      revalidatePath('/', 'layout');
-      throw e;
-    }
+    if (isRedirectError(e)) throw e;
   }
 }

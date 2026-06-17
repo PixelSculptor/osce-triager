@@ -4,12 +4,7 @@ import { NavLinks } from './NavLinks';
 import styles from './Nav.module.css';
 
 export async function Nav() {
-  let session = null;
-  try {
-    session = await auth();
-  } catch (e) {
-    console.error('[Nav] auth() threw:', e);
-  }
+  const session = await auth();
 
   return (
     <nav className={styles.nav} aria-label='Nawigacja główna'>

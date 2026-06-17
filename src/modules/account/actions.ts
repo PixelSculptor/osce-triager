@@ -12,13 +12,7 @@ export async function requestDeletionAction(
   prevState: AccountActionState,
   formData: FormData,
 ): Promise<AccountActionState> {
-  let session = null;
-  try {
-    session = await auth();
-  } catch (e) {
-    console.error('[requestDeletionAction] auth() threw:', e);
-    return { error: 'Internal error' };
-  }
+  const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
   if (formData.get('confirmation') !== 'DELETE') {
@@ -35,13 +29,7 @@ export async function requestDeletionAction(
 }
 
 export async function cancelDeletionAction(): Promise<void> {
-  let session = null;
-  try {
-    session = await auth();
-  } catch (e) {
-    console.error('[cancelDeletionAction] auth() threw:', e);
-    return;
-  }
+  const session = await auth();
   if (!session?.user?.id) return;
 
   await db
