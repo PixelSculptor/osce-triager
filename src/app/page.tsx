@@ -3,7 +3,12 @@ import { auth } from '@/modules/auth/auth';
 import styles from './page.module.css';
 
 export default async function HomePage() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[HomePage] auth() threw:', e);
+  }
 
   return (
     <div className={styles.page}>

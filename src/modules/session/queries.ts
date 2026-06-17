@@ -11,78 +11,116 @@ import {
 } from '@/shared/lib/schema';
 
 export async function getScenarios() {
-  return db.select().from(scenarios).orderBy(scenarios.createdAt);
+  try {
+    return await db.select().from(scenarios).orderBy(scenarios.createdAt);
+  } catch (e) {
+    console.error('[getScenarios] DB error:', e);
+    throw e;
+  }
 }
 
 export async function getSessionById(sessionId: string, userId: string) {
-  const [row] = await db
-    .select()
-    .from(sessionResults)
-    .where(
-      and(eq(sessionResults.id, sessionId), eq(sessionResults.userId, userId)),
-    )
-    .limit(1);
-  return row ?? null;
+  try {
+    const [row] = await db
+      .select()
+      .from(sessionResults)
+      .where(
+        and(
+          eq(sessionResults.id, sessionId),
+          eq(sessionResults.userId, userId),
+        ),
+      )
+      .limit(1);
+    return row ?? null;
+  } catch (e) {
+    console.error('[getSessionById] DB error:', e);
+    throw e;
+  }
 }
 
 export async function getScenarioById(scenarioId: string) {
-  const [row] = await db
-    .select()
-    .from(scenarios)
-    .where(eq(scenarios.id, scenarioId))
-    .limit(1);
-  return row ?? null;
+  try {
+    const [row] = await db
+      .select()
+      .from(scenarios)
+      .where(eq(scenarios.id, scenarioId))
+      .limit(1);
+    return row ?? null;
+  } catch (e) {
+    console.error('[getScenarioById] DB error:', e);
+    throw e;
+  }
 }
 
 export async function getDiagnosticTests() {
-  return db.select().from(diagnosticTests);
+  try {
+    return await db.select().from(diagnosticTests);
+  } catch (e) {
+    console.error('[getDiagnosticTests] DB error:', e);
+    throw e;
+  }
 }
 
 export async function getTestClassificationsByScenario(scenarioId: string) {
-  return db
-    .select()
-    .from(testClassifications)
-    .where(eq(testClassifications.scenarioId, scenarioId));
+  try {
+    return await db
+      .select()
+      .from(testClassifications)
+      .where(eq(testClassifications.scenarioId, scenarioId));
+  } catch (e) {
+    console.error('[getTestClassificationsByScenario] DB error:', e);
+    throw e;
+  }
 }
 
 export async function getSessionEvents(sessionId: string, userId: string) {
-  return db
-    .select({
-      id: sessionEvents.id,
-      sessionId: sessionEvents.sessionId,
-      testId: sessionEvents.testId,
-      validatorResult: sessionEvents.validatorResult,
-      selectedAt: sessionEvents.selectedAt,
-    })
-    .from(sessionEvents)
-    .innerJoin(sessionResults, eq(sessionEvents.sessionId, sessionResults.id))
-    .where(
-      and(
-        eq(sessionEvents.sessionId, sessionId),
-        eq(sessionResults.userId, userId),
-      ),
-    )
-    .orderBy(sessionEvents.selectedAt);
+  try {
+    return await db
+      .select({
+        id: sessionEvents.id,
+        sessionId: sessionEvents.sessionId,
+        testId: sessionEvents.testId,
+        validatorResult: sessionEvents.validatorResult,
+        selectedAt: sessionEvents.selectedAt,
+      })
+      .from(sessionEvents)
+      .innerJoin(sessionResults, eq(sessionEvents.sessionId, sessionResults.id))
+      .where(
+        and(
+          eq(sessionEvents.sessionId, sessionId),
+          eq(sessionResults.userId, userId),
+        ),
+      )
+      .orderBy(sessionEvents.selectedAt);
+  } catch (e) {
+    console.error('[getSessionEvents] DB error:', e);
+    throw e;
+  }
 }
 
 export async function getUserSessions(userId: string) {
-  return db
-    .select({
-      id: sessionResults.id,
-      outcome: sessionResults.outcome,
-      startedAt: sessionResults.startedAt,
-      completedAt: sessionResults.completedAt,
-      scenarioTitle: scenarios.title,
-    })
-    .from(sessionResults)
-    .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
-    .where(
-      and(
-        eq(sessionResults.userId, userId),
-        ne(sessionResults.outcome, 'in_progress'),
-      ),
-    )
-    .orderBy(desc(sessionResults.completedAt));
+  try {
+    return await db
+      .select({
+        id: sessionResults.id,
+        outcome: sessionResults.outcome,
+        startedAt: sessionResults.startedAt,
+        completedAt: sessionResults.completedAt,
+        scenarioTitle: scenarios.title,
+      })
+      .from(sessionResults)
+      .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
+      .where(
+        and(
+          eq(sessionResults.userId, userId),
+          ne(sessionResults.outcome, 'in_progress'),
+        ),
+      )
+      .orderBy(desc(sessionResults.completedAt));
+  } catch (e) {
+    console.error('[getUserSessions] DB error:', e);
+    throw e;
+  }
 }
 
 export async function deleteSessionById(
@@ -99,50 +137,55 @@ export async function deleteSessionById(
 }
 
 export async function getSessionDetails(sessionId: string, userId: string) {
-  const [sessionRow] = await db
-    .select({
-      id: sessionResults.id,
-      outcome: sessionResults.outcome,
-      startedAt: sessionResults.startedAt,
-      completedAt: sessionResults.completedAt,
-      scenarioTitle: scenarios.title,
-    })
-    .from(sessionResults)
-    .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
-    .where(
-      and(
-        eq(sessionResults.id, sessionId),
-        eq(sessionResults.userId, userId),
-        ne(sessionResults.outcome, 'in_progress'),
-      ),
-    )
-    .limit(1);
+  try {
+    const [sessionRow] = await db
+      .select({
+        id: sessionResults.id,
+        outcome: sessionResults.outcome,
+        startedAt: sessionResults.startedAt,
+        completedAt: sessionResults.completedAt,
+        scenarioTitle: scenarios.title,
+      })
+      .from(sessionResults)
+      .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
+      .where(
+        and(
+          eq(sessionResults.id, sessionId),
+          eq(sessionResults.userId, userId),
+          ne(sessionResults.outcome, 'in_progress'),
+        ),
+      )
+      .limit(1);
 
-  if (!sessionRow) return null;
+    if (!sessionRow) return null;
 
-  const events = await db
-    .select({
-      testId: sessionEvents.testId,
-      testName: diagnosticTests.name,
-      validatorResult: sessionEvents.validatorResult,
-      selectedAt: sessionEvents.selectedAt,
-    })
-    .from(sessionEvents)
-    .innerJoin(diagnosticTests, eq(sessionEvents.testId, diagnosticTests.id))
-    .where(eq(sessionEvents.sessionId, sessionId))
-    .orderBy(sessionEvents.selectedAt);
+    const events = await db
+      .select({
+        testId: sessionEvents.testId,
+        testName: diagnosticTests.name,
+        validatorResult: sessionEvents.validatorResult,
+        selectedAt: sessionEvents.selectedAt,
+      })
+      .from(sessionEvents)
+      .innerJoin(diagnosticTests, eq(sessionEvents.testId, diagnosticTests.id))
+      .where(eq(sessionEvents.sessionId, sessionId))
+      .orderBy(sessionEvents.selectedAt);
 
-  return {
-    ...sessionRow,
-    outcome: sessionRow.outcome as 'positive' | 'negative',
-    completedAt: sessionRow.completedAt!,
-    events: events.map((e) => ({
-      ...e,
-      validatorResult: e.validatorResult as
-        | 'correct'
-        | 'suboptimal'
-        | 'unnecessary'
-        | 'critical_miss',
-    })),
-  };
+    return {
+      ...sessionRow,
+      outcome: sessionRow.outcome as 'positive' | 'negative',
+      completedAt: sessionRow.completedAt!,
+      events: events.map((e) => ({
+        ...e,
+        validatorResult: e.validatorResult as
+          | 'correct'
+          | 'suboptimal'
+          | 'unnecessary'
+          | 'critical_miss',
+      })),
+    };
+  } catch (e) {
+    console.error('[getSessionDetails] DB error:', e);
+    throw e;
+  }
 }

@@ -6,7 +6,12 @@ import { CancelDeletionSection } from './CancelDeletionSection';
 import styles from './page.module.css';
 
 export default async function SettingsPage() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[SettingsPage] auth() threw:', e);
+  }
   if (!session) redirect('/login');
 
   const user = await getAccountSettings(session.user!.id!);

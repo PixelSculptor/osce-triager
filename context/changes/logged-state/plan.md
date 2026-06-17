@@ -445,17 +445,17 @@ sprawdzeń wdróż i wykonaj weryfikację ręczną na produkcji.
 
 #### Automatyczne
 
-- [ ] 3.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 3.2 Linting przechodzi: `npm run lint`
-- [ ] 3.3 Build przechodzi: `npm run build`
-- [ ] 3.4 Pliki `error.tsx` istnieją w trzech segmentach
+- [x] 3.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 3.2 Linting przechodzi: `npm run lint`
+- [x] 3.3 Build przechodzi: `npm run build`
+- [x] 3.4 Pliki `error.tsx` istnieją w trzech segmentach
 
 #### Ręczne
 
-- [ ] 3.5 Normalne ładowanie wszystkich chronionych stron działa
-- [ ] 3.6 Symulowany błąd DB → komunikat z `error.tsx`, nie biały ekran
-- [ ] 3.7 Przycisk `reset()` ponawia render po przywróceniu DB
-- [ ] 3.8 Strona główna / Nav renderują wariant gościa, gdy `auth()` rzuci
+- [x] 3.5 Normalne ładowanie wszystkich chronionych stron działa
+- [x] 3.6 Symulowany błąd DB → komunikat z `error.tsx`, nie biały ekran
+- [x] 3.7 Przycisk `reset()` ponawia render po przywróceniu DB
+- [x] 3.8 Strona główna / Nav renderują wariant gościa, gdy `auth()` rzuci
 
 ### Faza 4: Cache CDN / leak stanu logowania
 
