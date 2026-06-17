@@ -16,6 +16,9 @@ const client = postgres(dbUrl, {
   connect_timeout: 10,
   idle_timeout: 20,
   max: 1,
+  // Skip pg_type discovery query on first connect — avoids a second round-trip
+  // that can hang in Cloudflare Workers when the TCP handshake is slow.
+  fetch_types: false,
 });
 
 export const db = drizzle(client, { schema });
