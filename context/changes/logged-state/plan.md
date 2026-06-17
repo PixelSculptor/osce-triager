@@ -430,16 +430,16 @@ sprawdzeń wdróż i wykonaj weryfikację ręczną na produkcji.
 
 #### Automatyczne
 
-- [ ] 2.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 2.2 Linting przechodzi (brak nieużywanych importów): `npm run lint`
-- [ ] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 2.2 Linting przechodzi (brak nieużywanych importów): `npm run lint`
+- [x] 2.3 Build przechodzi: `npm run build`
 
 #### Ręczne
 
-- [ ] 2.4 Lokalnie: login działa (JWT cookie ustawione)
-- [ ] 2.5 Lokalnie: rejestracja nowego konta działa
-- [ ] 2.6 Lokalnie: `auth()` zwraca sesję z `user.id` i `user.email`
-- [ ] 2.7 Lokalnie: wylogowanie działa
+- [x] 2.4 Lokalnie: login działa (JWT cookie ustawione)
+- [x] 2.5 Lokalnie: rejestracja nowego konta działa
+- [x] 2.6 Lokalnie: `auth()` zwraca sesję z `user.id` i `user.email`
+- [x] 2.7 Lokalnie: wylogowanie działa
 
 ### Faza 3: Graceful degradation (try/catch + error.tsx)
 
