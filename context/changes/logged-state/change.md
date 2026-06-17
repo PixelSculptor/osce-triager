@@ -1,7 +1,7 @@
 ---
 change_id: logged-state
 title: Logged state
-status: preparing
+status: planned
 created: 2026-06-17
 updated: 2026-06-17
 archived_at: null
