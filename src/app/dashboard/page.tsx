@@ -5,7 +5,12 @@ import { getScenarios } from '@/modules/session/queries';
 import styles from './page.module.css';
 
 export default async function DashboardPage() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[DashboardPage] auth() threw:', e);
+  }
   if (!session) redirect('/login');
 
   const scenarioList = await getScenarios();

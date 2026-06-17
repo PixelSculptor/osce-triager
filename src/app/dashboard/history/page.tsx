@@ -5,7 +5,12 @@ import { HistoryFilter } from '@/modules/session/components/HistoryFilter/Histor
 import styles from './page.module.css';
 
 export default async function HistoryPage() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.error('[HistoryPage] auth() threw:', e);
+  }
   if (!session?.user?.id) redirect('/login');
 
   const sessions = await getUserSessions(session.user.id);

@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   description: 'Interaktywny symulator ścieżki diagnostycznej OSCE',
 };
 
+// Nav reads auth on every page; force dynamic rendering so Cloudflare's CDN
+// never caches HTML carrying a logged-in state.
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{
