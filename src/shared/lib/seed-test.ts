@@ -1,8 +1,10 @@
 import bcrypt from 'bcryptjs';
 
 async function seedTest() {
-  const { db } = await import('./db');
+  const { getDb } = await import('./db');
   const { users } = await import('./schema');
+
+  const db = getDb();
 
   const email = process.env.TEST_USER_EMAIL!;
   const password = process.env.TEST_USER_PASSWORD!;

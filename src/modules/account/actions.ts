@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { eq } from 'drizzle-orm';
 import { auth } from '@/modules/auth/auth';
-import { db } from '@/shared/lib/db';
+import { getDb } from '@/shared/lib/db';
 import { users } from '@/shared/lib/schema';
 
 export type AccountActionState = { error?: string; success?: boolean } | null;
@@ -19,6 +19,7 @@ export async function requestDeletionAction(
     return { error: 'Wpisz DELETE aby potwierdzić' };
   }
 
+  const db = getDb();
   await db
     .update(users)
     .set({ deletionRequestedAt: new Date() })
@@ -32,6 +33,7 @@ export async function cancelDeletionAction(): Promise<void> {
   const session = await auth();
   if (!session?.user?.id) return;
 
+  const db = getDb();
   await db
     .update(users)
     .set({ deletionRequestedAt: null })

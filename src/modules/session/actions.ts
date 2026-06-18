@@ -3,7 +3,7 @@
 import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/modules/auth/auth';
-import { db } from '@/shared/lib/db';
+import { getDb } from '@/shared/lib/db';
 import {
   scenarios,
   sessionEvents,
@@ -28,6 +28,7 @@ export async function startSessionAction(
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
+  const db = getDb();
   try {
     const scenario = await db
       .select()
@@ -48,7 +49,8 @@ export async function startSessionAction(
       .returning({ sessionId: sessionResults.id });
 
     return { sessionId: result.sessionId };
-  } catch {
+  } catch (error) {
+    console.error('[startSessionAction] DB error:', error);
     return { error: 'Internal error' };
   }
 }
@@ -60,6 +62,7 @@ export async function selectTestAction(
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
+  const db = getDb();
   try {
     const [sessionRow] = await db
       .select()
@@ -107,7 +110,8 @@ export async function selectTestAction(
       .values({ sessionId, testId, validatorResult });
 
     return { validatorResult, category };
-  } catch {
+  } catch (error) {
+    console.error('[selectTestAction] DB error:', error);
     return { error: 'Internal error' };
   }
 }
@@ -118,6 +122,7 @@ export async function endSessionAction(
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorized' };
 
+  const db = getDb();
   try {
     const [sessionRow] = await db
       .select()

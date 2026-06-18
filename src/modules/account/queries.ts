@@ -1,8 +1,9 @@
 import 'server-only';
 
-import { db } from '@/shared/lib/db';
+import { getDb } from '@/shared/lib/db';
 
 export async function getAccountSettings(userId: string) {
+  const db = getDb();
   return db.query.users.findFirst({
     where: (users, { eq }) => eq(users.id, userId),
     columns: {
