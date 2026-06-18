@@ -425,5 +425,5 @@ Brak migracji DB. Istniejące porzucone sesje `in_progress` zostaną domknięte
 
 #### Ręczne
 
-- [ ] 3.5 `npm run test:e2e:ui` — przebieg `session-timeout` przechodzi bez
+- [x] 3.5 `npm run test:e2e:ui` — przebieg `session-timeout` przechodzi bez
       interakcji, stabilnie
