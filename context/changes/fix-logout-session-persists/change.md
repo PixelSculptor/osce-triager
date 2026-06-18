@@ -1,7 +1,7 @@
 ---
 change_id: fix-logout-session-persists
 title: Wylogowanie nie czyści sesji — użytkownik wraca zalogowany po odświeżeniu
-status: new
+status: planned
 created: 2026-06-18
 updated: 2026-06-18
 archived_at: null
