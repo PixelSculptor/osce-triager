@@ -11,7 +11,6 @@ import {
   testClassifications,
 } from '@/shared/lib/schema';
 import {
-  evaluateSessionEnd,
   validateTestSelection,
   type TestCategory,
 } from '@/shared/lib/validator';
@@ -20,6 +19,7 @@ import type {
   SelectTestResult,
   StartSessionResult,
 } from './session.types';
+import { finalizeSession } from './finalize';
 import { deleteSessionById, getSessionById } from './queries';
 
 export async function startSessionAction(
@@ -132,91 +132,8 @@ export async function endSessionAction(
 
     if (!sessionRow) return { error: 'Session not found' };
     if (sessionRow.userId !== session.user.id) return { error: 'Forbidden' };
-    if (sessionRow.outcome !== 'in_progress')
-      return {
-        outcome: sessionRow.outcome as 'positive' | 'negative',
-        isFailed: sessionRow.isFailed,
-        skippedCritical: [],
-      };
 
-    const events = await db
-      .select()
-      .from(sessionEvents)
-      .where(eq(sessionEvents.sessionId, sessionId));
-
-    const orderedTestIds = events
-      .filter((e) => e.validatorResult !== 'critical_miss')
-      .map((e) => e.testId);
-
-    const classificationRows = await db
-      .select()
-      .from(testClassifications)
-      .where(eq(testClassifications.scenarioId, sessionRow.scenarioId));
-
-    const classifications: Record<string, TestCategory> = {};
-    for (const row of classificationRows) {
-      classifications[row.testId] = row.classification as TestCategory;
-    }
-
-    const { irreversibleFail, skippedCritical } = evaluateSessionEnd(
-      orderedTestIds,
-      classifications,
-    );
-
-    const claimed = await db
-      .update(sessionResults)
-      .set({
-        outcome: irreversibleFail ? 'negative' : 'positive',
-        isFailed: irreversibleFail,
-        completedAt: new Date(),
-      })
-      .where(
-        and(
-          eq(sessionResults.id, sessionId),
-          eq(sessionResults.outcome, 'in_progress'),
-        ),
-      )
-      .returning();
-
-    if (claimed.length === 0) {
-      const [current] = await db
-        .select()
-        .from(sessionResults)
-        .where(eq(sessionResults.id, sessionId))
-        .limit(1);
-
-      const criticalMissEvents = await db
-        .select()
-        .from(sessionEvents)
-        .where(
-          and(
-            eq(sessionEvents.sessionId, sessionId),
-            eq(sessionEvents.validatorResult, 'critical_miss'),
-          ),
-        );
-
-      return {
-        outcome: current.outcome as 'positive' | 'negative',
-        isFailed: current.isFailed,
-        skippedCritical: criticalMissEvents.map((e) => e.testId),
-      };
-    }
-
-    if (skippedCritical.length > 0) {
-      await db.insert(sessionEvents).values(
-        skippedCritical.map((testId) => ({
-          sessionId,
-          testId,
-          validatorResult: 'critical_miss' as const,
-        })),
-      );
-    }
-
-    return {
-      outcome: claimed[0].outcome as 'positive' | 'negative',
-      isFailed: claimed[0].isFailed,
-      skippedCritical,
-    };
+    return await finalizeSession(sessionRow);
   } catch (error) {
     console.error('[endSessionAction] DB error:', error);
     return { error: 'Internal error' };

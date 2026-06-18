@@ -389,14 +389,14 @@ Brak migracji DB. Istniejące porzucone sesje `in_progress` zostaną domknięte
 
 #### Automatyczne
 
-- [ ] 1.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 1.2 Linting przechodzi: `npm run lint`
-- [ ] 1.3 Testy jednostkowe `isSessionExpired` przechodzą: `npm test`
-- [ ] 1.4 Istniejące testy `actions.test.ts` nadal zielone: `npm test`
+- [x] 1.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 1.2 Linting przechodzi: `npm run lint`
+- [x] 1.3 Testy jednostkowe `isSessionExpired` przechodzą: `npm test`
+- [x] 1.4 Istniejące testy `actions.test.ts` nadal zielone: `npm test`
 
 #### Ręczne
 
-- [ ] 1.5 Ręczne zakończenie sesji pokazuje ekran wyników z poprawnym wynikiem
+- [x] 1.5 Ręczne zakończenie sesji pokazuje ekran wyników z poprawnym wynikiem
       (brak regresji)
 
 ### Faza 2: Serwerowe egzekwowanie + lazy-finalize przy odczycie
