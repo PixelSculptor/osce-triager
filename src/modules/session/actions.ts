@@ -11,6 +11,7 @@ import {
   testClassifications,
 } from '@/shared/lib/schema';
 import {
+  isSessionExpired,
   validateTestSelection,
   type TestCategory,
 } from '@/shared/lib/validator';
@@ -20,7 +21,7 @@ import type {
   StartSessionResult,
 } from './session.types';
 import { finalizeSession } from './finalize';
-import { deleteSessionById, getSessionById } from './queries';
+import { deleteSessionById, getScenarioById, getSessionById } from './queries';
 
 export async function startSessionAction(
   scenarioId: string,
@@ -74,6 +75,18 @@ export async function selectTestAction(
     if (sessionRow.userId !== session.user.id) return { error: 'Forbidden' };
     if (sessionRow.outcome !== 'in_progress')
       return { error: 'Session already ended' };
+
+    // Server-side deadline guard: reject a post-deadline selection and close the
+    // expired session, killing the "re-enter an expired session and keep
+    // clicking" exploit. Uses the grace buffer baked into isSessionExpired.
+    const scenario = await getScenarioById(sessionRow.scenarioId);
+    if (
+      scenario &&
+      isSessionExpired(sessionRow.startedAt, scenario.timeLimitSeconds)
+    ) {
+      await finalizeSession(sessionRow);
+      return { error: 'Session time expired' };
+    }
 
     const existingEvents = await db
       .select()

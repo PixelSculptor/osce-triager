@@ -403,16 +403,16 @@ Brak migracji DB. Istniejące porzucone sesje `in_progress` zostaną domknięte
 
 #### Automatyczne
 
-- [ ] 2.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 2.2 Linting przechodzi: `npm run lint`
-- [ ] 2.3 Testy przechodzą: `npm test`
+- [x] 2.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 2.2 Linting przechodzi: `npm run lint`
+- [x] 2.3 Testy przechodzą: `npm test`
 
 #### Ręczne
 
-- [ ] 2.4 Sesja przy 0:00 (karta otwarta) automatycznie pokazuje ekran wyników
-- [ ] 2.5 Ponowne wejście w wygasłą sesję pokazuje wynik; testy niewybieralne
-- [ ] 2.6 Próba dodania testu po deadline → komunikat błędu, brak zapisu
-- [ ] 2.7 Porzucona wygasła sesja widoczna w historii jako „Negatywny"
+- [x] 2.4 Sesja przy 0:00 (karta otwarta) automatycznie pokazuje ekran wyników
+- [x] 2.5 Ponowne wejście w wygasłą sesję pokazuje wynik; testy niewybieralne
+- [x] 2.6 Próba dodania testu po deadline → komunikat błędu, brak zapisu
+- [x] 2.7 Porzucona wygasła sesja widoczna w historii jako „Negatywny"
 
 ### Faza 3: Testy (jednostkowe brzegowe + E2E timeout)
 
