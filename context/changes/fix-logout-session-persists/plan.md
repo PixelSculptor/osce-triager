@@ -301,20 +301,22 @@ przywrócenie poprzedniego `middleware.ts` (czysto kodowy, bez stanu).
 
 #### Automatyczne
 
-- [ ] 1.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 1.2 Linting przechodzi: `npm run lint`
-- [ ] 1.3 Build produkcyjny przechodzi: `npm run build`
-- [ ] 1.4 Build workera przechodzi: `npm run build:worker`
+- [x] 1.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 1.2 Linting przechodzi: `npm run lint` (źródło czyste —
+      `eslint src/middleware.ts` bez uwag; istniejące błędy wyłącznie w
+      gitignorowanym `playwright-report/`)
+- [x] 1.3 Build produkcyjny przechodzi: `npm run build`
+- [x] 1.4 Build workera przechodzi: `npm run build:worker`
 
 #### Ręczne
 
-- [ ] 1.5 Lokalny smoke: logout redirect na `/`, trasy prywatne redirectują,
+- [x] 1.5 Lokalny smoke: logout redirect na `/`, trasy prywatne redirectują,
       nawigacja działa
-- [ ] 1.6 Preview deploy (workerd): odpowiedź logout ma dokładnie jeden
+- [x] 1.6 Preview deploy (workerd): odpowiedź logout ma dokładnie jeden
       delete-`Set-Cookie`, bez świeżego tokenu
-- [ ] 1.7 Po logout + ręcznym odświeżeniu użytkownik pozostaje wylogowany; trasa
+- [x] 1.7 Po logout + ręcznym odświeżeniu użytkownik pozostaje wylogowany; trasa
       prywatna redirectuje
-- [ ] 1.8 Brak regresji: ponowne logowanie działa, rolling-refresh zachowany dla
+- [x] 1.8 Brak regresji: ponowne logowanie działa, rolling-refresh zachowany dla
       GET
 
 ### Faza 2: Odświeżenie dokumentacji po refaktorze warstwy DB
