@@ -9,6 +9,8 @@ import {
   sessionResults,
   testClassifications,
 } from '@/shared/lib/schema';
+import { isSessionExpired } from '@/shared/lib/validator';
+import { finalizeSession } from './finalize';
 
 export async function getScenarios() {
   const db = getDb();
@@ -73,6 +75,30 @@ export async function getSessionEvents(sessionId: string, userId: string) {
 
 export async function getUserSessions(userId: string) {
   const db = getDb();
+
+  // Lazy-finalize expired, abandoned in_progress sessions so they surface in
+  // history (as completed) instead of staying permanently hidden by the
+  // ne(outcome,'in_progress') filter below.
+  const pending = await db
+    .select({
+      session: sessionResults,
+      timeLimitSeconds: scenarios.timeLimitSeconds,
+    })
+    .from(sessionResults)
+    .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
+    .where(
+      and(
+        eq(sessionResults.userId, userId),
+        eq(sessionResults.outcome, 'in_progress'),
+      ),
+    );
+
+  for (const row of pending) {
+    if (isSessionExpired(row.session.startedAt, row.timeLimitSeconds)) {
+      await finalizeSession(row.session);
+    }
+  }
+
   return db
     .select({
       id: sessionResults.id,
@@ -108,6 +134,32 @@ export async function deleteSessionById(
 
 export async function getSessionDetails(sessionId: string, userId: string) {
   const db = getDb();
+
+  // Lazy-finalize if this abandoned session has expired, so the
+  // ne(outcome,'in_progress') filter below returns the now-closed session.
+  const [pending] = await db
+    .select({
+      session: sessionResults,
+      timeLimitSeconds: scenarios.timeLimitSeconds,
+    })
+    .from(sessionResults)
+    .innerJoin(scenarios, eq(sessionResults.scenarioId, scenarios.id))
+    .where(
+      and(
+        eq(sessionResults.id, sessionId),
+        eq(sessionResults.userId, userId),
+        eq(sessionResults.outcome, 'in_progress'),
+      ),
+    )
+    .limit(1);
+
+  if (
+    pending &&
+    isSessionExpired(pending.session.startedAt, pending.timeLimitSeconds)
+  ) {
+    await finalizeSession(pending.session);
+  }
+
   const [sessionRow] = await db
     .select({
       id: sessionResults.id,
