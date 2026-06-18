@@ -418,10 +418,10 @@ Brak migracji DB. Istniejące porzucone sesje `in_progress` zostaną domknięte
 
 #### Automatyczne
 
-- [ ] 3.1 Sprawdzanie typów przechodzi: `npm run typecheck`
-- [ ] 3.2 Linting przechodzi: `npm run lint`
-- [ ] 3.3 Testy jednostkowe (z przypadkami brzegowymi) przechodzą: `npm test`
-- [ ] 3.4 E2E timeout przechodzi: `npm run test:e2e`
+- [x] 3.1 Sprawdzanie typów przechodzi: `npm run typecheck`
+- [x] 3.2 Linting przechodzi: `npm run lint`
+- [x] 3.3 Testy jednostkowe (z przypadkami brzegowymi) przechodzą: `npm test`
+- [x] 3.4 E2E timeout przechodzi: `npm run test:e2e`
 
 #### Ręczne
 
