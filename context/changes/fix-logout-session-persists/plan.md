@@ -323,10 +323,14 @@ przywrócenie poprzedniego `middleware.ts` (czysto kodowy, bez stanu).
 
 #### Automatyczne
 
-- [ ] 2.1 Brak odniesień do starego singletonu w README/AGENTS/CLAUDE (`grep`)
-- [ ] 2.2 Formatowanie docs przechodzi: `npm run format:check`
+- [x] 2.1 Brak odniesień do starego singletonu w README/AGENTS/CLAUDE (`grep`
+      bez trafień)
+- [x] 2.2 Formatowanie docs przechodzi: `prettier --check README.md` czysty
+      (repo-wide `format:check` ma pre-existing warny w 124 nietkniętych plikach
+      — poza zakresem)
 
 #### Ręczne
 
-- [ ] 2.3 README/AGENTS/CLAUDE opisują `getDb()` per-request + pooler
-      transaction-mode spójnie z `db.ts`
+- [x] 2.3 README opisuje `getDb()` per-request (React `cache()`, workerd-safe) +
+      hardening połączenia + pooler transaction-mode (6543) spójnie z `db.ts`;
+      AGENTS.md/CLAUDE.md nie odnoszą się do warstwy DB (brak sprzeczności)
