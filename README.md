@@ -120,7 +120,7 @@ src/shared/
 ├── lib/
 │   ├── validator.ts   — diagnostic validator (pure function, no side effects)
 │   ├── schema.ts      — Drizzle schema: 4 auth tables + 5 domain tables
-│   └── db.ts          — Drizzle client (server-only)
+│   └── db.ts          — per-request Drizzle client factory `getDb()` (server-only, workerd-safe)
 └── components/        — Button (4 variants), Spinner, Nav, ThemeToggle, ConfirmModal
 ```
 
@@ -141,6 +141,15 @@ src/shared/
    is a single `data-theme` swap
 5. **IDOR guard on every query** — every database read appends
    `AND user_id = session.user.id`; no shared mutable state between users
+6. **Per-request DB client** — there is no module-level `db` singleton; the only
+   access pattern is the `getDb()` factory in `db.ts`, memoized with React
+   `cache()` so the postgres-js socket + Drizzle client are built once per
+   request and never reused across requests (a hard requirement on the workerd
+   runtime). Connection hardening: `max: 3`, `prepare: false`,
+   `fetch_types: false`, `connect_timeout: 10`, `idle_timeout: 20`. These pair
+   with the Supabase pooler in **transaction mode (port 6543)** —
+   `prepare: false` is required because transaction-mode pooling does not
+   support prepared statements
 
 ---
 
