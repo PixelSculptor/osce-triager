@@ -20,7 +20,8 @@
     "seed": "tsx src/shared/lib/seed.ts",
     "seed:test": "tsx src/shared/lib/seed-test.ts",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",

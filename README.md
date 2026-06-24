@@ -242,6 +242,7 @@ across `session_result`, `session_event`, and `verificationToken`.
 
 ```bash
 npm install
+npm run prepare        # prepare husky
 
 # Create .env.local with:
 # DATABASE_URL, AUTH_SECRET, NEXT_PUBLIC_SUPABASE_URL,
