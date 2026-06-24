@@ -3,6 +3,7 @@ import { auth } from '@/modules/auth/auth';
 import { getUserSessions } from '@/modules/session/queries';
 import { HistoryFilter } from '@/modules/session/components/HistoryFilter/HistoryFilter';
 import styles from './page.module.css';
+import { EmptyHistory } from '@/modules/session/components/EmptyHistory/EmptyHistory';
 
 export default async function HistoryPage() {
   const session = await auth();
@@ -23,7 +24,7 @@ export default async function HistoryPage() {
     <main className={styles.main}>
       <h1 className={styles.heading}>Historia sesji</h1>
       {completed.length === 0 ? (
-        <p className={styles.empty}>Brak zakończonych sesji.</p>
+        <EmptyHistory />
       ) : (
         <HistoryFilter sessions={completed} />
       )}

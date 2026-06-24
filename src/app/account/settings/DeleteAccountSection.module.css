@@ -15,6 +15,7 @@
 
 .dangerAction {
   color: var(--color-danger-fg);
+  font-style: italic;
 }
 
 .description {
