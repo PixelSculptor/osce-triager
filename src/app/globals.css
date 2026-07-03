@@ -134,6 +134,9 @@
 
   /* Typography — measure */
   --measure: 70ch;
+
+  /* Offsets */
+  --underline-offset: 2px;
 }
 
 /* ================================================================

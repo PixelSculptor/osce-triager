@@ -30,6 +30,7 @@ import { TestCard } from '../TestCard/TestCard';
 import { DraggableTestCard } from '../DraggableTestCard/DraggableTestCard';
 import { SortableTestCard } from '../SortableTestCard/SortableTestCard';
 import styles from './SessionView.module.css';
+import { ChevronLeft, CircleCheck, CircleX } from 'lucide-react';
 
 interface SessionViewProps {
   sessionId: string;
@@ -212,24 +213,36 @@ export function SessionView({
     );
 
     return (
-      <main className={styles.result}>
+      <main className={styles.resultWrapper}>
         <h1>Sesja zakończona</h1>
-        <p className={styles.outcome} data-positive={isPositive}>
-          Wynik: {isPositive ? 'Pozytywny ✓' : 'Negatywny ✗'}
-        </p>
-        {skippedNames.length > 0 && (
-          <div className={styles.skipped}>
-            <p>Pominięte badania krytyczne:</p>
-            <ul>
-              {skippedNames.map((name) => (
-                <li key={name}>{name}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <Link href='/dashboard' className={styles.backLink}>
-          Wróć do panelu
-        </Link>
+        <div className={styles.result}>
+          <p className={styles.outcome}>
+            Wynik:
+            {isPositive ? (
+              <span className={styles.resultBadge} data-positive={isPositive}>
+                Pozytywny <CircleCheck />
+              </span>
+            ) : (
+              <span className={styles.resultBadge} data-positive={isPositive}>
+                Negatywny <CircleX />
+              </span>
+            )}
+          </p>
+          {skippedNames.length > 0 && (
+            <div className={styles.skipped}>
+              <p>Pominięte badania krytyczne:</p>
+              <ul>
+                {skippedNames.map((name) => (
+                  <li key={name}>{name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <Link href='/dashboard' className={styles.backLink}>
+            <ChevronLeft size={16} aria-hidden='true' />
+            Wróć do panelu
+          </Link>
+        </div>
       </main>
     );
   }
